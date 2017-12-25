@@ -1,0 +1,31 @@
+func {{.StructName}}Select(db *sql.DB, id int) {{.StructName}} {
+	item := {{.StructName}}{}
+	if id > 0 {
+		row := db.QueryRow("Select {{ range $i, $e := .KaynakBilgi }}{{ if eq $i 0 }}{{$e.DbName}}{{ else }}, {{$e.DbName}}{{ end }}{{ end }} from {{.TableName}} where id=?", id)
+		err := row.Scan({{ range $i, $e := .KaynakBilgi }}{{ if eq $i 0 }}&item.{{$e.GoName}}{{ else }}, &item.{{$e.GoName}}{{ end }}{{ end }})
+		CheckErr(err)
+	}
+	return item
+}
+
+
+func {{.StructName}}Insert(db *sql.DB, item {{.StructName}}) int64 {
+	var r int64
+	stmt, err := db.Prepare("INSERT INTO {{.TableName}}({{ range $i, $e := .KaynakBilgi }}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}{{$e.DbName}}{{ else }}, {{$e.DbName}}{{ end }}{{ end }}{{ end }}) VALUES ({{ range $i, $e := .KaynakBilgi }}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}?{{ else }},?{{ end }}{{ end }}{{ end }})")
+	CheckErr(err)
+	defer stmt.Close()
+	ret, err := stmt.Exec({{ range $i, $e := .KaynakBilgi }}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}item.{{$e.GoName}}{{ else }}, item.{{$e.GoName}}{{ end }}{{ end }}{{ end }})
+	CheckErr(err)
+	r,err = ret.LastInsertId()
+	CheckErr(err)
+	return r
+}
+
+
+func {{.StructName}}Update(db *sql.DB, item {{.StructName}}) {
+	stmt, err := db.Prepare("Update {{.TableName}} set {{ range $i, $e := .KaynakBilgi }}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}{{$e.DbName}}=?{{ else }}, {{$e.DbName}}=?{{ end }}{{ end }}{{ end }} WHERE id=?")
+	CheckErr(err)
+	defer stmt.Close()
+	_, err2 := stmt.Exec({{ range $i, $e := .KaynakBilgi }}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}item.{{$e.GoName}}{{ else }}, item.{{$e.GoName}}{{ end }}{{ end }}{{ end }}, item.Id)
+	CheckErr(err2)
+}

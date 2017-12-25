@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS {{.TableName}}(
+{{ range $i, $e := .KaynakBilgi }}{{ if eq $i 0 }}{{$e.DbName}} {{$e.DbTip}}{{ else }},{{$e.DbName}} {{$e.DbTip}}{{ end }}
+{{ end }}
+);

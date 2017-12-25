@@ -1,0 +1,6 @@
+Kullanici           :           :kullanicilar		:
+Id                  :int64		:id 				:INTEGER primary key autoincrement
+Ad                  :string	 	:ad 				:VARCHAR(50)
+KayitTarihi         :time.Time  :kayittarihi 		:DATE
+HataliGirisSayisi   :int        :hataligirissayisi	:INTEGER
+BlokeHesap			:bool       :blokehesap 		:BIT

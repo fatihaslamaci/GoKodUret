@@ -1,0 +1,4 @@
+type {{.StructName}} struct {
+{{ range $i, $e := .KaynakBilgi }}{{$e.GoName}} {{$e.GoTip}}
+{{ end }}
+}
