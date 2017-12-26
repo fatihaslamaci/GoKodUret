@@ -39,6 +39,28 @@ var HedefSelectIdTmp = `func KullaniciSelect(db *sql.DB, id int) Kullanici {
 		CheckErr(err)
 	}
 	return item
+}
+
+
+func KullaniciInsert(db *sql.DB, item Kullanici) int64 {
+	var r int64
+	stmt, err := db.Prepare("INSERT INTO kullanicilar(ad, kayittarihi, hataligirissayisi, blokehesap) VALUES (?,?,?,?)")
+	CheckErr(err)
+	defer stmt.Close()
+	ret, err := stmt.Exec(item.Ad, item.KayitTarihi, item.HataliGirisSayisi, item.BlokeHesap)
+	CheckErr(err)
+	r,err = ret.LastInsertId()
+	CheckErr(err)
+	return r
+}
+
+
+func KullaniciUpdate(db *sql.DB, item Kullanici) {
+	stmt, err := db.Prepare("Update kullanicilar set ad=?, kayittarihi=?, hataligirissayisi=?, blokehesap=? WHERE id=?")
+	CheckErr(err)
+	defer stmt.Close()
+	_, err2 := stmt.Exec(item.Ad, item.KayitTarihi, item.HataliGirisSayisi, item.BlokeHesap, item.Id)
+	CheckErr(err2)
 }`
 
 
@@ -54,7 +76,7 @@ func TestSelectTable(t *testing.T) {
 	}{
 		{
 			name: "Kullanici",
-			args:args{ value:sc, tmpl: "./template/selectsql.tmpl" },
+			args:args{ value:sc, tmpl: "./template/crud.tmpl" },
 			want: HedefSelectIdTmp,
 		},
 		{

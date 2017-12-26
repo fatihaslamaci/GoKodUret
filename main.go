@@ -82,55 +82,71 @@ func check(e error) {
 	}
 }
 
+var hedefklasor="/home/fatih/gowork/src/otoprj"
+
 func main() {
+
+	os.MkdirAll(hedefklasor, os.ModePerm);
 
 	files, err := ioutil.ReadDir("./kaynak")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fhedef, err := os.Create("./hedef/entity.txt")
+	StructOlustur(files)
+	CrudOlustur(files)
+
+
+}
+func WriteString(fhedef *os.File, s string) {
+	_, err := fhedef.WriteString(s)
+	check(err)
+}
+
+
+func StructOlustur(files []os.FileInfo) {
+	fhedef, err := os.Create(hedefklasor + "/entity.go")
 	check(err)
 	defer fhedef.Close()
 
-	_, err = fhedef.WriteString(`package entity`+"\n\n")
-	check(err)
-	_, err = fhedef.WriteString(`import "time"`+"\n\n")
-	check(err)
+	WriteString(fhedef,`package main
 
+import (
+	"time"
+)
+
+`)
 
 	for _, f := range files {
-		dat, err := ioutil.ReadFile("./kaynak/"+f.Name())
+		dat, err := ioutil.ReadFile(("./kaynak/" + f.Name()))
 		check(err)
-		fmt.Print()
-		s:=TemplateExecute(string(dat),"./template/struct.tmpl")
+		s := TemplateExecute(string(dat), "./template/struct.tmpl")
 		fmt.Println(s)
-		_, err = fhedef.WriteString(s+"\n\n")
-		check(err)
+		WriteString(fhedef, s+ "\n\n")
 	}
-
 	fhedef.Sync()
+}
 
-	//--------
-
+func CrudOlustur(files []os.FileInfo) {
 	for _, f := range files {
-		dat, err := ioutil.ReadFile("./kaynak/"+f.Name())
+		dat, err := ioutil.ReadFile(("./kaynak/" + f.Name()))
 		check(err)
 
-		fhedef2, err := os.Create("./hedef/"+f.Name())
+		fhedef, err := os.Create((hedefklasor + "/" + strings.TrimRight(f.Name(),".txt")+".go"))
 		check(err)
-		defer fhedef2.Close()
+		defer fhedef.Close()
+		WriteString(fhedef, `package main
 
-		s:=TemplateExecute(string(dat),"./template/selectsql.tmpl")
+import (
+	"database/sql"
+)
+
+`)
+		s := TemplateExecute(string(dat), "./template/crud.tmpl")
 		fmt.Println(s)
-		_, err = fhedef2.WriteString(s+"\n\n")
-		check(err)
-		fhedef2.Sync()
+		WriteString(fhedef, s + "\n\n")
 
 
+		fhedef.Sync()
 	}
-
-
-
-
 }
