@@ -1,0 +1,38 @@
+package main
+
+import (
+	"database/sql"
+)
+
+func CheckErr(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
+func InitDB(filepath string) *sql.DB {
+	db, err := sql.Open("sqlite3", filepath)
+	CheckErr(err)
+
+	if db == nil {
+		panic("db nil")
+	}
+	return db
+}
+
+func CreateTable(db *sql.DB) {
+	// create table if not exists
+	sql_table := `
+{{ range $ii, $KaynakBilgi := . }}
+CREATE TABLE IF NOT EXISTS {{$KaynakBilgi.TableName}}(
+{{ range $i, $e := $KaynakBilgi.KaynakBilgi }} {{ if eq $i 0 }}  {{$e.DbName}} {{$e.DbTip}}{{ else }}
+  ,{{$e.DbName}} {{$e.DbTip}} {{ end }} {{ end }}
+);
+{{ end }}
+`
+	_, err := db.Exec(sql_table)
+
+	CheckErr(err)
+
+}
+

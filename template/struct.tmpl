@@ -1,4 +1,12 @@
-type {{.StructName}} struct {
-{{ range $i, $e := .KaynakBilgi }}{{$e.GoName}} {{$e.GoTip}}
+package main
+
+import (
+	"time"
+)
+
+{{ range $ii, $KaynakBilgi := . }}
+type {{$KaynakBilgi.StructName}} struct {
+{{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{$e.GoName}} {{$e.GoTip}}
 {{ end }}
 }
+{{ end }}

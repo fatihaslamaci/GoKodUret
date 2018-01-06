@@ -1,0 +1,42 @@
+package main
+
+import (
+	"log"
+	"net/http"
+	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
+
+)
+
+var db *sql.DB
+
+
+func addStaticDir(s string) {
+	http.Handle("/"+s+"/", http.StripPrefix("/"+s, http.FileServer(http.Dir("./statics/"+s))))
+}
+
+func addStaticDirAll() {
+	addStaticDir("css")
+	addStaticDir("images")
+	addStaticDir("production")
+	addStaticDir("src")
+	addStaticDir("vendors")
+}
+
+func main() {
+
+	const dbpath = "carigo.sqlite"
+	db = InitDB(dbpath)
+	defer db.Close()
+	CreateTable(db)
+
+	//http.HandleFunc("/", indexPageHandler)
+
+	addStaticDirAll()
+
+	log.Println("server başladı")
+
+	http.ListenAndServe(":8000", nil)
+
+
+}
