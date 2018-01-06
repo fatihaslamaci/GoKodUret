@@ -1,0 +1,5 @@
+GercekKisi  :           :gercekkisi         :
+Id          :int64      :id                 :INTEGER   primary key	autoincrement
+Ad          :string     :ad                 :VARCHAR(50)
+Soyad       :string     :soyad              :VARCHAR(150) COLLATE NOCASE
+TCKN        :int64      :tckn               :INTEGER

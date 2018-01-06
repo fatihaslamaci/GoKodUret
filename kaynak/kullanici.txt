@@ -1,6 +1,14 @@
 Kullanici           :           :kullanicilar		:
-Id                  :int64		:id 				:INTEGER primary key autoincrement
+Id                  :int		:id 				:INTEGER primary key autoincrement
 Ad                  :string	 	:ad 				:VARCHAR(50)
+Soyad               :string	 	:soyad 				:VARCHAR(50)
+email               :string	 	:email              :VARCHAR(100)
+sifre               :string	 	:sifre              :VARCHAR(64)
 KayitTarihi         :time.Time  :kayittarihi 		:DATE
+songiristarihi      :time.Time	:songiristarihi     :DATE
+sonhataligiristarihi:time.Time	:sonhataligiristarihi:DATE
 HataliGirisSayisi   :int        :hataligirissayisi	:INTEGER
 BlokeHesap			:bool       :blokehesap 		:BIT
+
+
+

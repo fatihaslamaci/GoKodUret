@@ -1,15 +1,91 @@
 package main
 
 import (
+	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
-
+	"strconv"
+	"time"
+	"strings"
 )
 
 var db *sql.DB
 
+type Context struct {
+	Message   string
+	Kullanici Kullanici
+
+	KayitId  string
+	KayitId2 string
+
+	AktifKayitId string
+	Ara          string
+
+	ValueList []interface{}
+	Data      interface{}
+}
+
+func render(w http.ResponseWriter, r *http.Request, tmpl string, context Context) {
+	files := []string{
+		"./templates/base.html", "./templates/" + tmpl + ".html",
+	}
+
+	ts, err := template.ParseFiles(files...)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", 500)
+		return
+	}
+
+	context.Kullanici = getSessionUser(r)
+	err = ts.ExecuteTemplate(w, "base", context)
+
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", 500)
+	}
+
+}
+
+func internalPageHandler(writer http.ResponseWriter, request *http.Request) {
+	context := Context{}
+
+	tBorc, tAlacak := datalayer.ToplamRapor(db)
+
+	context.ValueList = append(context.ValueList, tBorc)
+	context.ValueList = append(context.ValueList, tAlacak)
+	context.ValueList = append(context.ValueList, (tBorc - tAlacak))
+
+	render(writer, request, "auth/dashboard", context)
+}
+
+func indexPageHandler(w http.ResponseWriter, r *http.Request) {
+
+	render(w, r, "index", Context{})
+
+}
+
+func makeLoginHandler(fn func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		kullanici := getSessionUser(r)
+		fmt.Println("-" + kullanici.Ad + "-")
+		if kullanici.Ad == "" {
+			http.Redirect(w, r, "/login.html", 302)
+			return
+		}
+		fn(w, r)
+	}
+}
+
+func SleepHandler(fn func(http.ResponseWriter, *http.Request), d time.Duration) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(d)
+		fn(w, r)
+	}
+}
 
 func addStaticDir(s string) {
 	http.Handle("/"+s+"/", http.StripPrefix("/"+s, http.FileServer(http.Dir("./statics/"+s))))
@@ -30,13 +106,78 @@ func main() {
 	defer db.Close()
 	CreateTable(db)
 
-	//http.HandleFunc("/", indexPageHandler)
+	http.HandleFunc("/", indexPageHandler)
+
+	http.HandleFunc("/login.html", loginHandler)
+	http.HandleFunc("/login", SleepHandler(loginHandlerPost, time.Second*1))
+	http.HandleFunc("/logout.html", logoutHandler)
+
+	http.HandleFunc("/auth/kullaniciduzenle.html", makeLoginHandler(kullaniciDuzenleHandler))
+	http.HandleFunc("/auth/kullaniciduzenle", makeLoginHandler(kullaniciDuzenleHandlerPost))
+
+	http.HandleFunc("/auth/sifredegistir.html", makeLoginHandler(sifreDegistirHandler))
+	http.HandleFunc("/auth/sifredegistir", SleepHandler(makeLoginHandler(sifreDegistirHandlerPost), time.Second*2))
+
+	http.HandleFunc("/sifremiunuttum.html", sifremiUnuttumHandler)
+	http.HandleFunc("/sifremiunuttum", SleepHandler(sifremiUnuttumHandlerPost, time.Second*3))
+
+	http.HandleFunc("/yenikullanici.html", yenikullaniciHandler)
+	http.HandleFunc("/yenikullanici", SleepHandler(yenikullaniciHandlerPost, time.Second*3))
+
+	http.HandleFunc("/auth/dashboard.html", makeLoginHandler(internalPageHandler))
+
+	http.HandleFunc("/auth/carikartlar.html", makeLoginHandler(carikartlarHandler))
+	http.HandleFunc("/auth/carikart.html", makeLoginHandler(carikartHandler))
+	http.HandleFunc("/auth/carikartkaydet", makeLoginHandler(carikartHandlerPost))
+
+	http.HandleFunc("/auth/ekstre.html", makeLoginHandler(ekstreHandler))
+	http.HandleFunc("/auth/carihareket.html", makeLoginHandler(carihareketHandler))
+	http.HandleFunc("/auth/carihareketkaydet", makeLoginHandler(carihareketHandlerPost))
 
 	addStaticDirAll()
 
 	log.Println("server başladı")
 
+
 	http.ListenAndServe(":8000", nil)
 
 
+}
+
+func getFormId(request *http.Request) int {
+	request.ParseForm()
+	id := request.FormValue("id")
+	var i int
+	i, _ = strconv.Atoi(id)
+	return i
+}
+
+func Ileri(value string, eleman string) string {
+	r := value
+	if r != "" {
+		r += ".-."
+	}
+	r += eleman
+	return r
+}
+
+func Geri(value string) string {
+	r := value
+	i := strings.LastIndex(r, ".-.")
+	if i < 0 {
+		r = ""
+	} else {
+		r = r[:i]
+	}
+
+	return r
+}
+
+func SonEleman(value string) string {
+	r := value
+	i := strings.LastIndex(r, ".-.")
+	if i > 0 {
+		r = r[i+3:]
+	}
+	return r
 }

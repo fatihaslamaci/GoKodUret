@@ -1,3 +1,0 @@
-Yorum           :           :yorumlar   		:
-Id              :int64		:id 				:INTEGER primary key autoincrement
-Aciklama        :string	 	:aciklama			:VARCHAR(50)

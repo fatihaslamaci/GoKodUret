@@ -2,10 +2,10 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 	"text/template"
 )
@@ -80,21 +80,16 @@ func TemplateExecuteArray(value []TmplData, tmpl string) string {
 	return tpl.String()
 }
 
-
-
 func FileToDataArray(files []os.FileInfo) []TmplData {
 	r := []TmplData{}
 	for _, f := range files {
 		dat, err := ioutil.ReadFile(("./kaynak/" + f.Name()))
 		check(err)
 		dbb := KaynakBilgiToTmplData(ParsKaynakBilgi(string(dat)))
-		r = append(r,dbb)
+		r = append(r, dbb)
 	}
 	return r
 }
-
-
-
 
 func check(e error) {
 	if e != nil {
@@ -113,50 +108,28 @@ func main() {
 		log.Fatal(err)
 	}
 
-	dataArray:=FileToDataArray(files)
+	dataArray := FileToDataArray(files)
 
-
-	MainOlustur()
+	MainOlustur(dataArray)
 	InitDBOlustur(dataArray)
 	StructOlustur(dataArray)
-	CrudOlustur(files)
+	CrudOlustur(dataArray)
+
+	exec.Command("bash", "-c", "go fmt /home/fatih/gowork/src/otoprj/*.go").Run()
 
 }
 func WriteString(fhedef *os.File, s string) {
-_, err := fhedef.WriteString(s)
-check(err)
+	_, err := fhedef.WriteString(s)
+	check(err)
 }
 
-func CrudOlustur(files []os.FileInfo) {
-	for _, f := range files {
-		dat, err := ioutil.ReadFile(("./kaynak/" + f.Name()))
-		check(err)
-
-		fhedef, err := os.Create((hedefklasor + "/" + strings.TrimRight(f.Name(), ".txt") + ".go"))
-		check(err)
-		defer fhedef.Close()
-		WriteString(fhedef, `package main
-
-import (
-	"database/sql"
-)
-
-`)
-		s := TemplateExecute(string(dat), "./template/crud.tmpl")
-		fmt.Println(s)
-		WriteString(fhedef, s+"\n\n")
-
-		fhedef.Sync()
-	}
-}
-
-func MainOlustur() {
-		fhedef, err := os.Create((hedefklasor + "/" + "main.go"))
-		check(err)
-		defer fhedef.Close()
-		s := TemplateExecute("", "./template/main.tmpl")
-		WriteString(fhedef, s)
-		fhedef.Sync()
+func MainOlustur(value []TmplData) {
+	fhedef, err := os.Create((hedefklasor + "/" + "main.go"))
+	check(err)
+	defer fhedef.Close()
+	s := TemplateExecuteArray(value, "./template/main.tmpl")
+	WriteString(fhedef, s)
+	fhedef.Sync()
 }
 
 func InitDBOlustur(value []TmplData) {
@@ -177,5 +150,11 @@ func StructOlustur(value []TmplData) {
 	fhedef.Sync()
 }
 
-
-
+func CrudOlustur(value []TmplData) {
+	fhedef, err := os.Create(hedefklasor + "/crud.go")
+	check(err)
+	defer fhedef.Close()
+	s := TemplateExecuteArray(value, "./template/crud.tmpl")
+	WriteString(fhedef, s+"\n\n")
+	fhedef.Sync()
+}

@@ -1,9 +1,7 @@
 package main
 
 import (
-
 	"testing"
-
 )
 
 var sc = `
@@ -64,7 +62,6 @@ func KullaniciUpdate(db *sql.DB, item Kullanici) {
 	CheckErr(err2)
 }`
 
-
 func TestSelectTable(t *testing.T) {
 	type args struct {
 		value string
@@ -77,17 +74,17 @@ func TestSelectTable(t *testing.T) {
 	}{
 		{
 			name: "Kullanici",
-			args:args{ value:sc, tmpl: "./template/crud.tmpl" },
+			args: args{value: sc, tmpl: "./template/crud.tmpl"},
 			want: HedefSelectIdTmp,
 		},
 		{
 			name: "KullaniciCreate",
-			args:args{ value:sc, tmpl: "./template/createtable.tmpl" },
+			args: args{value: sc, tmpl: "./template/createtable.tmpl"},
 			want: HedefKullanicitable,
 		},
 		{
 			name: "KullaniciStruct",
-			args:args{ value:sc, tmpl: "./template/struct.tmpl" },
+			args: args{value: sc, tmpl: "./template/struct.tmpl"},
 			want: HedefKullanicistruct,
 		},
 	}
