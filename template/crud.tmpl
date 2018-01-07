@@ -6,6 +6,9 @@ import (
 
 {{ range $ii, $KaynakBilgi := . }}
 //{{$ii}}. {{$KaynakBilgi.StructName}}  **************************************************************************************************
+
+//{{ "{{" }} .{{$KaynakBilgi.StructName}} {{ "}}" }}
+
 func {{$KaynakBilgi.StructName}}Select(db *sql.DB, id int) {{$KaynakBilgi.StructName}} {
 	item := {{$KaynakBilgi.StructName}}{}
 	if id > 0 {

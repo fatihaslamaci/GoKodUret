@@ -56,20 +56,6 @@ func ParsKaynakBilgi(value string) []KaynakBilgi {
 	return r
 }
 
-func TemplateExecute(value string, tmpl string) string {
-
-	dbb := KaynakBilgiToTmplData(ParsKaynakBilgi(value))
-
-	t := template.Must(template.ParseFiles(tmpl))
-	var tpl bytes.Buffer
-	err := t.Execute(&tpl, dbb)
-	if err != nil {
-		panic(err)
-	}
-	return tpl.String()
-
-}
-
 func TemplateExecuteArray(value []TmplData, tmpl string) string {
 	t := template.Must(template.ParseFiles(tmpl))
 	var tpl bytes.Buffer
@@ -97,11 +83,28 @@ func check(e error) {
 	}
 }
 
-var hedefklasor = "/home/fatih/gowork/src/otoprj"
 
+
+func WriteString(fhedef *os.File, s string) {
+	_, err := fhedef.WriteString(s)
+	check(err)
+}
+
+func HedefeKaydet(value []TmplData, hedefFile string, TemplateFile string) {
+	fhedef, err := os.Create(hedefFile)
+	check(err)
+	defer fhedef.Close()
+	s := TemplateExecuteArray(value, TemplateFile)
+	WriteString(fhedef, s)
+	fhedef.Sync()
+}
+
+var hedefklasor = "/home/fatih/gowork/src/otoprj"
 func main() {
 
 	os.MkdirAll(hedefklasor, os.ModePerm)
+	os.MkdirAll(hedefklasor+"/templates", os.ModePerm)
+
 
 	files, err := ioutil.ReadDir("./kaynak")
 	if err != nil {
@@ -110,51 +113,32 @@ func main() {
 
 	dataArray := FileToDataArray(files)
 
-	MainOlustur(dataArray)
-	InitDBOlustur(dataArray)
-	StructOlustur(dataArray)
-	CrudOlustur(dataArray)
+	templatefiles, err := ioutil.ReadDir("./template")
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, f := range templatefiles {
+		if f.IsDir()==false {
+
+			HedefFile := strings.Replace(f.Name(), ".", "_", 1) + ".go"
+			HedefeKaydet(dataArray, (hedefklasor + "/" + HedefFile), ("./template/" + f.Name()))
+		}
+	}
+
+
+	templatefiles, err = ioutil.ReadDir("./template/templates")
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, f := range templatefiles {
+		HedefFile := strings.Replace(f.Name(), ".", "_", 1) + ".tmpl"
+		HedefeKaydet(dataArray, (hedefklasor+"/templates/"+HedefFile), ("./template/templates/" +f.Name()))
+	}
+
+
+
 
 	exec.Command("bash", "-c", "go fmt /home/fatih/gowork/src/otoprj/*.go").Run()
-
-}
-func WriteString(fhedef *os.File, s string) {
-	_, err := fhedef.WriteString(s)
-	check(err)
 }
 
-func MainOlustur(value []TmplData) {
-	fhedef, err := os.Create((hedefklasor + "/" + "main.go"))
-	check(err)
-	defer fhedef.Close()
-	s := TemplateExecuteArray(value, "./template/main.tmpl")
-	WriteString(fhedef, s)
-	fhedef.Sync()
-}
 
-func InitDBOlustur(value []TmplData) {
-	fhedef, err := os.Create((hedefklasor + "/" + "InitDB.go"))
-	check(err)
-	defer fhedef.Close()
-	s := TemplateExecuteArray(value, "./template/InitDB.tmpl")
-	WriteString(fhedef, s)
-	fhedef.Sync()
-}
-
-func StructOlustur(value []TmplData) {
-	fhedef, err := os.Create(hedefklasor + "/entity.go")
-	check(err)
-	defer fhedef.Close()
-	s := TemplateExecuteArray(value, "./template/struct.tmpl")
-	WriteString(fhedef, s+"\n\n")
-	fhedef.Sync()
-}
-
-func CrudOlustur(value []TmplData) {
-	fhedef, err := os.Create(hedefklasor + "/crud.go")
-	check(err)
-	defer fhedef.Close()
-	s := TemplateExecuteArray(value, "./template/crud.tmpl")
-	WriteString(fhedef, s+"\n\n")
-	fhedef.Sync()
-}

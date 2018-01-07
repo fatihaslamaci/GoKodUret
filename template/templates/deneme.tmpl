@@ -1,0 +1,37 @@
+{{"{{"}}define "page-title"}}Cari Kart Tanıtımı{{"{{"}}end}}
+
+{{"{{"}}define "page-body"}}
+
+<form action="/auth/carikartkaydet" method="post">
+    <input type="hidden" name="id" value="{{"{{"}}.Data.Id {{"}}"}}">
+    Kod:<br>
+    <input type="text" name="kod" value=""><br>
+
+    <input type="submit" value="Kaydet">
+    {{"{{"}}.Message {{"}}"}}
+
+</form>
+
+
+
+{{ range $ii, $KaynakBilgi := . }}
+    <form action="/auth/carikartkaydet" method="post">
+    <input type="hidden" name="id" value="{{"{{"}}.Data.Id {{"}}"}}">
+
+    {{ range $i, $e := $KaynakBilgi.KaynakBilgi }} {{if $e.GoName}}{{ if eq $i 0 }}{{ else }}
+        {{$e.GoName}}:<br>
+        <input type="text" name="{{$e.GoName}}" value="{{"{{"}}.Data.{{$e.GoName}} {{"}}"}}"><br>
+    {{ end }}{{ end }}{{ end }}
+
+    <input type="submit" value="Kaydet">
+    {{"{{"}}.Message {{"}}"}}
+
+</form>
+{{ end }}
+
+
+
+
+
+
+{{"{{"}}end}}

@@ -108,31 +108,31 @@ func main() {
 
 	http.HandleFunc("/", indexPageHandler)
 
-	http.HandleFunc("/login.html", loginHandler)
-	http.HandleFunc("/login", SleepHandler(loginHandlerPost, time.Second*1))
-	http.HandleFunc("/logout.html", logoutHandler)
+	//http.HandleFunc("/login.html", loginHandler)
+	//http.HandleFunc("/login", SleepHandler(loginHandlerPost, time.Second*1))
+	//http.HandleFunc("/logout.html", logoutHandler)
 
-	http.HandleFunc("/auth/kullaniciduzenle.html", makeLoginHandler(kullaniciDuzenleHandler))
-	http.HandleFunc("/auth/kullaniciduzenle", makeLoginHandler(kullaniciDuzenleHandlerPost))
+	//http.HandleFunc("/auth/kullaniciduzenle.html", makeLoginHandler(kullaniciDuzenleHandler))
+	//http.HandleFunc("/auth/kullaniciduzenle", makeLoginHandler(kullaniciDuzenleHandlerPost))
 
-	http.HandleFunc("/auth/sifredegistir.html", makeLoginHandler(sifreDegistirHandler))
-	http.HandleFunc("/auth/sifredegistir", SleepHandler(makeLoginHandler(sifreDegistirHandlerPost), time.Second*2))
+	//http.HandleFunc("/auth/sifredegistir.html", makeLoginHandler(sifreDegistirHandler))
+	//http.HandleFunc("/auth/sifredegistir", SleepHandler(makeLoginHandler(sifreDegistirHandlerPost), time.Second*2))
 
-	http.HandleFunc("/sifremiunuttum.html", sifremiUnuttumHandler)
-	http.HandleFunc("/sifremiunuttum", SleepHandler(sifremiUnuttumHandlerPost, time.Second*3))
+	//http.HandleFunc("/sifremiunuttum.html", sifremiUnuttumHandler)
+	//http.HandleFunc("/sifremiunuttum", SleepHandler(sifremiUnuttumHandlerPost, time.Second*3))
 
-	http.HandleFunc("/yenikullanici.html", yenikullaniciHandler)
-	http.HandleFunc("/yenikullanici", SleepHandler(yenikullaniciHandlerPost, time.Second*3))
+	//http.HandleFunc("/yenikullanici.html", yenikullaniciHandler)
+	//http.HandleFunc("/yenikullanici", SleepHandler(yenikullaniciHandlerPost, time.Second*3))
 
-	http.HandleFunc("/auth/dashboard.html", makeLoginHandler(internalPageHandler))
+	//http.HandleFunc("/auth/dashboard.html", makeLoginHandler(internalPageHandler))
 
-	http.HandleFunc("/auth/carikartlar.html", makeLoginHandler(carikartlarHandler))
-	http.HandleFunc("/auth/carikart.html", makeLoginHandler(carikartHandler))
-	http.HandleFunc("/auth/carikartkaydet", makeLoginHandler(carikartHandlerPost))
+	//http.HandleFunc("/auth/carikartlar.html", makeLoginHandler(carikartlarHandler))
+	//http.HandleFunc("/auth/carikart.html", makeLoginHandler(carikartHandler))
+	//http.HandleFunc("/auth/carikartkaydet", makeLoginHandler(carikartHandlerPost))
 
-	http.HandleFunc("/auth/ekstre.html", makeLoginHandler(ekstreHandler))
-	http.HandleFunc("/auth/carihareket.html", makeLoginHandler(carihareketHandler))
-	http.HandleFunc("/auth/carihareketkaydet", makeLoginHandler(carihareketHandlerPost))
+	//http.HandleFunc("/auth/ekstre.html", makeLoginHandler(ekstreHandler))
+	//http.HandleFunc("/auth/carihareket.html", makeLoginHandler(carihareketHandler))
+	//http.HandleFunc("/auth/carihareketkaydet", makeLoginHandler(carihareketHandlerPost))
 
 	addStaticDirAll()
 
