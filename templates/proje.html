@@ -1,0 +1,26 @@
+{{define "page-title"}}Cari Kart Tanıtımı{{end}}
+
+{{define "page-body"}}
+
+
+
+<form action="projekaydet" method="post">
+    <input type="hidden" name="id" value="{{.Data.Id}}">
+
+    ProjeAdi:<br>
+    <input type="text" name="ProjeAdi" value="{{.Data.ProjeAdi }}"><br>
+
+    ProjeYolu:<br>
+    <input type="text" name="ProjeYolu" value="{{.Data.ProjeYolu }}"><br>
+
+
+    <input type="submit" value="Kaydet">
+{{.Message}}
+
+</form>
+
+
+
+
+
+{{end}}

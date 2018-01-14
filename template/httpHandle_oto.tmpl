@@ -1,0 +1,87 @@
+package main
+
+import (
+	"net/http"
+	"strconv"
+	"time"
+)
+
+func FormValueInt64(request *http.Request, s string) int64 {
+	r, _ := strconv.ParseInt(request.FormValue(s), 10, 64)
+	return r
+}
+
+func FormValueInt(request *http.Request, s string) int {
+	r, _ := strconv.Atoi(request.FormValue(s))
+	return r
+}
+
+func FormValueDouble(request *http.Request, s string) float64 {
+	r, _ := strconv.ParseFloat(request.FormValue(s), 32)
+	return r
+}
+
+func FormValueBool(request *http.Request, s string) bool {
+	r, _ := strconv.ParseBool(request.FormValue(s))
+	return r
+}
+
+func FormValueDate(request *http.Request, s string) time.Time {
+	r, _ := time.Parse("2006-01-02", request.FormValue(s))
+	return r
+}
+
+func HandleFuncAdd() {
+{{ range $ii, $KaynakBilgi := . }}{{if $KaynakBilgi.StructName}}
+    http.HandleFunc("/{{$KaynakBilgi.StructName | ToLover}}ler.html",{{$KaynakBilgi.StructName}}lerHandler)
+	http.HandleFunc("/{{$KaynakBilgi.StructName | ToLover}}.html",{{$KaynakBilgi.StructName}}Handler)
+	http.HandleFunc("/{{$KaynakBilgi.StructName | ToLover}}kaydet",{{$KaynakBilgi.StructName}}KaydetHandler)
+{{ end }}{{ end }}
+}
+//-----------------------------------------------------------------------
+
+{{ range $ii, $KaynakBilgi := . }}{{if $KaynakBilgi.StructName}}
+
+func {{$KaynakBilgi.StructName}}lerHandler(response http.ResponseWriter, request *http.Request) {
+	fData  := {{$KaynakBilgi.StructName}}SelectAll(db)
+	context := Context{Data: fData}
+	render(response, request, "{{$KaynakBilgi.StructName | ToLover}}ler", context)
+}
+
+func {{$KaynakBilgi.StructName}}Handler(response http.ResponseWriter, request *http.Request) {
+	context := Context{Data: {{$KaynakBilgi.StructName}}Select(db, getFormId(request))}
+	render(response, request, "{{$KaynakBilgi.StructName | ToLover}}", context)
+}
+
+func {{$KaynakBilgi.StructName}}KaydetHandler(response http.ResponseWriter, request *http.Request) {
+	id := getFormId(request)
+	item := {{$KaynakBilgi.StructName}}Select(db, id)
+
+	{{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.DbName}}{{ if eq $i 0 }}{{ else }}
+	{{ if eq $e.GoTip "string" }}
+	item.{{$e.GoName}} =  request.FormValue("{{$e.GoName | ToLover}}")
+	{{else if eq $e.GoTip "int64" }}
+	item.{{$e.GoName}} =  FormValueInt64(request,"{{$e.GoName | ToLover}}")
+	{{ else }}
+	//item.{{$e.GoName}} =  request.FormValue("{{$e.GoName | ToLover}}")
+	{{ end }}{{ end }}{{ end }}{{ end }}
+
+	context := Context{}
+
+	//if len(item.ProjeAdi) > 0 {
+		if id > 0 {
+			{{$KaynakBilgi.StructName}}Update(db, item)
+		} else {
+			item.Id = {{$KaynakBilgi.StructName}}Insert(db, item)
+		}
+		context.Message = "Kayıt yapıldı"
+	//} else {
+	//	context.Message = "Lütfen Zorunlu alanları giriniz"
+	//}
+
+	context.Data = item
+	render(response, request, "{{$KaynakBilgi.StructName | ToLover}}", context)
+
+}
+
+{{ end }}{{ end }}

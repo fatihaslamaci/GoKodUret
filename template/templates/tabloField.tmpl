@@ -1,0 +1,10 @@
+{{"{{"}}define "tablo-header"}}
+
+    <tr>
+    {{ range $i, $e := .KaynakBilgi }} {{if $e.GoName}}
+        <td>{{$e.GoName}}"><td>
+    {{ end }} {{ end }}
+    </tr>
+
+
+{{"{{"}}end}}

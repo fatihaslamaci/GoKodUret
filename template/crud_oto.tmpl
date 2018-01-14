@@ -9,6 +9,21 @@ import (
 
 //{{ "{{" }} .{{$KaynakBilgi.StructName}} {{ "}}" }}
 
+
+func {{$KaynakBilgi.StructName}}SelectAll(db *sql.DB) []{{$KaynakBilgi.StructName}} {
+	rows, err := db.Query("Select {{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.DbName}}{{ if eq $i 0 }}{{$e.DbName}}{{ else }}, {{$e.DbName}}{{ end }}{{ end }}{{ end }} from {{$KaynakBilgi.TableName}}")
+	CheckErr(err)
+	var result  []{{$KaynakBilgi.StructName}}
+	for rows.Next() {
+		item :={{$KaynakBilgi.StructName}}{}
+		err2 := rows.Scan({{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.GoName}}{{ if eq $i 0 }}&item.{{$e.GoName}}{{ else }}, &item.{{$e.GoName}}{{ end }}{{ end }}{{ end }})
+		CheckErr(err2)
+		result = append(result, item)
+	}
+	return result
+}
+
+
 func {{$KaynakBilgi.StructName}}Select(db *sql.DB, id int) {{$KaynakBilgi.StructName}} {
 	item := {{$KaynakBilgi.StructName}}{}
 	if id > 0 {

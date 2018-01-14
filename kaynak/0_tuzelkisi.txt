@@ -1,5 +1,0 @@
-TuzelKisi   :           :tuzelkisi      :
-Id          :int64      :id             :INTEGER	primary key	autoincrement
-Unvan       :string     :Unvan          :VARCHAR(150)
-VKN         :int64      :vkn            :INTEGER
-VergiDairesi:int64      :vergidairesi   :VARCHAR(60)
