@@ -1,10 +1,16 @@
 {{"{{"}}define "tablo-header"}}
 
-    <tr>
-    {{ range $i, $e := .KaynakBilgi }} {{if $e.GoName}}
-        <td>{{$e.GoName}}"><td>
+    {{ range $i, $e := .Alanlar }} {{if $e.AlanAdi}}
+        <th>{{$e.AlanAdi}}</th>
     {{ end }} {{ end }}
-    </tr>
 
+{{"{{"}}end}}
+
+
+{{"{{"}}define "tablo-column"}}
+
+    {{ range $i, $e := .Alanlar }} {{if $e.AlanAdi}}
+        <td>{{"{{"}} .{{$e.AlanAdi}} {{"}}"}}</td>
+    {{ end }} {{ end }}
 
 {{"{{"}}end}}

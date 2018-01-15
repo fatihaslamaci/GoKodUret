@@ -5,18 +5,18 @@ import (
 )
 
 {{ range $ii, $KaynakBilgi := . }}
-//{{$ii}}. {{$KaynakBilgi.StructName}}  **************************************************************************************************
+//{{$ii}}. {{$KaynakBilgi.SinifAdi}}  **************************************************************************************************
 
-//{{ "{{" }} .{{$KaynakBilgi.StructName}} {{ "}}" }}
+//{{ "{{" }} .{{$KaynakBilgi.SinifAdi}} {{ "}}" }}
 
 
-func {{$KaynakBilgi.StructName}}SelectAll(db *sql.DB) []{{$KaynakBilgi.StructName}} {
-	rows, err := db.Query("Select {{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.DbName}}{{ if eq $i 0 }}{{$e.DbName}}{{ else }}, {{$e.DbName}}{{ end }}{{ end }}{{ end }} from {{$KaynakBilgi.TableName}}")
+func {{$KaynakBilgi.SinifAdi}}SelectAll(db *sql.DB) []{{$KaynakBilgi.SinifAdi}} {
+	rows, err := db.Query("Select {{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.DbAlanAdi}}{{ if eq $i 0 }}{{$e.DbAlanAdi}}{{ else }}, {{$e.DbAlanAdi}}{{ end }}{{ end }}{{ end }} from {{$KaynakBilgi.TabloAdi}}")
 	CheckErr(err)
-	var result  []{{$KaynakBilgi.StructName}}
+	var result  []{{$KaynakBilgi.SinifAdi}}
 	for rows.Next() {
-		item :={{$KaynakBilgi.StructName}}{}
-		err2 := rows.Scan({{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.GoName}}{{ if eq $i 0 }}&item.{{$e.GoName}}{{ else }}, &item.{{$e.GoName}}{{ end }}{{ end }}{{ end }})
+		item :={{$KaynakBilgi.SinifAdi}}{}
+		err2 := rows.Scan({{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.AlanAdi}}{{ if eq $i 0 }}&item.{{$e.AlanAdi}}{{ else }}, &item.{{$e.AlanAdi}}{{ end }}{{ end }}{{ end }})
 		CheckErr(err2)
 		result = append(result, item)
 	}
@@ -24,33 +24,33 @@ func {{$KaynakBilgi.StructName}}SelectAll(db *sql.DB) []{{$KaynakBilgi.StructNam
 }
 
 
-func {{$KaynakBilgi.StructName}}Select(db *sql.DB, id int) {{$KaynakBilgi.StructName}} {
-	item := {{$KaynakBilgi.StructName}}{}
+func {{$KaynakBilgi.SinifAdi}}Select(db *sql.DB, id int) {{$KaynakBilgi.SinifAdi}} {
+	item := {{$KaynakBilgi.SinifAdi}}{}
 	if id > 0 {
-		row := db.QueryRow("Select {{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.DbName}}{{ if eq $i 0 }}{{$e.DbName}}{{ else }}, {{$e.DbName}}{{ end }}{{ end }}{{ end }} from {{$KaynakBilgi.TableName}} where id=?", id)
-		err := row.Scan({{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.GoName}}{{ if eq $i 0 }}&item.{{$e.GoName}}{{ else }}, &item.{{$e.GoName}}{{ end }}{{ end }}{{ end }})
+		row := db.QueryRow("Select {{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.DbAlanAdi}}{{ if eq $i 0 }}{{$e.DbAlanAdi}}{{ else }}, {{$e.DbAlanAdi}}{{ end }}{{ end }}{{ end }} from {{$KaynakBilgi.TabloAdi}} where id=?", id)
+		err := row.Scan({{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.AlanAdi}}{{ if eq $i 0 }}&item.{{$e.AlanAdi}}{{ else }}, &item.{{$e.AlanAdi}}{{ end }}{{ end }}{{ end }})
 		CheckErr(err)
 	}
 	return item
 }
 
-func {{$KaynakBilgi.StructName}}Insert(db *sql.DB, item {{$KaynakBilgi.StructName}}) int64 {
+func {{$KaynakBilgi.SinifAdi}}Insert(db *sql.DB, item {{$KaynakBilgi.SinifAdi}}) int64 {
 	var r int64
-	stmt, err := db.Prepare("INSERT INTO {{$KaynakBilgi.TableName}}({{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.DbName}}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}{{$e.DbName}}{{ else }}, {{$e.DbName}}{{ end }}{{ end }}{{ end }}{{ end }}) VALUES ({{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.DbName}}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}?{{ else }},?{{ end }}{{ end }}{{ end }}{{ end }})")
+	stmt, err := db.Prepare("INSERT INTO {{$KaynakBilgi.TabloAdi}}({{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.DbAlanAdi}}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}{{$e.DbAlanAdi}}{{ else }}, {{$e.DbAlanAdi}}{{ end }}{{ end }}{{ end }}{{ end }}) VALUES ({{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.DbAlanAdi}}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}?{{ else }},?{{ end }}{{ end }}{{ end }}{{ end }})")
 	CheckErr(err)
 	defer stmt.Close()
-	ret, err := stmt.Exec({{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.GoName}}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}item.{{$e.GoName}}{{ else }}, item.{{$e.GoName}}{{ end }}{{ end }}{{ end }}{{ end }})
+	ret, err := stmt.Exec({{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.AlanAdi}}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}item.{{$e.AlanAdi}}{{ else }}, item.{{$e.AlanAdi}}{{ end }}{{ end }}{{ end }}{{ end }})
 	CheckErr(err)
 	r,err = ret.LastInsertId()
 	CheckErr(err)
 	return r
 }
 
-func {{$KaynakBilgi.StructName}}Update(db *sql.DB, item {{$KaynakBilgi.StructName}}) {
-	stmt, err := db.Prepare("Update {{$KaynakBilgi.TableName}} set {{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.DbName}}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}{{$e.DbName}}=?{{ else }}, {{$e.DbName}}=?{{ end }}{{ end }}{{ end }}{{ end }} WHERE id=?")
+func {{$KaynakBilgi.SinifAdi}}Update(db *sql.DB, item {{$KaynakBilgi.SinifAdi}}) {
+	stmt, err := db.Prepare("Update {{$KaynakBilgi.TabloAdi}} set {{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.DbAlanAdi}}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}{{$e.DbAlanAdi}}=?{{ else }}, {{$e.DbAlanAdi}}=?{{ end }}{{ end }}{{ end }}{{ end }} WHERE id=?")
 	CheckErr(err)
 	defer stmt.Close()
-	_, err2 := stmt.Exec({{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.GoName}}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}item.{{$e.GoName}}{{ else }}, item.{{$e.GoName}}{{ end }}{{ end }}{{ end }}{{ end }}, item.Id)
+	_, err2 := stmt.Exec({{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.AlanAdi}}{{ if eq $i 0 }}{{ else }}{{ if eq $i 1 }}item.{{$e.AlanAdi}}{{ else }}, item.{{$e.AlanAdi}}{{ end }}{{ end }}{{ end }}{{ end }}, item.Id)
 	CheckErr(err2)
 }
 

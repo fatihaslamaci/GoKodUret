@@ -1,32 +1,33 @@
-{{"{{"}}define "page-title"}} Kart Tanıtımı{{"{{"}}end}}
+{{"{{"}}define "page-title"}} {{.SinifAdi }} Kart Tanıtımı{{"{{"}}end}}
 
 {{"{{"}}define "page-body"}}
 
-    <a href="projeler.html?Ara={{"{{"}}.Ara}}&id={{"{{"}}.KayitId2}}"><button> < </button></a>
-    <a href="projeler.html?Ara={{"{{"}}.Ara}}&id={{"{{"}}.KayitId}}"><button> > </button></a>
-    <a href="proje.html?id=0"><button> + </button></a>
+    <a href="{{.SinifAdi | ToLover }}ler.html?Ara={{"{{"}}.Ara}}&id={{"{{"}}.KayitId2}}"><button> < </button></a>
+    <a href="{{.SinifAdi | ToLover }}ler.html?Ara={{"{{"}}.Ara}}&id={{"{{"}}.KayitId}}"><button> > </button></a>
+    <a href="{{.SinifAdi | ToLover }}.html?id=0"><button> + </button></a>
 
-    <form action="projeler.html?id=0" method="get">
+    <form action="{{.SinifAdi | ToLover }}ler.html?id=0" method="get">
         <input type="search" name="Ara" autofocus value="{{"{{"}}.Ara}}">
         <input type="submit" value="Ara">
     </form>
 
 <table>
     <caption>
-        <a>Cari Kart Listesi</a>
+        <a>{{.SinifAdi | ToLover }} Listesi</a>
     </caption>
 
+    <tr>
     {{"{{"}}template "tablo-header" .}}
 
+     <th>İşlev</th>
+    </tr>
 
     {{"{{"}}range .Data}}
     <tr>
-        {{ range $i, $e := .KaynakBilgi }} {{if $e.GoName}}
-            <td>"{{"{{"}} .{{$e.GoName}} {{"}}"}}"><td>
-        {{ end }} {{ end }}
+        {{"{{"}}template "tablo-column" .}}
 
-        <td><a href="\proje.html?id={{"{{"}}.Id}}"> Detay </a>
-        <a href="\siniflar.html?id={{"{{"}}.Id}}"> Sinif </a></td>
+        <td><a href="\{{.SinifAdi | ToLover }}.html?id={{"{{"}}.Id}}"> Detay </a>
+        <a href="\sinifler.html?id={{"{{"}}.Id}}"> Sinif </a></td>
 
     </tr>
     {{"{{"}}end}}

@@ -42,8 +42,8 @@ func render(w http.ResponseWriter, r *http.Request, tmpl string, context Context
 		"./templates/base.html", "./templates/" + tmpl + ".html",
 	}
 
-	if FileExists("./templates/" + tmpl + "Filed.html") {
-		files = append(files, "./templates/"+tmpl+"Field.oto.html")
+	if FileExists("./templates/" + tmpl + "Field_oto.html") {
+		files = append(files, "./templates/"+tmpl+"Field_oto.html")
 	}
 
 	ts, err := template.ParseFiles(files...)

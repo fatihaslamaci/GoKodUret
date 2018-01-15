@@ -4,7 +4,7 @@ import (
 	_"time"
 )
 {{ range $ii, $KaynakBilgi := . }}
-type {{$KaynakBilgi.StructName}} struct {
-{{ range $i, $e := $KaynakBilgi.KaynakBilgi }}  {{$e.GoName}}   {{$e.GoTip}}
+type {{$KaynakBilgi.SinifAdi}} struct {
+{{ range $i, $e := $KaynakBilgi.Alanlar }}  {{$e.AlanAdi}}   {{$e.AlanVeriTuru}}
 {{ end }}}
 {{ end }}

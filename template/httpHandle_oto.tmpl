@@ -32,47 +32,47 @@ func FormValueDate(request *http.Request, s string) time.Time {
 }
 
 func HandleFuncAdd() {
-{{ range $ii, $KaynakBilgi := . }}{{if $KaynakBilgi.StructName}}
-    http.HandleFunc("/{{$KaynakBilgi.StructName | ToLover}}ler.html",{{$KaynakBilgi.StructName}}lerHandler)
-	http.HandleFunc("/{{$KaynakBilgi.StructName | ToLover}}.html",{{$KaynakBilgi.StructName}}Handler)
-	http.HandleFunc("/{{$KaynakBilgi.StructName | ToLover}}kaydet",{{$KaynakBilgi.StructName}}KaydetHandler)
+{{ range $ii, $KaynakBilgi := . }}{{if $KaynakBilgi.SinifAdi}}
+    http.HandleFunc("/{{$KaynakBilgi.SinifAdi | ToLover}}ler.html",{{$KaynakBilgi.SinifAdi}}lerHandler)
+	http.HandleFunc("/{{$KaynakBilgi.SinifAdi | ToLover}}.html",{{$KaynakBilgi.SinifAdi}}Handler)
+	http.HandleFunc("/{{$KaynakBilgi.SinifAdi | ToLover}}kaydet",{{$KaynakBilgi.SinifAdi}}KaydetHandler)
 {{ end }}{{ end }}
 }
 //-----------------------------------------------------------------------
 
-{{ range $ii, $KaynakBilgi := . }}{{if $KaynakBilgi.StructName}}
+{{ range $ii, $KaynakBilgi := . }}{{if $KaynakBilgi.SinifAdi}}
 
-func {{$KaynakBilgi.StructName}}lerHandler(response http.ResponseWriter, request *http.Request) {
-	fData  := {{$KaynakBilgi.StructName}}SelectAll(db)
+func {{$KaynakBilgi.SinifAdi}}lerHandler(response http.ResponseWriter, request *http.Request) {
+	fData  := {{$KaynakBilgi.SinifAdi}}SelectAll(db)
 	context := Context{Data: fData}
-	render(response, request, "{{$KaynakBilgi.StructName | ToLover}}ler", context)
+	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}ler", context)
 }
 
-func {{$KaynakBilgi.StructName}}Handler(response http.ResponseWriter, request *http.Request) {
-	context := Context{Data: {{$KaynakBilgi.StructName}}Select(db, getFormId(request))}
-	render(response, request, "{{$KaynakBilgi.StructName | ToLover}}", context)
+func {{$KaynakBilgi.SinifAdi}}Handler(response http.ResponseWriter, request *http.Request) {
+	context := Context{Data: {{$KaynakBilgi.SinifAdi}}Select(db, getFormId(request))}
+	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}", context)
 }
 
-func {{$KaynakBilgi.StructName}}KaydetHandler(response http.ResponseWriter, request *http.Request) {
+func {{$KaynakBilgi.SinifAdi}}KaydetHandler(response http.ResponseWriter, request *http.Request) {
 	id := getFormId(request)
-	item := {{$KaynakBilgi.StructName}}Select(db, id)
+	item := {{$KaynakBilgi.SinifAdi}}Select(db, id)
 
-	{{ range $i, $e := $KaynakBilgi.KaynakBilgi }}{{if $e.DbName}}{{ if eq $i 0 }}{{ else }}
-	{{ if eq $e.GoTip "string" }}
-	item.{{$e.GoName}} =  request.FormValue("{{$e.GoName | ToLover}}")
-	{{else if eq $e.GoTip "int64" }}
-	item.{{$e.GoName}} =  FormValueInt64(request,"{{$e.GoName | ToLover}}")
+	{{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.DbAlanAdi}}{{ if eq $i 0 }}{{ else }}
+	{{ if eq $e.AlanVeriTuru "string" }}
+	item.{{$e.AlanAdi}} =  request.FormValue("{{$e.AlanAdi | ToLover}}")
+	{{else if eq $e.AlanVeriTuru "int64" }}
+	item.{{$e.AlanAdi}} =  FormValueInt64(request,"{{$e.AlanAdi | ToLover}}")
 	{{ else }}
-	//item.{{$e.GoName}} =  request.FormValue("{{$e.GoName | ToLover}}")
+	//item.{{$e.AlanAdi}} =  request.FormValue("{{$e.AlanAdi | ToLover}}")
 	{{ end }}{{ end }}{{ end }}{{ end }}
 
 	context := Context{}
 
 	//if len(item.ProjeAdi) > 0 {
 		if id > 0 {
-			{{$KaynakBilgi.StructName}}Update(db, item)
+			{{$KaynakBilgi.SinifAdi}}Update(db, item)
 		} else {
-			item.Id = {{$KaynakBilgi.StructName}}Insert(db, item)
+			item.Id = {{$KaynakBilgi.SinifAdi}}Insert(db, item)
 		}
 		context.Message = "Kayıt yapıldı"
 	//} else {
@@ -80,7 +80,7 @@ func {{$KaynakBilgi.StructName}}KaydetHandler(response http.ResponseWriter, requ
 	//}
 
 	context.Data = item
-	render(response, request, "{{$KaynakBilgi.StructName | ToLover}}", context)
+	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}", context)
 
 }
 

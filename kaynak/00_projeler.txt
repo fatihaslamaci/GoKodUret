@@ -1,4 +1,0 @@
-Proje           :       :projeler           :
-Id              :int64    :id                 :INTEGER primary key autoincrement
-ProjeAdi        :string   :proje_adi          :VARCHAR(50)
-ProjeYolu       :string :proje_yolu         :VARCHAR(500)

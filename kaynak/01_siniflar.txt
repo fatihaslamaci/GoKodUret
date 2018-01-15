@@ -1,7 +1,0 @@
-Sinif               :           :siniflar  		:
-Id                  :int64		:id 				:INTEGER primary key autoincrement
-ProjeId             :int64      :proje_id           :INTEGER
-SinifAdi            :string	 	:sinif_adi			:VARCHAR(50)
-                    :           :                   :FOREIGN KEY(proje_id) REFERENCES projeler(id)
-
-

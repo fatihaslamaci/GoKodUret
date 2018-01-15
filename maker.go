@@ -8,54 +8,8 @@ import (
 	"log"
 	"os/exec"
 	"text/template"
+	"encoding/json"
 )
-
-type TmplData struct {
-	StructName  string
-	TableName   string
-	KaynakBilgi []KaynakBilgi
-}
-
-type KaynakBilgi struct {
-	GoName string
-	GoTip  string
-	DbName string
-	DbTip  string
-}
-
-func KaynakBilgiToTmplData(kaynakBilgi []KaynakBilgi) TmplData {
-	r := TmplData{}
-
-	for index, element := range kaynakBilgi {
-		if index == 0 {
-			r.StructName = element.GoName
-			r.TableName = element.DbName
-		} else {
-			r.KaynakBilgi = append(r.KaynakBilgi, element)
-		}
-	}
-	return r
-}
-
-func ParsKaynakBilgi(value string) []KaynakBilgi {
-	r := []KaynakBilgi{}
-	line := strings.Split(strings.TrimSpace(value), "\n")
-	for _, element := range line {
-		if element != "" {
-			if strings.Index(element, ":") > 0 {
-				kb := KaynakBilgi{}
-				linef := strings.Split(element, ":")
-				kb.GoName = strings.TrimSpace(linef[0])
-				kb.GoTip = strings.TrimSpace(linef[1])
-				kb.DbName = strings.TrimSpace(linef[2])
-				kb.DbTip = strings.TrimSpace(linef[3])
-				r = append(r, kb)
-			}
-		}
-	}
-	return r
-}
-
 
 func TemplateExecuteArray(data interface{}, tmpl string,TemplateName string) string {
 	funcMap := template.FuncMap{
@@ -71,15 +25,19 @@ func TemplateExecuteArray(data interface{}, tmpl string,TemplateName string) str
 	return tpl.String()
 }
 
-func FileToDataArray(files []os.FileInfo) []TmplData {
-	r := []TmplData{}
-	for _, f := range files {
-		dat, err := ioutil.ReadFile(("./kaynak/" + f.Name()))
-		check(err)
-		dbb := KaynakBilgiToTmplData(ParsKaynakBilgi(string(dat)))
-		r = append(r, dbb)
-	}
-	return r
+func DataOku(files []os.FileInfo) []Sinif {
+	dat, _ := ioutil.ReadFile("./kaynak/jsondata.json")
+	var projeler  []Proje
+	_ = json.Unmarshal(dat, &projeler)
+
+	projeler[0].ProjeYolu="C:\\Users\\Fatih\\go\\src\\otoprj"
+
+	b, _ := json.Marshal(projeler)
+	var out bytes.Buffer
+	json.Indent(&out, b, "", "\t")
+	ioutil.WriteFile("./kaynak/jsondata2.json",out.Bytes(),0644)
+
+	return projeler[0].Siniflar
 }
 
 func check(e error) {
@@ -87,8 +45,6 @@ func check(e error) {
 		panic(e)
 	}
 }
-
-
 
 func WriteString(fhedef *os.File, s string) {
 	_, err := fhedef.WriteString(s)
@@ -104,9 +60,6 @@ func HedefeKaydet(data interface{}, hedefFile string, TemplateFile string,Templa
 	fhedef.Sync()
 }
 
-
-
-
 var hedefklasor = "C:\\Users\\Fatih\\go\\src\\otoprj"
 
 
@@ -120,7 +73,7 @@ func Makeproje(){
 		log.Fatal(err)
 	}
 
-	dataArray := FileToDataArray(files)
+	dataArray := DataOku(files)
 
 	templatefiles, err := ioutil.ReadDir("./template")
 	if err != nil {
@@ -135,16 +88,16 @@ func Makeproje(){
 	}
 
 	for _, data := range dataArray{
-			HedefFile :=  strings.ToLower(data.StructName) + "ler.html"
+			HedefFile :=  strings.ToLower(data.SinifAdi) + "ler.html"
 			HedefeKaydet(data, (hedefklasor+"/templates/"+HedefFile), ("./template/templates/tablo.tmpl"), "tablo.tmpl")
 
-			HedefFile =  strings.ToLower(data.StructName) + ".html"
+			HedefFile =  strings.ToLower(data.SinifAdi) + ".html"
 			HedefeKaydet(data, (hedefklasor+"/templates/"+HedefFile), ("./template/templates/form.tmpl"), "form.tmpl")
 
-			HedefFile =  strings.ToLower(data.StructName) + "Field_oto.html"
+			HedefFile =  strings.ToLower(data.SinifAdi) + "Field_oto.html"
 			HedefeKaydet(data, (hedefklasor+"/templates/"+HedefFile), ("./template/templates/formField.tmpl"), "formField.tmpl")
 
-			HedefFile =  strings.ToLower(data.StructName) + "lerField_oto.html"
+			HedefFile =  strings.ToLower(data.SinifAdi) + "lerField_oto.html"
 			HedefeKaydet(data, (hedefklasor+"/templates/"+HedefFile), ("./template/templates/tabloField.tmpl"), "tabloField.tmpl")
 	}
 

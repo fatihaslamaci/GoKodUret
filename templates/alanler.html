@@ -1,19 +1,19 @@
-{{define "page-title"}} Proje Kart Tanıtımı{{end}}
+{{define "page-title"}} Alan Kart Tanıtımı{{end}}
 
 {{define "page-body"}}
 
-    <a href="projeler.html?Ara={{.Ara}}&id={{.KayitId2}}"><button> < </button></a>
-    <a href="projeler.html?Ara={{.Ara}}&id={{.KayitId}}"><button> > </button></a>
-    <a href="proje.html?id=0"><button> + </button></a>
+    <a href="alanler.html?Ara={{.Ara}}&id={{.KayitId2}}"><button> < </button></a>
+    <a href="alanler.html?Ara={{.Ara}}&id={{.KayitId}}"><button> > </button></a>
+    <a href="alan.html?id=0"><button> + </button></a>
 
-    <form action="projeler.html?id=0" method="get">
+    <form action="alanler.html?id=0" method="get">
         <input type="search" name="Ara" autofocus value="{{.Ara}}">
         <input type="submit" value="Ara">
     </form>
 
 <table>
     <caption>
-        <a>proje Listesi</a>
+        <a>alan Listesi</a>
     </caption>
 
     <tr>
@@ -26,7 +26,7 @@
     <tr>
         {{template "tablo-column" .}}
 
-        <td><a href="\proje.html?id={{.Id}}"> Detay </a>
+        <td><a href="\alan.html?id={{.Id}}"> Detay </a>
         <a href="\sinifler.html?id={{.Id}}"> Sinif </a></td>
 
     </tr>

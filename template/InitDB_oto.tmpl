@@ -24,9 +24,9 @@ func CreateTable(db *sql.DB) {
 	// create table if not exists
 	sql_table := `
 {{ range $ii, $KaynakBilgi := . }}
-CREATE TABLE IF NOT EXISTS {{$KaynakBilgi.TableName}}(
-{{ range $i, $e := $KaynakBilgi.KaynakBilgi }} {{ if eq $i 0 }}  {{$e.DbName}} {{$e.DbTip}}{{ else }}
-  ,{{$e.DbName}} {{$e.DbTip}} {{ end }} {{ end }}
+CREATE TABLE IF NOT EXISTS {{$KaynakBilgi.TabloAdi}}(
+{{ range $i, $e := $KaynakBilgi.Alanlar }} {{ if eq $i 0 }}  {{$e.DbAlanAdi}} {{$e.DbAlanVeriTuru}}{{ else }}
+  ,{{$e.DbAlanAdi}} {{$e.DbAlanVeriTuru}} {{ end }} {{ end }}
 );
 {{ end }}
 `

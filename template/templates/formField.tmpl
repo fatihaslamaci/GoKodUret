@@ -1,0 +1,8 @@
+{{"{{"}}define "form-field"}}
+
+    {{ range $i, $e := .Alanlar }} {{if $e.AlanAdi}}{{ if eq $i 0 }}{{ else }}
+        {{$e.AlanAdi}}:<br>
+        <input type="text" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"><br>
+    {{ end }}{{ end }}{{ end }}
+
+{{"{{"}}end}}

@@ -1,0 +1,193 @@
+[
+  {
+    "Id": 0,
+    "ProjeAdi": "Go Kod Uret",
+    "ProjeYolu": "C:\\Users\\Fatih\\go\\src\\otoprj",
+    "Siniflar": [
+      {
+        "Id": 0,
+        "ProjeId": 0,
+        "SinifAdi": "Proje",
+        "TabloAdi": "projeler",
+        "Alanlar": [
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "Id",
+            "AlanVeriTuru": "int64",
+            "DbAlanAdi": "id",
+            "DbAlanVeriTuru": "INTEGER primary key autoincrement",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "ProjeAdi",
+            "AlanVeriTuru": "string",
+            "DbAlanAdi": "proje_adi",
+            "DbAlanVeriTuru": "VARCHAR(50)",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "ProjeYolu",
+            "AlanVeriTuru": "string",
+            "DbAlanAdi": "proje_yolu",
+            "DbAlanVeriTuru": "VARCHAR(500)",
+            "IsForeignKey": false,
+            "IsId": false
+          }
+        ]
+      },
+      {
+        "Id": 0,
+        "ProjeId": 0,
+        "SinifAdi": "Sinif",
+        "TabloAdi": "siniflar",
+        "Alanlar": [
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "Id",
+            "AlanVeriTuru": "int64",
+            "DbAlanAdi": "id",
+            "DbAlanVeriTuru": "INTEGER primary key autoincrement",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "ProjeId",
+            "AlanVeriTuru": "int64",
+            "DbAlanAdi": "proje_id",
+            "DbAlanVeriTuru": "INTEGER",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "SinifAdi",
+            "AlanVeriTuru": "string",
+            "DbAlanAdi": "sinif_adi",
+            "DbAlanVeriTuru": "VARCHAR(50)",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "TabloAdi",
+            "AlanVeriTuru": "string",
+            "DbAlanAdi": "tablo_adi",
+            "DbAlanVeriTuru": "VARCHAR(50)",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "",
+            "AlanVeriTuru": "",
+            "DbAlanAdi": "",
+            "DbAlanVeriTuru": "FOREIGN KEY(proje_id) REFERENCES projeler(id)",
+            "IsForeignKey": false,
+            "IsId": false
+          }
+        ]
+      },
+      {
+        "Id": 0,
+        "ProjeId": 0,
+        "SinifAdi": "Alan",
+        "TabloAdi": "alanlar",
+        "Alanlar": [
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "Id",
+            "AlanVeriTuru": "int64",
+            "DbAlanAdi": "id",
+            "DbAlanVeriTuru": "INTEGER primary key autoincrement",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "IsId",
+            "AlanVeriTuru": "bool",
+            "DbAlanAdi": "is_id",
+            "DbAlanVeriTuru": "BIT",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "SinifId",
+            "AlanVeriTuru": "int64",
+            "DbAlanAdi": "sinif_id",
+            "DbAlanVeriTuru": "INTEGER",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "AlanAdi",
+            "AlanVeriTuru": "string",
+            "DbAlanAdi": "alan_adi",
+            "DbAlanVeriTuru": "VARCHAR(50)",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "AlanVeriTuru",
+            "AlanVeriTuru": "string",
+            "DbAlanAdi": "alan_veri_turu",
+            "DbAlanVeriTuru": "VARCHAR(50)",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "DbAlanAdi",
+            "AlanVeriTuru": "string",
+            "DbAlanAdi": "db_alan_adi",
+            "DbAlanVeriTuru": "varchar(50)",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "DbAlanVeriTuru",
+            "AlanVeriTuru": "string",
+            "DbAlanAdi": "db_alan_veri_turu",
+            "DbAlanVeriTuru": "varchar(100)",
+            "IsForeignKey": false,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "",
+            "AlanVeriTuru": "",
+            "DbAlanAdi": "",
+            "DbAlanVeriTuru": "FOREIGN KEY(sinif_id) REFERENCES siniflar(id)",
+            "IsForeignKey": false,
+            "IsId": false
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,15 +1,12 @@
-{{"{{"}}define "page-title"}} Kart Tanıtımı{{"{{"}}end}}
+{{"{{"}}define "page-title"}} {{ .SinifAdi }} Tanıtımı{{"{{"}}end}}
 
 {{"{{"}}define "page-body"}}
 
 
-    <form action="/auth/carikartkaydet" method="post">
+    <form action="{{ .SinifAdi | ToLover }}kaydet" method="post">
     <input type="hidden" name="id" value="{{"{{"}}.Data.Id {{"}}"}}">
 
-    {{ range $i, $e := .KaynakBilgi }} {{if $e.GoName}}{{ if eq $i 0 }}{{ else }}
-        {{$e.GoName}}:<br>
-        <input type="text" name="{{$e.GoName | ToLover}}" value="{{"{{"}}.Data.{{$e.GoName}} {{"}}"}}"><br>
-    {{ end }}{{ end }}{{ end }}
+    {{"{{"}}template "form-field" .}}
 
     <input type="submit" value="Kaydet">
     {{"{{"}}.Message {{"}}"}}

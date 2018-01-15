@@ -34,10 +34,7 @@ CREATE TABLE IF NOT EXISTS siniflar(
    id INTEGER primary key autoincrement  
   ,proje_id INTEGER   
   ,sinif_adi VARCHAR(50)   
-  ,alan_adi VARCHAR(50)   
-  ,alan_veri_turu VARCHAR(50)   
-  ,db_alan_adi VARCHAR(50)   
-  ,db_alan_veri_turu VARCHAR(60)   
+  ,tablo_adi VARCHAR(50)   
   , FOREIGN KEY(proje_id) REFERENCES projeler(id)  
 );
 
