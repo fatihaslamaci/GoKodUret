@@ -1,0 +1,20 @@
+{{define "page-title"}} TabloEkOzellik Tanıtımı{{end}}
+
+{{define "page-body"}}
+
+
+    <form action="tabloekozellikkaydet" method="post">
+    <input type="hidden" name="id" value="{{.Data.Id }}">
+
+    {{template "form-field" .}}
+
+    <input type="submit" value="Kaydet">
+    {{.Message }}
+
+</form>
+
+
+
+
+
+{{end}}

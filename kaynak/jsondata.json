@@ -41,6 +41,7 @@
             "IsId": false
           }
         ]
+
       },
       {
         "Id": 0,
@@ -65,7 +66,7 @@
             "AlanVeriTuru": "int64",
             "DbAlanAdi": "proje_id",
             "DbAlanVeriTuru": "INTEGER",
-            "IsForeignKey": false,
+            "IsForeignKey": true,
             "IsId": false
           },
           {
@@ -87,16 +88,13 @@
             "DbAlanVeriTuru": "VARCHAR(50)",
             "IsForeignKey": false,
             "IsId": false
-          },
+          }
+        ],
+        "TabloEkOzellikler":[
           {
             "Id": 0,
             "SinifId": 0,
-            "AlanAdi": "",
-            "AlanVeriTuru": "",
-            "DbAlanAdi": "",
-            "DbAlanVeriTuru": "FOREIGN KEY(proje_id) REFERENCES projeler(id)",
-            "IsForeignKey": false,
-            "IsId": false
+            "Ozellik":"FOREIGN KEY(proje_id) REFERENCES projeler(id)"
           }
         ]
       },
@@ -133,7 +131,7 @@
             "AlanVeriTuru": "int64",
             "DbAlanAdi": "sinif_id",
             "DbAlanVeriTuru": "INTEGER",
-            "IsForeignKey": false,
+            "IsForeignKey": true,
             "IsId": false
           },
           {
@@ -175,16 +173,60 @@
             "DbAlanVeriTuru": "varchar(100)",
             "IsForeignKey": false,
             "IsId": false
+          }
+        ],
+        "TabloEkOzellikler":[
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "Ozellik":"FOREIGN KEY(sinif_id) REFERENCES siniflar(id)"
+          }
+        ]
+      },
+      {
+        "Id":0,
+        "ProjeId":0,
+        "SinifAdi":"TabloEkOzellik",
+        "TabloAdi" : "tablo_ek_ozellikler",
+        "Alanlar" : [
+
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "Id",
+            "AlanVeriTuru": "int64",
+            "DbAlanAdi": "id",
+            "DbAlanVeriTuru": "INTEGER primary key autoincrement",
+            "IsForeignKey": false,
+            "IsId": false
           },
           {
             "Id": 0,
             "SinifId": 0,
-            "AlanAdi": "",
-            "AlanVeriTuru": "",
-            "DbAlanAdi": "",
-            "DbAlanVeriTuru": "FOREIGN KEY(sinif_id) REFERENCES siniflar(id)",
+            "AlanAdi": "SinifId",
+            "AlanVeriTuru": "int64",
+            "DbAlanAdi": "sinif_id",
+            "DbAlanVeriTuru": "INTEGER",
+            "IsForeignKey": true,
+            "IsId": false
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "Ozellik",
+            "AlanVeriTuru": "string",
+            "DbAlanAdi": "ozellik",
+            "DbAlanVeriTuru": "VARCHAR(150)",
             "IsForeignKey": false,
             "IsId": false
+          }
+
+        ],
+        "TabloEkOzellikler":[
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "Ozellik":"FOREIGN KEY(sinif_id) REFERENCES siniflar(id)"
           }
         ]
       }

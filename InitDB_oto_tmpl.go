@@ -49,6 +49,13 @@ CREATE TABLE IF NOT EXISTS alanlar(
   , FOREIGN KEY(sinif_id) REFERENCES siniflar(id)  
 );
 
+CREATE TABLE IF NOT EXISTS tablo_ek_ozellikler(
+   id INTEGER primary key autoincrement  
+  ,sinif_id INTEGER   
+  ,ozellik VARCHAR(150)  
+  , FOREIGN KEY(sinif_id) REFERENCES siniflar(id)
+);
+
 `
 	_, err := db.Exec(sql_table)
 

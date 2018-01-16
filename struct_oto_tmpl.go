@@ -17,7 +17,7 @@ type Sinif struct {
   SinifAdi   string
   TabloAdi string
   Alanlar []Alan
-     
+  TabloEkOzellikler []TabloEkOzellik
 }
 
 type Alan struct {
@@ -29,5 +29,13 @@ type Alan struct {
   DbAlanVeriTuru   string
   IsForeignKey bool
   IsId   bool
+  IsMasterId bool
 
+}
+
+
+type TabloEkOzellik struct {
+  Id   int64
+  SinifId   int64
+  Ozellik   string
 }

@@ -45,6 +45,10 @@ func HandleFuncAdd() {
 	http.HandleFunc("/alan.html",AlanHandler)
 	http.HandleFunc("/alankaydet",AlanKaydetHandler)
 
+	http.HandleFunc("/tabloekozellikler.html",TabloEkOzelliklerHandler)
+	http.HandleFunc("/tabloekozellik.html",TabloEkOzellikHandler)
+	http.HandleFunc("/tabloekozellikkaydet",TabloEkOzellikKaydetHandler)
+
 }
 //-----------------------------------------------------------------------
 
@@ -65,13 +69,8 @@ func ProjeKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	id := getFormId(request)
 	item := ProjeSelect(db, id)
 
-	
-	
 	item.ProjeAdi =  request.FormValue("projeadi")
-	
-	
 	item.ProjeYolu =  request.FormValue("projeyolu")
-	
 
 	context := Context{}
 
@@ -92,9 +91,9 @@ func ProjeKaydetHandler(response http.ResponseWriter, request *http.Request) {
 }
 
 
-
 func SiniflerHandler(response http.ResponseWriter, request *http.Request) {
-	fData  := SinifSelectAll(db)
+	MasterId:=FormValueInt64(request,"id")
+	fData  := SinifSelectMasterId(db,MasterId)
 	context := Context{Data: fData}
 	render(response, request, "sinifler", context)
 }
@@ -107,15 +106,8 @@ func SinifHandler(response http.ResponseWriter, request *http.Request) {
 func SinifKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	id := getFormId(request)
 	item := SinifSelect(db, id)
-
-	
-	
 	item.ProjeId =  FormValueInt64(request,"projeid")
-	
-	
 	item.SinifAdi =  request.FormValue("sinifadi")
-	
-
 	context := Context{}
 
 	//if len(item.ProjeAdi) > 0 {
@@ -186,6 +178,47 @@ func AlanKaydetHandler(response http.ResponseWriter, request *http.Request) {
 
 	context.Data = item
 	render(response, request, "alan", context)
+
+}
+
+func TabloEkOzelliklerHandler(response http.ResponseWriter, request *http.Request) {
+	fData  := TabloEkOzellikSelectAll(db)
+	context := Context{Data: fData}
+	render(response, request, "tabloekozellikler", context)
+}
+
+func TabloEkOzellikHandler(response http.ResponseWriter, request *http.Request) {
+	context := Context{Data: TabloEkOzellikSelect(db, getFormId(request))}
+	render(response, request, "tabloekozellik", context)
+}
+
+func TabloEkOzellikKaydetHandler(response http.ResponseWriter, request *http.Request) {
+	id := getFormId(request)
+	item := TabloEkOzellikSelect(db, id)
+
+
+
+	item.SinifId =  FormValueInt64(request,"sinifid")
+
+
+	item.Ozellik =  request.FormValue("ozellik")
+
+
+	context := Context{}
+
+	//if len(item.ProjeAdi) > 0 {
+	if id > 0 {
+		TabloEkOzellikUpdate(db, item)
+	} else {
+		item.Id = TabloEkOzellikInsert(db, item)
+	}
+	context.Message = "Kayıt yapıldı"
+	//} else {
+	//	context.Message = "Lütfen Zorunlu alanları giriniz"
+	//}
+
+	context.Data = item
+	render(response, request, "tabloekozellik", context)
 
 }
 
