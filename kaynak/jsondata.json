@@ -9,6 +9,7 @@
         "ProjeId": 0,
         "SinifAdi": "Proje",
         "TabloAdi": "projeler",
+        "DetailTablo": false,
         "Alanlar": [
           {
             "Id": 0,
@@ -18,7 +19,8 @@
             "DbAlanAdi": "id",
             "DbAlanVeriTuru": "INTEGER primary key autoincrement",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -28,7 +30,8 @@
             "DbAlanAdi": "proje_adi",
             "DbAlanVeriTuru": "VARCHAR(50)",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -38,16 +41,18 @@
             "DbAlanAdi": "proje_yolu",
             "DbAlanVeriTuru": "VARCHAR(500)",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           }
-        ]
-
+        ],
+        "TabloEkOzellikler": null
       },
       {
         "Id": 0,
         "ProjeId": 0,
         "SinifAdi": "Sinif",
         "TabloAdi": "siniflar",
+        "DetailTablo": true,
         "Alanlar": [
           {
             "Id": 0,
@@ -57,7 +62,8 @@
             "DbAlanAdi": "id",
             "DbAlanVeriTuru": "INTEGER primary key autoincrement",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -67,7 +73,8 @@
             "DbAlanAdi": "proje_id",
             "DbAlanVeriTuru": "INTEGER",
             "IsForeignKey": true,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -77,7 +84,8 @@
             "DbAlanAdi": "sinif_adi",
             "DbAlanVeriTuru": "VARCHAR(50)",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -87,14 +95,26 @@
             "DbAlanAdi": "tablo_adi",
             "DbAlanVeriTuru": "VARCHAR(50)",
             "IsForeignKey": false,
-            "IsId": false
-          }
-        ],
-        "TabloEkOzellikler":[
+            "IsId": false,
+            "IsMasterId": false
+          },
           {
             "Id": 0,
             "SinifId": 0,
-            "Ozellik":"FOREIGN KEY(proje_id) REFERENCES projeler(id)"
+            "AlanAdi": "DetailTablo",
+            "AlanVeriTuru": "boolean",
+            "DbAlanAdi": "detail_tablo",
+            "DbAlanVeriTuru": "bit",
+            "IsForeignKey": false,
+            "IsId": false,
+            "IsMasterId": false
+          }
+        ],
+        "TabloEkOzellikler": [
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "Ozellik": "FOREIGN KEY(proje_id) REFERENCES projeler(id)"
           }
         ]
       },
@@ -103,6 +123,7 @@
         "ProjeId": 0,
         "SinifAdi": "Alan",
         "TabloAdi": "alanlar",
+        "DetailTablo": true,
         "Alanlar": [
           {
             "Id": 0,
@@ -112,7 +133,8 @@
             "DbAlanAdi": "id",
             "DbAlanVeriTuru": "INTEGER primary key autoincrement",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -122,7 +144,8 @@
             "DbAlanAdi": "is_id",
             "DbAlanVeriTuru": "BIT",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -132,7 +155,8 @@
             "DbAlanAdi": "sinif_id",
             "DbAlanVeriTuru": "INTEGER",
             "IsForeignKey": true,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -142,7 +166,8 @@
             "DbAlanAdi": "alan_adi",
             "DbAlanVeriTuru": "VARCHAR(50)",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -152,7 +177,8 @@
             "DbAlanAdi": "alan_veri_turu",
             "DbAlanVeriTuru": "VARCHAR(50)",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -162,7 +188,8 @@
             "DbAlanAdi": "db_alan_adi",
             "DbAlanVeriTuru": "varchar(50)",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -172,24 +199,26 @@
             "DbAlanAdi": "db_alan_veri_turu",
             "DbAlanVeriTuru": "varchar(100)",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           }
+
         ],
-        "TabloEkOzellikler":[
+        "TabloEkOzellikler": [
           {
             "Id": 0,
             "SinifId": 0,
-            "Ozellik":"FOREIGN KEY(sinif_id) REFERENCES siniflar(id)"
+            "Ozellik": "FOREIGN KEY(sinif_id) REFERENCES siniflar(id)"
           }
         ]
       },
       {
-        "Id":0,
-        "ProjeId":0,
-        "SinifAdi":"TabloEkOzellik",
-        "TabloAdi" : "tablo_ek_ozellikler",
-        "Alanlar" : [
-
+        "Id": 0,
+        "ProjeId": 0,
+        "SinifAdi": "TabloEkOzellik",
+        "TabloAdi": "tablo_ek_ozellikler",
+        "DetailTablo": true,
+        "Alanlar": [
           {
             "Id": 0,
             "SinifId": 0,
@@ -198,7 +227,8 @@
             "DbAlanAdi": "id",
             "DbAlanVeriTuru": "INTEGER primary key autoincrement",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -208,7 +238,8 @@
             "DbAlanAdi": "sinif_id",
             "DbAlanVeriTuru": "INTEGER",
             "IsForeignKey": true,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           },
           {
             "Id": 0,
@@ -218,15 +249,16 @@
             "DbAlanAdi": "ozellik",
             "DbAlanVeriTuru": "VARCHAR(150)",
             "IsForeignKey": false,
-            "IsId": false
+            "IsId": false,
+            "IsMasterId": false
           }
 
         ],
-        "TabloEkOzellikler":[
+        "TabloEkOzellikler": [
           {
             "Id": 0,
             "SinifId": 0,
-            "Ozellik":"FOREIGN KEY(sinif_id) REFERENCES siniflar(id)"
+            "Ozellik": "FOREIGN KEY(sinif_id) REFERENCES siniflar(id)"
           }
         ]
       }

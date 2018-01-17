@@ -63,12 +63,12 @@ func ProjeUpdate(db *sql.DB, item Proje) {
 
 
 func SinifSelectAll(db *sql.DB) []Sinif {
-	rows, err := db.Query("Select id, proje_id, sinif_adi, tablo_adi from siniflar")
+	rows, err := db.Query("Select id, proje_id, sinif_adi, tablo_adi, detail_tablo from siniflar")
 	CheckErr(err)
 	var result  []Sinif
 	for rows.Next() {
 		item :=Sinif{}
-		err2 := rows.Scan(&item.Id, &item.ProjeId, &item.SinifAdi, &item.TabloAdi)
+		err2 := rows.Scan(&item.Id, &item.ProjeId, &item.SinifAdi, &item.TabloAdi, &item.DetailTablo)
 		CheckErr(err2)
 		result = append(result, item)
 	}
@@ -79,8 +79,8 @@ func SinifSelectAll(db *sql.DB) []Sinif {
 func SinifSelect(db *sql.DB, id int) Sinif {
 	item := Sinif{}
 	if id > 0 {
-		row := db.QueryRow("Select id, proje_id, sinif_adi, tablo_adi from siniflar where id=?", id)
-		err := row.Scan(&item.Id, &item.ProjeId, &item.SinifAdi, &item.TabloAdi)
+		row := db.QueryRow("Select id, proje_id, sinif_adi, tablo_adi, detail_tablo from siniflar where id=?", id)
+		err := row.Scan(&item.Id, &item.ProjeId, &item.SinifAdi, &item.TabloAdi, &item.DetailTablo)
 		CheckErr(err)
 	}
 	return item
@@ -88,10 +88,10 @@ func SinifSelect(db *sql.DB, id int) Sinif {
 
 func SinifInsert(db *sql.DB, item Sinif) int64 {
 	var r int64
-	stmt, err := db.Prepare("INSERT INTO siniflar(proje_id, sinif_adi, tablo_adi) VALUES (?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO siniflar(proje_id, sinif_adi, tablo_adi, detail_tablo) VALUES (?,?,?,?)")
 	CheckErr(err)
 	defer stmt.Close()
-	ret, err := stmt.Exec(item.ProjeId, item.SinifAdi, item.TabloAdi)
+	ret, err := stmt.Exec(item.ProjeId, item.SinifAdi, item.TabloAdi, item.DetailTablo)
 	CheckErr(err)
 	r,err = ret.LastInsertId()
 	CheckErr(err)
@@ -99,21 +99,21 @@ func SinifInsert(db *sql.DB, item Sinif) int64 {
 }
 
 func SinifUpdate(db *sql.DB, item Sinif) {
-	stmt, err := db.Prepare("Update siniflar set proje_id=?, sinif_adi=?, tablo_adi=? WHERE id=?")
+	stmt, err := db.Prepare("Update siniflar set proje_id=?, sinif_adi=?, tablo_adi=?, detail_tablo=? WHERE id=?")
 	CheckErr(err)
 	defer stmt.Close()
-	_, err2 := stmt.Exec(item.ProjeId, item.SinifAdi, item.TabloAdi, item.Id)
+	_, err2 := stmt.Exec(item.ProjeId, item.SinifAdi, item.TabloAdi, item.DetailTablo, item.Id)
 	CheckErr(err2)
 }
 
 
 func SinifSelectMasterId(db *sql.DB, Masterid int64) []Sinif {
-	rows, err := db.Query("Select id, proje_id, sinif_adi, tablo_adi from siniflar where proje_id=?", Masterid)
+	rows, err := db.Query("Select id, proje_id, sinif_adi, tablo_adi, detail_tablo from siniflar where proje_id=?", Masterid)
 	CheckErr(err)
 	var result  []Sinif
 	for rows.Next() {
 		item :=Sinif{}
-		err2 := rows.Scan(&item.Id, &item.ProjeId, &item.SinifAdi, &item.TabloAdi)
+		err2 := rows.Scan(&item.Id, &item.ProjeId, &item.SinifAdi, &item.TabloAdi, &item.DetailTablo)
 		CheckErr(err2)
 		result = append(result, item)
 	}

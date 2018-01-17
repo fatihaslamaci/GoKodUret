@@ -16,6 +16,7 @@ type Sinif struct {
   ProjeId   int64
   SinifAdi   string
   TabloAdi string
+  DetailTablo bool
   Alanlar []Alan
   TabloEkOzellikler []TabloEkOzellik
 }

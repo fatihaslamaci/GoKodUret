@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS projeler(
    id INTEGER primary key autoincrement  
   ,proje_adi VARCHAR(50)   
   ,proje_yolu VARCHAR(500)  
+
 );
 
 CREATE TABLE IF NOT EXISTS siniflar(
@@ -35,7 +36,9 @@ CREATE TABLE IF NOT EXISTS siniflar(
   ,proje_id INTEGER   
   ,sinif_adi VARCHAR(50)   
   ,tablo_adi VARCHAR(50)   
-  , FOREIGN KEY(proje_id) REFERENCES projeler(id)  
+  ,detail_tablo BIT  
+
+  ,FOREIGN KEY(proje_id) REFERENCES projeler(id) 
 );
 
 CREATE TABLE IF NOT EXISTS alanlar(
@@ -45,15 +48,17 @@ CREATE TABLE IF NOT EXISTS alanlar(
   ,alan_adi VARCHAR(50)   
   ,alan_veri_turu VARCHAR(50)   
   ,db_alan_adi varchar(50)   
-  ,db_alan_veri_turu varchar(100)   
-  , FOREIGN KEY(sinif_id) REFERENCES siniflar(id)  
+  ,db_alan_veri_turu varchar(100)  
+
+  ,FOREIGN KEY(sinif_id) REFERENCES siniflar(id) 
 );
 
 CREATE TABLE IF NOT EXISTS tablo_ek_ozellikler(
    id INTEGER primary key autoincrement  
   ,sinif_id INTEGER   
   ,ozellik VARCHAR(150)  
-  , FOREIGN KEY(sinif_id) REFERENCES siniflar(id)
+
+  ,FOREIGN KEY(sinif_id) REFERENCES siniflar(id) 
 );
 
 `

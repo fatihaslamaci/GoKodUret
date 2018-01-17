@@ -33,15 +33,15 @@ func FormValueDate(request *http.Request, s string) time.Time {
 
 func HandleFuncAdd() {
 
-    http.HandleFunc("/projeler.html",ProjelerHandler)
+	http.HandleFunc("/projeler.html",ProjelerHandler)
 	http.HandleFunc("/proje.html",ProjeHandler)
 	http.HandleFunc("/projekaydet",ProjeKaydetHandler)
 
-    http.HandleFunc("/sinifler.html",SiniflerHandler)
+	http.HandleFunc("/sinifler.html",SiniflerHandler)
 	http.HandleFunc("/sinif.html",SinifHandler)
 	http.HandleFunc("/sinifkaydet",SinifKaydetHandler)
 
-    http.HandleFunc("/alanler.html",AlanlerHandler)
+	http.HandleFunc("/alanler.html",AlanlerHandler)
 	http.HandleFunc("/alan.html",AlanHandler)
 	http.HandleFunc("/alankaydet",AlanKaydetHandler)
 
@@ -54,11 +54,14 @@ func HandleFuncAdd() {
 
 
 
+
 func ProjelerHandler(response http.ResponseWriter, request *http.Request) {
 	fData  := ProjeSelectAll(db)
 	context := Context{Data: fData}
 	render(response, request, "projeler", context)
 }
+
+
 
 func ProjeHandler(response http.ResponseWriter, request *http.Request) {
 	context := Context{Data: ProjeSelect(db, getFormId(request))}
@@ -69,18 +72,23 @@ func ProjeKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	id := getFormId(request)
 	item := ProjeSelect(db, id)
 
+
+
 	item.ProjeAdi =  request.FormValue("projeadi")
+
+
 	item.ProjeYolu =  request.FormValue("projeyolu")
+
 
 	context := Context{}
 
 	//if len(item.ProjeAdi) > 0 {
-		if id > 0 {
-			ProjeUpdate(db, item)
-		} else {
-			item.Id = ProjeInsert(db, item)
-		}
-		context.Message = "Kayıt yapıldı"
+	if id > 0 {
+		ProjeUpdate(db, item)
+	} else {
+		item.Id = ProjeInsert(db, item)
+	}
+	context.Message = "Kayıt yapıldı"
 	//} else {
 	//	context.Message = "Lütfen Zorunlu alanları giriniz"
 	//}
@@ -91,12 +99,16 @@ func ProjeKaydetHandler(response http.ResponseWriter, request *http.Request) {
 }
 
 
+
+
 func SiniflerHandler(response http.ResponseWriter, request *http.Request) {
 	MasterId:=FormValueInt64(request,"id")
 	fData  := SinifSelectMasterId(db,MasterId)
 	context := Context{Data: fData}
 	render(response, request, "sinifler", context)
 }
+
+
 
 func SinifHandler(response http.ResponseWriter, request *http.Request) {
 	context := Context{Data: SinifSelect(db, getFormId(request))}
@@ -106,17 +118,27 @@ func SinifHandler(response http.ResponseWriter, request *http.Request) {
 func SinifKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	id := getFormId(request)
 	item := SinifSelect(db, id)
+
+
+
 	item.ProjeId =  FormValueInt64(request,"projeid")
+
+
 	item.SinifAdi =  request.FormValue("sinifadi")
+
+
+	item.TabloAdi =  request.FormValue("tabloadi")
+
+
 	context := Context{}
 
 	//if len(item.ProjeAdi) > 0 {
-		if id > 0 {
-			SinifUpdate(db, item)
-		} else {
-			item.Id = SinifInsert(db, item)
-		}
-		context.Message = "Kayıt yapıldı"
+	if id > 0 {
+		SinifUpdate(db, item)
+	} else {
+		item.Id = SinifInsert(db, item)
+	}
+	context.Message = "Kayıt yapıldı"
 	//} else {
 	//	context.Message = "Lütfen Zorunlu alanları giriniz"
 	//}
@@ -128,11 +150,15 @@ func SinifKaydetHandler(response http.ResponseWriter, request *http.Request) {
 
 
 
+
 func AlanlerHandler(response http.ResponseWriter, request *http.Request) {
-	fData  := AlanSelectAll(db)
+	MasterId:=FormValueInt64(request,"id")
+	fData  := AlanSelectMasterId(db,MasterId)
 	context := Context{Data: fData}
 	render(response, request, "alanler", context)
 }
+
+
 
 func AlanHandler(response http.ResponseWriter, request *http.Request) {
 	context := Context{Data: AlanSelect(db, getFormId(request))}
@@ -143,35 +169,35 @@ func AlanKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	id := getFormId(request)
 	item := AlanSelect(db, id)
 
-	
-	
+
+
 	//item.IsId =  request.FormValue("isid")
-	
-	
+
+
 	item.SinifId =  FormValueInt64(request,"sinifid")
-	
-	
+
+
 	item.AlanAdi =  request.FormValue("alanadi")
-	
-	
+
+
 	item.AlanVeriTuru =  request.FormValue("alanverituru")
-	
-	
+
+
 	item.DbAlanAdi =  request.FormValue("dbalanadi")
-	
-	
+
+
 	item.DbAlanVeriTuru =  request.FormValue("dbalanverituru")
-	
+
 
 	context := Context{}
 
 	//if len(item.ProjeAdi) > 0 {
-		if id > 0 {
-			AlanUpdate(db, item)
-		} else {
-			item.Id = AlanInsert(db, item)
-		}
-		context.Message = "Kayıt yapıldı"
+	if id > 0 {
+		AlanUpdate(db, item)
+	} else {
+		item.Id = AlanInsert(db, item)
+	}
+	context.Message = "Kayıt yapıldı"
 	//} else {
 	//	context.Message = "Lütfen Zorunlu alanları giriniz"
 	//}
@@ -181,11 +207,17 @@ func AlanKaydetHandler(response http.ResponseWriter, request *http.Request) {
 
 }
 
+
+
+
 func TabloEkOzelliklerHandler(response http.ResponseWriter, request *http.Request) {
-	fData  := TabloEkOzellikSelectAll(db)
+	MasterId:=FormValueInt64(request,"id")
+	fData  := TabloEkOzellikSelectMasterId(db,MasterId)
 	context := Context{Data: fData}
 	render(response, request, "tabloekozellikler", context)
 }
+
+
 
 func TabloEkOzellikHandler(response http.ResponseWriter, request *http.Request) {
 	context := Context{Data: TabloEkOzellikSelect(db, getFormId(request))}

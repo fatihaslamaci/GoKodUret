@@ -42,11 +42,21 @@ func HandleFuncAdd() {
 
 {{ range $ii, $KaynakBilgi := . }}{{if $KaynakBilgi.SinifAdi}}
 
+{{if $KaynakBilgi.DetailTablo }}
+func {{$KaynakBilgi.SinifAdi}}lerHandler(response http.ResponseWriter, request *http.Request) {
+	MasterId:=FormValueInt64(request,"id")
+	fData  := {{$KaynakBilgi.SinifAdi}}SelectMasterId(db,MasterId)
+    context := Context{Data: fData}
+	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}ler", context)
+}
+{{else}}
 func {{$KaynakBilgi.SinifAdi}}lerHandler(response http.ResponseWriter, request *http.Request) {
 	fData  := {{$KaynakBilgi.SinifAdi}}SelectAll(db)
 	context := Context{Data: fData}
 	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}ler", context)
 }
+{{ end }}
+
 
 func {{$KaynakBilgi.SinifAdi}}Handler(response http.ResponseWriter, request *http.Request) {
 	context := Context{Data: {{$KaynakBilgi.SinifAdi}}Select(db, getFormId(request))}
