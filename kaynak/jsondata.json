@@ -102,7 +102,7 @@
             "Id": 0,
             "SinifId": 0,
             "AlanAdi": "DetailTablo",
-            "AlanVeriTuru": "boolean",
+            "AlanVeriTuru": "bool",
             "DbAlanAdi": "detail_tablo",
             "DbAlanVeriTuru": "bit",
             "IsForeignKey": false,
