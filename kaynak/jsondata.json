@@ -20,7 +20,8 @@
             "DbAlanVeriTuru": "INTEGER primary key autoincrement",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "hidden"
           },
           {
             "Id": 0,
@@ -31,7 +32,8 @@
             "DbAlanVeriTuru": "VARCHAR(50)",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "text"
           },
           {
             "Id": 0,
@@ -42,7 +44,8 @@
             "DbAlanVeriTuru": "VARCHAR(500)",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "text"
           }
         ],
         "TabloEkOzellikler": null
@@ -63,7 +66,8 @@
             "DbAlanVeriTuru": "INTEGER primary key autoincrement",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "hidden"
           },
           {
             "Id": 0,
@@ -74,7 +78,8 @@
             "DbAlanVeriTuru": "INTEGER",
             "IsForeignKey": true,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "hidden"
           },
           {
             "Id": 0,
@@ -85,7 +90,8 @@
             "DbAlanVeriTuru": "VARCHAR(50)",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "text"
           },
           {
             "Id": 0,
@@ -96,7 +102,8 @@
             "DbAlanVeriTuru": "VARCHAR(50)",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "text"
           },
           {
             "Id": 0,
@@ -107,7 +114,8 @@
             "DbAlanVeriTuru": "bit",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "text"
           }
         ],
         "TabloEkOzellikler": [
@@ -134,7 +142,8 @@
             "DbAlanVeriTuru": "INTEGER primary key autoincrement",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "hidden"
           },
           {
             "Id": 0,
@@ -145,7 +154,8 @@
             "DbAlanVeriTuru": "BIT",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "checkbox"
           },
           {
             "Id": 0,
@@ -156,7 +166,8 @@
             "DbAlanVeriTuru": "INTEGER",
             "IsForeignKey": true,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "hidden"
           },
           {
             "Id": 0,
@@ -167,7 +178,8 @@
             "DbAlanVeriTuru": "VARCHAR(50)",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "text"
           },
           {
             "Id": 0,
@@ -178,7 +190,8 @@
             "DbAlanVeriTuru": "VARCHAR(50)",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "text"
           },
           {
             "Id": 0,
@@ -189,7 +202,8 @@
             "DbAlanVeriTuru": "varchar(50)",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "text"
           },
           {
             "Id": 0,
@@ -200,9 +214,21 @@
             "DbAlanVeriTuru": "varchar(100)",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "text"
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "HtmlInputType",
+            "AlanVeriTuru": "string",
+            "DbAlanAdi": "html_input_type",
+            "DbAlanVeriTuru": "varchar(50)",
+            "IsForeignKey": false,
+            "IsId": false,
+            "IsMasterId": false,
+            "HtmlInputType": "text"
           }
-
         ],
         "TabloEkOzellikler": [
           {
@@ -228,7 +254,8 @@
             "DbAlanVeriTuru": "INTEGER primary key autoincrement",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "hidden"
           },
           {
             "Id": 0,
@@ -239,7 +266,8 @@
             "DbAlanVeriTuru": "INTEGER",
             "IsForeignKey": true,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "hidden"
           },
           {
             "Id": 0,
@@ -250,9 +278,9 @@
             "DbAlanVeriTuru": "VARCHAR(150)",
             "IsForeignKey": false,
             "IsId": false,
-            "IsMasterId": false
+            "IsMasterId": false,
+            "HtmlInputType": "text"
           }
-
         ],
         "TabloEkOzellikler": [
           {

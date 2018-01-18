@@ -31,6 +31,7 @@ type Alan struct {
   IsForeignKey bool
   IsId   bool
   IsMasterId bool
+  HtmlInputType string
 
 }
 
