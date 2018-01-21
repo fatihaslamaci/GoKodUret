@@ -19,7 +19,9 @@ type Context struct {
 	KayitId  string
 	KayitId2 string
 
-	AktifKayitId string
+	MasterId int64
+
+	//AktifKayitId string
 	Ara          string
 
 	ValueList []interface{}
@@ -73,12 +75,10 @@ func addStaticDirAll() {
 var db *sql.DB
 
 
-func getFormId(request *http.Request) int {
+func getFormId(request *http.Request) int64 {
 	request.ParseForm()
-	id := request.FormValue("id")
-	var i int
-	i, _ = strconv.Atoi(id)
-	return i
+	r, _ := strconv.ParseInt(request.FormValue("id"), 10, 64)
+	return r
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {

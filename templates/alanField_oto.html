@@ -1,23 +1,27 @@
 {{define "form-field"}}
 
-      
-        IsId:<br>
-        <input type="text" name="isid" value="{{.Data.IsId }}"><br>
      
-        SinifId:<br>
-        <input type="text" name="sinifid" value="{{.Data.SinifId }}"><br>
+        <input type="hidden" name="id" value="{{.Data.Id }}"><br>
      
-        AlanAdi:<br>
+        IsId :<br>
+        <input type="checkbox" name="isid" value="{{.Data.IsId }}"><br>
+     
+        <input type="hidden" name="sinifid" value="{{.Data.SinifId }}"><br>
+     
+        AlanAdi :<br>
         <input type="text" name="alanadi" value="{{.Data.AlanAdi }}"><br>
      
-        AlanVeriTuru:<br>
+        AlanVeriTuru :<br>
         <input type="text" name="alanverituru" value="{{.Data.AlanVeriTuru }}"><br>
      
-        DbAlanAdi:<br>
+        DbAlanAdi :<br>
         <input type="text" name="dbalanadi" value="{{.Data.DbAlanAdi }}"><br>
      
-        DbAlanVeriTuru:<br>
+        DbAlanVeriTuru :<br>
         <input type="text" name="dbalanverituru" value="{{.Data.DbAlanVeriTuru }}"><br>
+     
+        HtmlInputType :<br>
+        <input type="text" name="htmlinputtype" value="{{.Data.HtmlInputType }}"><br>
     
 
 {{end}}

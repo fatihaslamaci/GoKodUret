@@ -11,6 +11,16 @@ import (
 	"encoding/json"
 )
 
+
+func Exists(name string) bool {
+	if _, err := os.Stat(name); err != nil {
+		if os.IsNotExist(err) {
+			return false
+		}
+	}
+	return true
+}
+
 func TemplateExecuteArray(data interface{}, tmpl string,TemplateName string) string {
 	funcMap := template.FuncMap{
 		"ToLover": strings.ToLower,
@@ -81,28 +91,31 @@ func Makeproje(){
 	}
 	for _, f := range templatefiles {
 		if f.IsDir()==false {
-
-			HedefFile := strings.Replace(f.Name(), ".", "_", 1) + ".go"
-			HedefeKaydet(dataArray, (hedefklasor + "/" + HedefFile), ("./template/" + f.Name()),f.Name())
+			HedefFile := strings.Replace(f.Name(), ".tmpl", ".go", 1)
+			if HedefdeDosyaYokVeyaDosyaAdiOtoIse((hedefklasor + "/" + HedefFile)) {
+				HedefeKaydet(dataArray, (hedefklasor + "/" + HedefFile), ("./template/" + f.Name()), f.Name())
+			}
 		}
 	}
 
-	for _, data := range dataArray{
-			HedefFile :=  strings.ToLower(data.SinifAdi) + "ler.html"
-			HedefeKaydet(data, (hedefklasor+"/templates/"+HedefFile), ("./template/templates/tablo.tmpl"), "tablo.tmpl")
+	for _, data := range dataArray {
+		HedefFile := strings.ToLower(data.SinifAdi) + "ler.html"
+		HedefeKaydet(data, (hedefklasor + "/templates/" + HedefFile), ("./template/templates/tablo.tmpl"), "tablo.tmpl")
 
-			HedefFile =  strings.ToLower(data.SinifAdi) + ".html"
-			HedefeKaydet(data, (hedefklasor+"/templates/"+HedefFile), ("./template/templates/form.tmpl"), "form.tmpl")
+		HedefFile = strings.ToLower(data.SinifAdi) + ".html"
+		HedefeKaydet(data, (hedefklasor + "/templates/" + HedefFile), ("./template/templates/form.tmpl"), "form.tmpl")
 
-			HedefFile =  strings.ToLower(data.SinifAdi) + "Field_oto.html"
-			HedefeKaydet(data, (hedefklasor+"/templates/"+HedefFile), ("./template/templates/formField.tmpl"), "formField.tmpl")
+		HedefFile = strings.ToLower(data.SinifAdi) + "Field_oto.html"
+		HedefeKaydet(data, (hedefklasor + "/templates/" + HedefFile), ("./template/templates/formField.tmpl"), "formField.tmpl")
 
-			HedefFile =  strings.ToLower(data.SinifAdi) + "lerField_oto.html"
-			HedefeKaydet(data, (hedefklasor+"/templates/"+HedefFile), ("./template/templates/tabloField.tmpl"), "tabloField.tmpl")
+		HedefFile = strings.ToLower(data.SinifAdi) + "lerField_oto.html"
+		HedefeKaydet(data, (hedefklasor + "/templates/" + HedefFile), ("./template/templates/tabloField.tmpl"), "tabloField.tmpl")
 	}
-
 
 	exec.Command("bash", "-c", "go fmt /home/fatih/gowork/src/otoprj/*.go").Run()
 
+}
+func HedefdeDosyaYokVeyaDosyaAdiOtoIse(HedefFile string) bool {
+	return (Exists(HedefFile) == false) || (strings.Index(HedefFile, "_oto.") >= 0)
 }
 

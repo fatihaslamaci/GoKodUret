@@ -4,7 +4,7 @@
 
     <a href="{{.SinifAdi | ToLover }}ler.html?Ara={{"{{"}}.Ara}}&id={{"{{"}}.KayitId2}}"><button> < </button></a>
     <a href="{{.SinifAdi | ToLover }}ler.html?Ara={{"{{"}}.Ara}}&id={{"{{"}}.KayitId}}"><button> > </button></a>
-    <a href="{{.SinifAdi | ToLover }}.html?id=0"><button> + </button></a>
+    <a href="{{.SinifAdi | ToLover }}.html?id=0&MasterId={{"{{"}}.MasterId}}"><button> + </button></a>
 
     <form action="{{.SinifAdi | ToLover }}ler.html?id=0" method="get">
         <input type="search" name="Ara" autofocus value="{{"{{"}}.Ara}}">

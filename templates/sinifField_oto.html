@@ -1,16 +1,17 @@
 {{define "form-field"}}
 
-      
-        ProjeId:<br>
-        <input type="text" name="projeid" value="{{.Data.ProjeId }}"><br>
      
-        SinifAdi:<br>
+        <input type="hidden" name="id" value="{{.Data.Id }}"><br>
+     
+        <input type="hidden" name="projeid" value="{{.Data.ProjeId }}"><br>
+     
+        SinifAdi :<br>
         <input type="text" name="sinifadi" value="{{.Data.SinifAdi }}"><br>
      
-        TabloAdi:<br>
+        TabloAdi :<br>
         <input type="text" name="tabloadi" value="{{.Data.TabloAdi }}"><br>
      
-        DetailTablo:<br>
+        DetailTablo :<br>
         <input type="text" name="detailtablo" value="{{.Data.DetailTablo }}"><br>
     
 

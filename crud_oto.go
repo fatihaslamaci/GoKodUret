@@ -24,8 +24,9 @@ func ProjeSelectAll(db *sql.DB) []Proje {
 }
 
 
-func ProjeSelect(db *sql.DB, id int) Proje {
+func ProjeSelect(db *sql.DB, id int64) Proje {
 	item := Proje{}
+
 	if id > 0 {
 		row := db.QueryRow("Select id, proje_adi, proje_yolu from projeler where id=?", id)
 		err := row.Scan(&item.Id, &item.ProjeAdi, &item.ProjeYolu)
@@ -76,8 +77,9 @@ func SinifSelectAll(db *sql.DB) []Sinif {
 }
 
 
-func SinifSelect(db *sql.DB, id int) Sinif {
+func SinifSelect(db *sql.DB, id int64) Sinif {
 	item := Sinif{}
+
 	if id > 0 {
 		row := db.QueryRow("Select id, proje_id, sinif_adi, tablo_adi, detail_tablo from siniflar where id=?", id)
 		err := row.Scan(&item.Id, &item.ProjeId, &item.SinifAdi, &item.TabloAdi, &item.DetailTablo)
@@ -127,12 +129,12 @@ func SinifSelectMasterId(db *sql.DB, Masterid int64) []Sinif {
 
 
 func AlanSelectAll(db *sql.DB) []Alan {
-	rows, err := db.Query("Select id, is_id, sinif_id, alan_adi, alan_veri_turu, db_alan_adi, db_alan_veri_turu from alanlar")
+	rows, err := db.Query("Select id, is_id, sinif_id, alan_adi, alan_veri_turu, db_alan_adi, db_alan_veri_turu, html_input_type from alanlar")
 	CheckErr(err)
 	var result  []Alan
 	for rows.Next() {
 		item :=Alan{}
-		err2 := rows.Scan(&item.Id, &item.IsId, &item.SinifId, &item.AlanAdi, &item.AlanVeriTuru, &item.DbAlanAdi, &item.DbAlanVeriTuru)
+		err2 := rows.Scan(&item.Id, &item.IsId, &item.SinifId, &item.AlanAdi, &item.AlanVeriTuru, &item.DbAlanAdi, &item.DbAlanVeriTuru, &item.HtmlInputType)
 		CheckErr(err2)
 		result = append(result, item)
 	}
@@ -140,11 +142,12 @@ func AlanSelectAll(db *sql.DB) []Alan {
 }
 
 
-func AlanSelect(db *sql.DB, id int) Alan {
+func AlanSelect(db *sql.DB, id int64) Alan {
 	item := Alan{}
+
 	if id > 0 {
-		row := db.QueryRow("Select id, is_id, sinif_id, alan_adi, alan_veri_turu, db_alan_adi, db_alan_veri_turu from alanlar where id=?", id)
-		err := row.Scan(&item.Id, &item.IsId, &item.SinifId, &item.AlanAdi, &item.AlanVeriTuru, &item.DbAlanAdi, &item.DbAlanVeriTuru)
+		row := db.QueryRow("Select id, is_id, sinif_id, alan_adi, alan_veri_turu, db_alan_adi, db_alan_veri_turu, html_input_type from alanlar where id=?", id)
+		err := row.Scan(&item.Id, &item.IsId, &item.SinifId, &item.AlanAdi, &item.AlanVeriTuru, &item.DbAlanAdi, &item.DbAlanVeriTuru, &item.HtmlInputType)
 		CheckErr(err)
 	}
 	return item
@@ -152,10 +155,10 @@ func AlanSelect(db *sql.DB, id int) Alan {
 
 func AlanInsert(db *sql.DB, item Alan) int64 {
 	var r int64
-	stmt, err := db.Prepare("INSERT INTO alanlar(is_id, sinif_id, alan_adi, alan_veri_turu, db_alan_adi, db_alan_veri_turu) VALUES (?,?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO alanlar(is_id, sinif_id, alan_adi, alan_veri_turu, db_alan_adi, db_alan_veri_turu, html_input_type) VALUES (?,?,?,?,?,?,?)")
 	CheckErr(err)
 	defer stmt.Close()
-	ret, err := stmt.Exec(item.IsId, item.SinifId, item.AlanAdi, item.AlanVeriTuru, item.DbAlanAdi, item.DbAlanVeriTuru)
+	ret, err := stmt.Exec(item.IsId, item.SinifId, item.AlanAdi, item.AlanVeriTuru, item.DbAlanAdi, item.DbAlanVeriTuru, item.HtmlInputType)
 	CheckErr(err)
 	r,err = ret.LastInsertId()
 	CheckErr(err)
@@ -163,21 +166,21 @@ func AlanInsert(db *sql.DB, item Alan) int64 {
 }
 
 func AlanUpdate(db *sql.DB, item Alan) {
-	stmt, err := db.Prepare("Update alanlar set is_id=?, sinif_id=?, alan_adi=?, alan_veri_turu=?, db_alan_adi=?, db_alan_veri_turu=? WHERE id=?")
+	stmt, err := db.Prepare("Update alanlar set is_id=?, sinif_id=?, alan_adi=?, alan_veri_turu=?, db_alan_adi=?, db_alan_veri_turu=?, html_input_type=? WHERE id=?")
 	CheckErr(err)
 	defer stmt.Close()
-	_, err2 := stmt.Exec(item.IsId, item.SinifId, item.AlanAdi, item.AlanVeriTuru, item.DbAlanAdi, item.DbAlanVeriTuru, item.Id)
+	_, err2 := stmt.Exec(item.IsId, item.SinifId, item.AlanAdi, item.AlanVeriTuru, item.DbAlanAdi, item.DbAlanVeriTuru, item.HtmlInputType, item.Id)
 	CheckErr(err2)
 }
 
 
 func AlanSelectMasterId(db *sql.DB, Masterid int64) []Alan {
-	rows, err := db.Query("Select id, is_id, sinif_id, alan_adi, alan_veri_turu, db_alan_adi, db_alan_veri_turu from alanlar where sinif_id=?", Masterid)
+	rows, err := db.Query("Select id, is_id, sinif_id, alan_adi, alan_veri_turu, db_alan_adi, db_alan_veri_turu, html_input_type from alanlar where sinif_id=?", Masterid)
 	CheckErr(err)
 	var result  []Alan
 	for rows.Next() {
 		item :=Alan{}
-		err2 := rows.Scan(&item.Id, &item.IsId, &item.SinifId, &item.AlanAdi, &item.AlanVeriTuru, &item.DbAlanAdi, &item.DbAlanVeriTuru)
+		err2 := rows.Scan(&item.Id, &item.IsId, &item.SinifId, &item.AlanAdi, &item.AlanVeriTuru, &item.DbAlanAdi, &item.DbAlanVeriTuru, &item.HtmlInputType)
 		CheckErr(err2)
 		result = append(result, item)
 	}
@@ -204,8 +207,9 @@ func TabloEkOzellikSelectAll(db *sql.DB) []TabloEkOzellik {
 }
 
 
-func TabloEkOzellikSelect(db *sql.DB, id int) TabloEkOzellik {
+func TabloEkOzellikSelect(db *sql.DB, id int64) TabloEkOzellik {
 	item := TabloEkOzellik{}
+
 	if id > 0 {
 		row := db.QueryRow("Select id, sinif_id, ozellik from tablo_ek_ozellikler where id=?", id)
 		err := row.Scan(&item.Id, &item.SinifId, &item.Ozellik)

@@ -32,7 +32,6 @@ type Alan struct {
   IsId   bool
   IsMasterId bool
   HtmlInputType string
-
 }
 
 

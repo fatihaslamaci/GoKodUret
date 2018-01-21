@@ -1,10 +1,11 @@
 {{define "form-field"}}
 
-      
-        SinifId:<br>
-        <input type="text" name="sinifid" value="{{.Data.SinifId }}"><br>
      
-        Ozellik:<br>
+        <input type="hidden" name="id" value="{{.Data.Id }}"><br>
+     
+        <input type="hidden" name="sinifid" value="{{.Data.SinifId }}"><br>
+     
+        Ozellik :<br>
         <input type="text" name="ozellik" value="{{.Data.Ozellik }}"><br>
     
 

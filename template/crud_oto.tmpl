@@ -24,8 +24,9 @@ func {{$KaynakBilgi.SinifAdi}}SelectAll(db *sql.DB) []{{$KaynakBilgi.SinifAdi}} 
 }
 
 
-func {{$KaynakBilgi.SinifAdi}}Select(db *sql.DB, id int) {{$KaynakBilgi.SinifAdi}} {
+func {{$KaynakBilgi.SinifAdi}}Select(db *sql.DB, id int64) {{$KaynakBilgi.SinifAdi}} {
 	item := {{$KaynakBilgi.SinifAdi}}{}
+
 	if id > 0 {
 		row := db.QueryRow("Select {{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.DbAlanAdi}}{{ if eq $i 0 }}{{$e.DbAlanAdi}}{{ else }}, {{$e.DbAlanAdi}}{{ end }}{{ end }}{{ end }} from {{$KaynakBilgi.TabloAdi}} where id=?", id)
 		err := row.Scan({{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.AlanAdi}}{{ if eq $i 0 }}&item.{{$e.AlanAdi}}{{ else }}, &item.{{$e.AlanAdi}}{{ end }}{{ end }}{{ end }})

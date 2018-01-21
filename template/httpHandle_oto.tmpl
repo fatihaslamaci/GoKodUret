@@ -44,9 +44,11 @@ func HandleFuncAdd() {
 
 {{if $KaynakBilgi.DetailTablo }}
 func {{$KaynakBilgi.SinifAdi}}lerHandler(response http.ResponseWriter, request *http.Request) {
+	request.ParseForm()
 	MasterId:=FormValueInt64(request,"id")
 	fData  := {{$KaynakBilgi.SinifAdi}}SelectMasterId(db,MasterId)
-    context := Context{Data: fData}
+    context := Context{Data: fData, MasterId:MasterId}
+
 	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}ler", context)
 }
 {{else}}
@@ -59,12 +61,19 @@ func {{$KaynakBilgi.SinifAdi}}lerHandler(response http.ResponseWriter, request *
 
 
 func {{$KaynakBilgi.SinifAdi}}Handler(response http.ResponseWriter, request *http.Request) {
-	context := Context{Data: {{$KaynakBilgi.SinifAdi}}Select(db, getFormId(request))}
+    request.ParseForm()
+	id := FormValueInt64(request,"Id")
+    item := {{$KaynakBilgi.SinifAdi}}Select(db, id)
+    {{ range $i, $ee := $KaynakBilgi.Alanlar }}{{ if eq $ee.IsForeignKey true }}
+    item.{{ $ee.AlanAdi}}=FormValueInt64(request,"MasterId")
+    {{ end }}{{ end }}
+    context := Context{Data: item}
 	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}", context)
 }
 
 func {{$KaynakBilgi.SinifAdi}}KaydetHandler(response http.ResponseWriter, request *http.Request) {
-	id := getFormId(request)
+	request.ParseForm()
+	id := FormValueInt64(request,"Id")
 	item := {{$KaynakBilgi.SinifAdi}}Select(db, id)
 
 	{{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.DbAlanAdi}}{{ if eq $i 0 }}{{ else }}

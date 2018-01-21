@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS siniflar(
   ,proje_id INTEGER   
   ,sinif_adi VARCHAR(50)   
   ,tablo_adi VARCHAR(50)   
-  ,detail_tablo BIT  
+  ,detail_tablo bit  
 
   ,FOREIGN KEY(proje_id) REFERENCES projeler(id) 
 );
@@ -48,7 +48,8 @@ CREATE TABLE IF NOT EXISTS alanlar(
   ,alan_adi VARCHAR(50)   
   ,alan_veri_turu VARCHAR(50)   
   ,db_alan_adi varchar(50)   
-  ,db_alan_veri_turu varchar(100)  
+  ,db_alan_veri_turu varchar(100)   
+  ,html_input_type varchar(50)  
 
   ,FOREIGN KEY(sinif_id) REFERENCES siniflar(id) 
 );
