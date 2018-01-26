@@ -35,7 +35,7 @@ func TemplateExecuteArray(data interface{}, tmpl string,TemplateName string) str
 	return tpl.String()
 }
 
-func DataOku(files []os.FileInfo) []Sinif {
+func DataOku() []Proje {
 	dat, _ := ioutil.ReadFile("./kaynak/jsondata.json")
 	var projeler  []Proje
 	_ = json.Unmarshal(dat, &projeler)
@@ -47,7 +47,7 @@ func DataOku(files []os.FileInfo) []Sinif {
 	json.Indent(&out, b, "", "\t")
 	ioutil.WriteFile("./kaynak/jsondata2.json",out.Bytes(),0644)
 
-	return projeler[0].Siniflar
+	return projeler
 }
 
 func check(e error) {
@@ -77,13 +77,7 @@ func Makeproje(){
 	os.MkdirAll(hedefklasor, os.ModePerm)
 	os.MkdirAll(hedefklasor+"/templates", os.ModePerm)
 
-
-	files, err := ioutil.ReadDir("./kaynak")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	dataArray := DataOku(files)
+	dataArray := DataOku()[0].Siniflar
 
 	templatefiles, err := ioutil.ReadDir("./template")
 	if err != nil {

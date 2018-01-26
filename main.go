@@ -89,11 +89,13 @@ func main() {
 
 	Makeproje()
 
-
 	const dbpath = "./db/gomaker.sqlite"
 	db = InitDB(dbpath)
 	defer db.Close()
 	CreateTable(db)
+
+	ProjeDoldur(db)
+
 
 	http.HandleFunc("/", indexHandler)
 	HandleFuncAdd()

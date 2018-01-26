@@ -62,7 +62,7 @@ func {{$KaynakBilgi.SinifAdi}}lerHandler(response http.ResponseWriter, request *
 
 func {{$KaynakBilgi.SinifAdi}}Handler(response http.ResponseWriter, request *http.Request) {
     request.ParseForm()
-	id := FormValueInt64(request,"Id")
+	id := FormValueInt64(request,"id")
     item := {{$KaynakBilgi.SinifAdi}}Select(db, id)
     {{ range $i, $ee := $KaynakBilgi.Alanlar }}{{ if eq $ee.IsForeignKey true }}
     item.{{ $ee.AlanAdi}}=FormValueInt64(request,"MasterId")
@@ -73,7 +73,7 @@ func {{$KaynakBilgi.SinifAdi}}Handler(response http.ResponseWriter, request *htt
 
 func {{$KaynakBilgi.SinifAdi}}KaydetHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
-	id := FormValueInt64(request,"Id")
+	id := FormValueInt64(request,"id")
 	item := {{$KaynakBilgi.SinifAdi}}Select(db, id)
 
 	{{ range $i, $e := $KaynakBilgi.Alanlar }}{{if $e.DbAlanAdi}}{{ if eq $i 0 }}{{ else }}
