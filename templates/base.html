@@ -30,7 +30,11 @@
     </nav>
 
     <article>
-        <a><a href="\">/Index</a>
+
+{{range .Gezgin}}
+        <a href="{{.Link}}">/{{.Baslik}}</a>
+{{end}}
+
 
             <br>
 

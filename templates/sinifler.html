@@ -26,8 +26,11 @@
     <tr>
         {{template "tablo-column" .}}
 
-        <td><a href="\sinif.html?id={{.Id}}"> Detay </a>
-        <a href="\alanler.html?id={{.Id}}"> Alanlar </a></td>
+        <td>
+            <a href="\sinif.html?id={{.Id}}">Detay /</a>
+        <a href="\alanler.html?id={{.Id}}">Alanlar /</a>
+        <a href="\tabloekozellikler.html?id={{.Id}}">Ek Ozellik</a>
+        </td>
 
     </tr>
     {{end}}

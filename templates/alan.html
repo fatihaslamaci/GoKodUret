@@ -8,6 +8,12 @@
     {{template "form-field" .}}
 
     <input type="submit" value="Kaydet">
+
+    <a href="alansil?id={{.Data.Id}}">
+        <input type="button" value="Sil" />
+    </a>
+
+
     {{.Message }}
 
 </form>

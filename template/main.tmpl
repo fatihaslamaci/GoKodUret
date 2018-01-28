@@ -13,11 +13,18 @@ import (
 	"os"
 )
 
+
+type Gezgin struct{
+	Link string
+	Baslik string
+}
+
 type Context struct {
 	Message string
 
 	KayitId  string
 	KayitId2 string
+	Gezgin []Gezgin
 
     MasterId int64
 	//AktifKayitId string

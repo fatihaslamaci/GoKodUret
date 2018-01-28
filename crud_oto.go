@@ -55,8 +55,17 @@ func ProjeUpdate(db *sql.DB, item Proje) {
 	CheckErr(err2)
 }
 
+func ProjeDelete(db *sql.DB, id int64) int64 {
+	stmt, err := db.Prepare("Delete projeler WHERE id=?")
+	CheckErr(err)
+	defer stmt.Close()
+	res, err := stmt.Exec(id)
+	CheckErr(err)
+	affect, err := res.RowsAffected()
+	CheckErr(err)
+	return affect
 
-
+}
 
 //1. Sinif  **************************************************************************************************
 
@@ -106,6 +115,18 @@ func SinifUpdate(db *sql.DB, item Sinif) {
 	defer stmt.Close()
 	_, err2 := stmt.Exec(item.ProjeId, item.SinifAdi, item.TabloAdi, item.DetailTablo, item.Id)
 	CheckErr(err2)
+}
+
+func SinifDelete(db *sql.DB, id int64) int64 {
+	stmt, err := db.Prepare("Delete siniflar WHERE id=?")
+	CheckErr(err)
+	defer stmt.Close()
+	res, err := stmt.Exec(id)
+	CheckErr(err)
+	affect, err := res.RowsAffected()
+	CheckErr(err)
+	return affect
+
 }
 
 
@@ -173,6 +194,18 @@ func AlanUpdate(db *sql.DB, item Alan) {
 	CheckErr(err2)
 }
 
+func AlanDelete(db *sql.DB, id int64) int64 {
+	stmt, err := db.Prepare("Delete FROM alanlar WHERE id=?")
+	CheckErr(err)
+	defer stmt.Close()
+	res, err := stmt.Exec(id)
+	CheckErr(err)
+	affect, err := res.RowsAffected()
+	CheckErr(err)
+	return affect
+
+}
+
 
 func AlanSelectMasterId(db *sql.DB, Masterid int64) []Alan {
 	rows, err := db.Query("Select id, is_id, sinif_id, alan_adi, alan_veri_turu, db_alan_adi, db_alan_veri_turu, html_input_type from alanlar where sinif_id=?", Masterid)
@@ -236,6 +269,18 @@ func TabloEkOzellikUpdate(db *sql.DB, item TabloEkOzellik) {
 	defer stmt.Close()
 	_, err2 := stmt.Exec(item.SinifId, item.Ozellik, item.Id)
 	CheckErr(err2)
+}
+
+func TabloEkOzellikDelete(db *sql.DB, id int64) int64 {
+	stmt, err := db.Prepare("Delete tablo_ek_ozellikler WHERE id=?")
+	CheckErr(err)
+	defer stmt.Close()
+	res, err := stmt.Exec(id)
+	CheckErr(err)
+	affect, err := res.RowsAffected()
+	CheckErr(err)
+	return affect
+
 }
 
 

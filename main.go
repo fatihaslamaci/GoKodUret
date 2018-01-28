@@ -13,6 +13,11 @@ import (
 	"os"
 )
 
+type Gezgin struct{
+	Link string
+	Baslik string
+}
+
 type Context struct {
 	Message string
 
@@ -20,6 +25,8 @@ type Context struct {
 	KayitId2 string
 
 	MasterId int64
+
+	Gezgin []Gezgin
 
 	//AktifKayitId string
 	Ara          string
@@ -104,3 +111,6 @@ func main() {
 	http.ListenAndServe(":8000", nil)
 
 }
+
+
+

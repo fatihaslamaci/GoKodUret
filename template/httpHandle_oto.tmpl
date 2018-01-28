@@ -36,6 +36,8 @@ func HandleFuncAdd() {
     http.HandleFunc("/{{$KaynakBilgi.SinifAdi | ToLover}}ler.html",{{$KaynakBilgi.SinifAdi}}lerHandler)
 	http.HandleFunc("/{{$KaynakBilgi.SinifAdi | ToLover}}.html",{{$KaynakBilgi.SinifAdi}}Handler)
 	http.HandleFunc("/{{$KaynakBilgi.SinifAdi | ToLover}}kaydet",{{$KaynakBilgi.SinifAdi}}KaydetHandler)
+	http.HandleFunc("/{{$KaynakBilgi.SinifAdi | ToLover}}sil",{{$KaynakBilgi.SinifAdi}}SilHandler)
+
 {{ end }}{{ end }}
 }
 //-----------------------------------------------------------------------
@@ -48,6 +50,7 @@ func {{$KaynakBilgi.SinifAdi}}lerHandler(response http.ResponseWriter, request *
 	MasterId:=FormValueInt64(request,"id")
 	fData  := {{$KaynakBilgi.SinifAdi}}SelectMasterId(db,MasterId)
     context := Context{Data: fData, MasterId:MasterId}
+	context.Gezgin=GetGezgin(MasterId,"{{$KaynakBilgi.SinifAdi | ToLover}}")
 
 	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}ler", context)
 }
@@ -55,6 +58,8 @@ func {{$KaynakBilgi.SinifAdi}}lerHandler(response http.ResponseWriter, request *
 func {{$KaynakBilgi.SinifAdi}}lerHandler(response http.ResponseWriter, request *http.Request) {
 	fData  := {{$KaynakBilgi.SinifAdi}}SelectAll(db)
 	context := Context{Data: fData}
+	context.Gezgin=GetGezgin(0,"{{$KaynakBilgi.SinifAdi | ToLover}}ler")
+
 	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}ler", context)
 }
 {{ end }}
@@ -62,13 +67,22 @@ func {{$KaynakBilgi.SinifAdi}}lerHandler(response http.ResponseWriter, request *
 
 func {{$KaynakBilgi.SinifAdi}}Handler(response http.ResponseWriter, request *http.Request) {
     request.ParseForm()
+    MasterId :=int64(0)
 	id := FormValueInt64(request,"id")
     item := {{$KaynakBilgi.SinifAdi}}Select(db, id)
     {{ range $i, $ee := $KaynakBilgi.Alanlar }}{{ if eq $ee.IsForeignKey true }}
-    item.{{ $ee.AlanAdi}}=FormValueInt64(request,"MasterId")
+    MasterId =item.{{ $ee.AlanAdi}}
+    if item.{{ $ee.AlanAdi}}==0{
+        item.{{ $ee.AlanAdi}}=FormValueInt64(request,"MasterId")
+        MasterId =item.{{ $ee.AlanAdi}}
+    }
     {{ end }}{{ end }}
     context := Context{Data: item}
+
+    context.Gezgin=GetGezgin(MasterId,"{{$KaynakBilgi.SinifAdi | ToLover}}")
+
 	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}", context)
+
 }
 
 func {{$KaynakBilgi.SinifAdi}}KaydetHandler(response http.ResponseWriter, request *http.Request) {
@@ -102,5 +116,26 @@ func {{$KaynakBilgi.SinifAdi}}KaydetHandler(response http.ResponseWriter, reques
 	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}", context)
 
 }
+
+func {{$KaynakBilgi.SinifAdi}}SilHandler(response http.ResponseWriter, request *http.Request) {
+	request.ParseForm()
+	id := FormValueInt64(request,"id")
+	item := {{$KaynakBilgi.SinifAdi}}Select(db, id)
+
+	context := Context{}
+
+		if id > 0 {
+			{{$KaynakBilgi.SinifAdi}}Delete(db, id)
+			context.Message = "Kayıt yapıldı"
+		} else{
+			context.Message = "Kayıt Bulunamadı"
+		}
+
+	context.Data = item
+	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}", context)
+}
+
+
+
 
 {{ end }}{{ end }}
