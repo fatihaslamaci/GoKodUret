@@ -1,0 +1,51 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" lang="tr">
+    <link rel="stylesheet" href="../css/base.css">
+
+    <title>{{template "page-title" .}} - Go Proje Oluşturucu</title>
+</head>
+<body>
+
+<div class="container">
+
+
+    <header>
+            <h1>eCariHesap</h1>
+    </header>
+
+
+    <nav>
+        <ul>
+        {{block "nav" .}}
+            <li><a href="">Ana Sayfa</a></li>
+            <li><a href="/projeler.html">Projeler</a></li>
+            <li><a href="#">Raporlar</a></li>
+            <li><a href="#">Fatura</a></li>
+            <li><a><br></a></li>
+        {{end}}
+        </ul>
+    </nav>
+
+    <article>
+
+{{range .Gezgin}}
+        <a href="{{.Link}}">/{{.Baslik}}</a>
+{{end}}
+
+
+            <br>
+
+        {{template "page-body" .}}
+    </article>
+    <footer>Copyright &copy; 2017 bessoft.com</footer>
+</div>
+
+</body>
+</html>
+
+{{end}}
+
+

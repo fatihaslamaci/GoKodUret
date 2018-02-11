@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"text/template"
 	"encoding/json"
+	"fmt"
 )
 
 
@@ -70,6 +71,18 @@ func HedefeKaydet(data interface{}, hedefFile string, TemplateFile string,Templa
 	fhedef.Sync()
 }
 
+
+func DosyaKopyala(kaynak string, hedef string) {
+	// Read all content of src to data
+	data, err := ioutil.ReadFile(kaynak)
+	check(err)
+	// Write data to dst
+	err = ioutil.WriteFile(hedef, data, 0644)
+	check(err)
+}
+
+
+
 var hedefklasor = "C:\\Users\\Fatih\\go\\src\\otoprj"
 
 
@@ -92,6 +105,21 @@ func Makeproje(){
 		}
 	}
 
+
+	templatefiles, err = ioutil.ReadDir("./template/direk_kopyalanacaklar")
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, f := range templatefiles {
+		if f.IsDir()==false {
+			HedefFile := f.Name()
+			if HedefdeDosyaYokIse((hedefklasor + "/templates/" + HedefFile)) {
+				DosyaKopyala(("./template/direk_kopyalanacaklar/"+HedefFile),(hedefklasor + "/templates/" + HedefFile))
+			}
+		}
+	}
+
+
 	for _, data := range dataArray {
 		HedefFile := strings.ToLower(data.SinifAdi) + "ler.html"
 		HedefeKaydet(data, (hedefklasor + "/templates/" + HedefFile), ("./template/templates/tablo.tmpl"), "tablo.tmpl")
@@ -106,10 +134,18 @@ func Makeproje(){
 		HedefeKaydet(data, (hedefklasor + "/templates/" + HedefFile), ("./template/templates/tabloField.tmpl"), "tabloField.tmpl")
 	}
 
-	exec.Command("bash", "-c", "go fmt /home/fatih/gowork/src/otoprj/*.go").Run()
+	//exec.Command("bash", "-c", "go fmt "+hedefklasor+"/*.go").Run()
+	c :=exec.Command("cmd", "/C", "gofmt -w", hedefklasor)
+
+	if err := c.Run(); err != nil {
+		fmt.Println("Error: ", err)
+	}
 
 }
 func HedefdeDosyaYokVeyaDosyaAdiOtoIse(HedefFile string) bool {
 	return (Exists(HedefFile) == false) || (strings.Index(HedefFile, "_oto.") >= 0)
 }
 
+func HedefdeDosyaYokIse(HedefFile string) bool {
+	return (Exists(HedefFile) == false)
+}
