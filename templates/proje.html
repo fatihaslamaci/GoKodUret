@@ -8,7 +8,14 @@
     {{template "form-field" .}}
 
     <input type="submit" value="Kaydet">
+
+        <a href="projecreate?id={{.Data.Id}}">
+            <input type="button" value="Proje Oluştur" />
+        </a>
+
+
     {{.Message }}
+
 
 </form>
 

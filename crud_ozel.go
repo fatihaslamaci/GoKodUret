@@ -4,22 +4,6 @@ import (
 	"database/sql"
 )
 
-
-// bu iptal otomatik üretiliyor
-func SinifSelectAllMasterId_OLD(db *sql.DB, Masterid int64) []Sinif {
-	rows, err := db.Query("Select id, proje_id, sinif_adi, tablo_adi from siniflar where proje_id=?", Masterid)
-	CheckErr(err)
-	var result  []Sinif
-	for rows.Next() {
-		item :=Sinif{}
-		err2 := rows.Scan(&item.Id, &item.ProjeId, &item.SinifAdi, &item.TabloAdi)
-		CheckErr(err2)
-		result = append(result, item)
-	}
-	return result
-}
-
-
 func ProjeVarmi(db *sql.DB) bool {
 	id := 0
 	err := db.QueryRow("Select id from projeler where id>? Limit 1", 0).Scan(&id)
@@ -35,7 +19,7 @@ func ProjeVarmi(db *sql.DB) bool {
 func ProjeDoldur(db *sql.DB){
 
 	if ProjeVarmi(db) ==false {
-		projeler := DataOku()
+		projeler := JsonDataOku()
 
 		for _, proje := range projeler {
 			projeId:=ProjeInsert(db,proje)

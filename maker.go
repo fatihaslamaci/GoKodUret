@@ -10,6 +10,7 @@ import (
 	"text/template"
 	"encoding/json"
 	"fmt"
+	"database/sql"
 )
 
 
@@ -36,7 +37,7 @@ func TemplateExecuteArray(data interface{}, tmpl string,TemplateName string) str
 	return tpl.String()
 }
 
-func DataOku() []Proje {
+func JsonDataOku() []Proje {
 	dat, _ := ioutil.ReadFile("./kaynak/jsondata.json")
 	var projeler  []Proje
 	_ = json.Unmarshal(dat, &projeler)
@@ -50,6 +51,18 @@ func DataOku() []Proje {
 
 	return projeler
 }
+
+func DataOku2(db *sql.DB, id int64) Proje {
+	proje := ProjeSelect(db, id)
+	proje.Siniflar = SinifSelectMasterId(db,id)
+	for i, _ := range proje.Siniflar {
+		proje.Siniflar[i].Alanlar=AlanSelectMasterId(db,proje.Siniflar[i].Id)
+		proje.Siniflar[i].TabloEkOzellikler = TabloEkOzellikSelectMasterId(db,proje.Siniflar[i].Id)
+	}
+	return proje
+}
+
+
 
 func check(e error) {
 	if e != nil {
@@ -83,14 +96,24 @@ func DosyaKopyala(kaynak string, hedef string) {
 
 
 
-var hedefklasor = "C:\\Users\\Fatih\\go\\src\\otoprj"
 
 
-func Makeproje(){
+
+func Makeproje(db *sql.DB, id int64){
+
+	proje :=DataOku2(db,id)
+
+	dataArray := proje.Siniflar
+
+	hedefklasor := proje.ProjeYolu;
+
+
 	os.MkdirAll(hedefklasor, os.ModePerm)
 	os.MkdirAll(hedefklasor+"/templates", os.ModePerm)
 
-	dataArray := DataOku()[0].Siniflar
+	//dataArray := DataOku()[0].Siniflar
+
+
 
 	templatefiles, err := ioutil.ReadDir("./template")
 	if err != nil {

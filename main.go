@@ -6,10 +6,7 @@ import (
 	"log"
 	"net/http"
 	"text/template"
-
 	_ "github.com/mattn/go-sqlite3"
-	"strconv"
-
 	"os"
 )
 
@@ -82,33 +79,45 @@ func addStaticDirAll() {
 var db *sql.DB
 
 
-func getFormId(request *http.Request) int64 {
-	request.ParseForm()
-	r, _ := strconv.ParseInt(request.FormValue("id"), 10, 64)
-	return r
-}
-
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	render(w, r, "index", Context{})
 }
 
 func main() {
 
-	Makeproje()
 
 	const dbpath = "./db/gomaker.sqlite"
 	db = InitDB(dbpath)
 	defer db.Close()
-	CreateTable(db)
 
+	CreateTable(db)
 	ProjeDoldur(db)
 
-
 	http.HandleFunc("/", indexHandler)
+
 	HandleFuncAdd()
+
+	http.HandleFunc("/projecreate",ProjeCreateHandler)
 
 	addStaticDirAll()
 	http.ListenAndServe(":8000", nil)
+
+}
+func ProjeCreateHandler(response http.ResponseWriter, request *http.Request) {
+	request.ParseForm()
+	id := FormValueInt64(request,"id")
+	item := ProjeSelect(db, id)
+	Makeproje(db,id)
+
+	context := Context{}
+	if id > 0 {
+	context.Message = item.ProjeYolu + " Proje Oluşturuldu"
+	} else{
+		context.Message = "Kayıt Bulunamadı"
+	}
+
+	context.Data = item
+	render(response, request, "proje", context)
 
 }
 
