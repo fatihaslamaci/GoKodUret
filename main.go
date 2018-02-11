@@ -91,6 +91,8 @@ func main() {
 	defer db.Close()
 
 	CreateTable(db)
+	AlterDb(db)
+
 	ProjeDoldur(db)
 
 	http.HandleFunc("/", indexHandler)

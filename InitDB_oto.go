@@ -20,9 +20,7 @@ func InitDB(filepath string) *sql.DB {
 	return db
 }
 
-func CreateTable(db *sql.DB) {
-	// create table if not exists
-	sql_table := `
+var sql_table = `
 
 CREATE TABLE IF NOT EXISTS projeler(
    id INTEGER primary key autoincrement  
@@ -36,8 +34,11 @@ CREATE TABLE IF NOT EXISTS siniflar(
   ,proje_id INTEGER   
   ,sinif_adi VARCHAR(50)   
   ,tablo_adi VARCHAR(50)   
-  ,detail_tablo bit  
-
+  ,detail_tablo bit
+  ,denemeAlani1 INTEGER
+  ,denemeAlani2 VARCHAR(50)
+  ,denemeAlani3 BIT 
+ 
   ,FOREIGN KEY(proje_id) REFERENCES projeler(id) 
 );
 
@@ -63,6 +64,8 @@ CREATE TABLE IF NOT EXISTS tablo_ek_ozellikler(
 );
 
 `
+func CreateTable(db *sql.DB) {
+	// create table if not exists
 	_, err := db.Exec(sql_table)
 
 	CheckErr(err)
