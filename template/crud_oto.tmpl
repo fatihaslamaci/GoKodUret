@@ -68,6 +68,7 @@ func {{$KaynakBilgi.SinifAdi}}Delete(db *sql.DB, id int64) int64 {
 }
 
 {{ range $i, $ee := $KaynakBilgi.Alanlar }}{{ if eq $ee.IsForeignKey true }}
+//----deneme
 func {{$KaynakBilgi.SinifAdi}}SelectMasterId(db *sql.DB, Masterid int64) []{{$KaynakBilgi.SinifAdi}} {
 	rows, err := db.Query("SELECT {{ range $i, $e := $KaynakBilgi.Alanlar }}{{ if eq $i 0 }}{{$e.DbAlanAdi}}{{ else }}, {{$e.DbAlanAdi}}{{ end }}{{ end }} FROM {{$KaynakBilgi.TabloAdi}} WHERE {{ $ee.DbAlanAdi}}=?", Masterid)
 	CheckErr(err)

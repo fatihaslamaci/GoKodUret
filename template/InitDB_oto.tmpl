@@ -2,7 +2,29 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
+	"strings"
 )
+
+const sql_table = `
+{{ range $ii, $KaynakBilgi := . }}
+CREATE TABLE IF NOT EXISTS {{$KaynakBilgi.TabloAdi}}(
+{{ range $i, $e := $KaynakBilgi.Alanlar }} {{ if eq $i 0 }}  {{$e.DbAlanAdi}} {{$e.DbAlanVeriTuru}}{{ else }}
+  ,{{$e.DbAlanAdi}} {{$e.DbAlanVeriTuru}} {{ end }} {{ end }}
+{{ range $i, $e := $KaynakBilgi.TabloEkOzellikler }}
+  ,{{$e.Ozellik}} {{ end }}
+);
+{{ end }}
+`
+
+type tableProp struct {
+	Cid        int64
+	Name       string
+	Type       string
+	Notnull    bool
+	Dflt_value sql.NullString
+	Pk         bool
+}
 
 func CheckErr(err error) {
 	if err != nil {
@@ -20,21 +42,72 @@ func InitDB(filepath string) *sql.DB {
 	return db
 }
 
-func CreateTable(db *sql.DB) {
-	// create table if not exists
-	sql_table := `
-{{ range $ii, $KaynakBilgi := . }}
-CREATE TABLE IF NOT EXISTS {{$KaynakBilgi.TabloAdi}}(
-{{ range $i, $e := $KaynakBilgi.Alanlar }} {{ if eq $i 0 }}  {{$e.DbAlanAdi}} {{$e.DbAlanVeriTuru}}{{ else }}
-  ,{{$e.DbAlanAdi}} {{$e.DbAlanVeriTuru}} {{ end }} {{ end }}
-{{ range $i, $e := $KaynakBilgi.TabloEkOzellikler }}
-  ,{{$e.Ozellik}} {{ end }}
-);
-{{ end }}
-`
-	_, err := db.Exec(sql_table)
 
+func getTableProp(db *sql.DB, tableName string) []tableProp {
+	query := "PRAGMA TABLE_INFO(" + tableName + ")"
+	rows, err := db.Query(query, nil)
 	CheckErr(err)
-
+	var result []tableProp
+	for rows.Next() {
+		item := tableProp{}
+		err2 := rows.Scan(&item.Cid, &item.Name, &item.Type, &item.Notnull, &item.Dflt_value, &item.Pk)
+		CheckErr(err2)
+		result = append(result, item)
+	}
+	return result
 }
 
+func indexArtiLen(s, substr string) int {
+	r := -1
+	i := strings.Index(s, substr)
+	if (i >= 0) {
+		r = i + len(substr)
+	}
+	return r
+}
+
+func AlterDb(db *sql.DB) {
+	var s = strings.Split(sql_table, "\n")
+	var tableName = ""
+	tableProps := []tableProp{}
+
+	for _, satir := range s {
+		satir = strings.Trim(satir, " ")
+		satir = strings.Trim(satir, "\t")
+		if (satir == "") || (strings.Index(satir, "FOREIGN KEY(") >= 0) || (satir == ");") {
+			continue
+		}
+
+		satir = strings.Trim(satir, ",")
+
+		indexof := indexArtiLen(satir, "CREATE TABLE IF NOT EXISTS")
+		if (indexof >= 0) {
+			tableName = strings.Trim(((strings.Trim(satir, "("))[indexof+1:]), "")
+			tableProps = getTableProp(db, tableName)
+		} else {
+			if (tableName != "") {
+				i := strings.Index(satir, " ")
+				field := satir[0:i]
+				bulundu := false
+				for _, tableProp := range (tableProps) {
+					if (tableProp.Name == field) {
+						bulundu = true;
+						break;
+					}
+				}
+				if (bulundu == false) {
+					cmd := "ALTER TABLE " + tableName + " ADD COLUMN " + satir
+					fmt.Println(cmd)
+					_, err := db.Exec(cmd)
+					CheckErr(err)
+				}
+			}
+		}
+	}
+}
+
+func CreateTable(db *sql.DB) {
+	// create table if not exists
+	_, err := db.Exec(sql_table)
+	CheckErr(err)
+}

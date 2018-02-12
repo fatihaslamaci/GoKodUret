@@ -101,6 +101,7 @@ func main() {
 	db = InitDB(dbpath)
 	defer db.Close()
 	CreateTable(db)
+	AlterDb(db)
 
 	http.HandleFunc("/", indexHandler)
 	HandleFuncAdd()

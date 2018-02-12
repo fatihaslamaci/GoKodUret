@@ -228,6 +228,18 @@
             "IsId": false,
             "IsMasterId": false,
             "HtmlInputType": "text"
+          },
+          {
+            "Id": 0,
+            "SinifId": 0,
+            "AlanAdi": "IsForeignKey",
+            "AlanVeriTuru": "bool",
+            "DbAlanAdi": "is_foreign_key",
+            "DbAlanVeriTuru": "BIT",
+            "IsForeignKey": false,
+            "IsId": false,
+            "IsMasterId": false,
+            "HtmlInputType": "checkbox"
           }
         ],
         "TabloEkOzellikler": [

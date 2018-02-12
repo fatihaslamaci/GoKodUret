@@ -102,6 +102,7 @@ func DosyaKopyala(kaynak string, hedef string) {
 func Makeproje(db *sql.DB, id int64){
 
 	proje :=DataOku2(db,id)
+	//proje :=JsonDataOku()[0]
 
 	dataArray := proje.Siniflar
 
