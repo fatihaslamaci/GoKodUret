@@ -22,7 +22,10 @@ func FormValueDouble(request *http.Request, s string) float64 {
 }
 
 func FormValueBool(request *http.Request, s string) bool {
-	r, _ := strconv.ParseBool(request.FormValue(s))
+	r:=false
+	if (len(request.Form[s])>0){
+			r=true
+	}
 	return r
 }
 
@@ -126,7 +129,7 @@ func {{$KaynakBilgi.SinifAdi}}SilHandler(response http.ResponseWriter, request *
 
 		if id > 0 {
 			{{$KaynakBilgi.SinifAdi}}Delete(db, id)
-			context.Message = "Kayıt yapıldı"
+			context.Message = "Kayıt Silindi"
 		} else{
 			context.Message = "Kayıt Bulunamadı"
 		}
