@@ -1,19 +1,11 @@
 {{define "page-title"}} TabloEkOzellik Tanıtımı{{end}}
-
 {{define "page-body"}}
-
-
     <form action="tabloekozellikkaydet" method="post">
-
     {{template "form-field" .}}
-
     <input type="submit" value="Kaydet">
+    <a href="tabloekozelliksil?id={{.Data.Id}}">
+        <input type="button" value="Sil" />
+    </a>
     {{.Message }}
-
 </form>
-
-
-
-
-
 {{end}}

@@ -1,19 +1,11 @@
 {{define "page-title"}} Sinif Tanıtımı{{end}}
-
 {{define "page-body"}}
-
-
     <form action="sinifkaydet" method="post">
-
     {{template "form-field" .}}
-
     <input type="submit" value="Kaydet">
+    <a href="sinifsil?id={{.Data.Id}}">
+        <input type="button" value="Sil" />
+    </a>
     {{.Message }}
-
 </form>
-
-
-
-
-
 {{end}}

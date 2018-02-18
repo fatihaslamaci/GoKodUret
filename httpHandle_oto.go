@@ -70,6 +70,7 @@ func ProjeHandler(response http.ResponseWriter, request *http.Request) {
 }
 func ProjeKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
+	MasterId := int64(0)
 	id := FormValueInt64(request, "id")
 	item := ProjeSelect(db, id)
 	item.ProjeAdi = request.FormValue("projeadi")
@@ -86,10 +87,12 @@ func ProjeKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	//	context.Message = "Lütfen Zorunlu alanları giriniz"
 	//}
 	context.Data = item
+	context.Gezgin = GetGezgin(MasterId, "proje")
 	render(response, request, "proje", context)
 }
 func ProjeSilHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
+	MasterId := int64(0)
 	id := FormValueInt64(request, "id")
 	item := ProjeSelect(db, id)
 	context := Context{}
@@ -100,6 +103,7 @@ func ProjeSilHandler(response http.ResponseWriter, request *http.Request) {
 		context.Message = "Kayıt Bulunamadı"
 	}
 	context.Data = item
+	context.Gezgin = GetGezgin(MasterId, "proje")
 	render(response, request, "proje", context)
 }
 func SiniflerHandler(response http.ResponseWriter, request *http.Request) {
@@ -126,12 +130,14 @@ func SinifHandler(response http.ResponseWriter, request *http.Request) {
 }
 func SinifKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
+	MasterId := int64(0)
 	id := FormValueInt64(request, "id")
 	item := SinifSelect(db, id)
 	item.ProjeId = FormValueInt64(request, "projeid")
 	item.SinifAdi = request.FormValue("sinifadi")
 	item.TabloAdi = request.FormValue("tabloadi")
 	item.DetailTablo = FormValueBool(request, "detailtablo")
+	MasterId = item.ProjeId
 	context := Context{}
 	//if len(item.ProjeAdi) > 0 {
 	if id > 0 {
@@ -144,12 +150,15 @@ func SinifKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	//	context.Message = "Lütfen Zorunlu alanları giriniz"
 	//}
 	context.Data = item
+	context.Gezgin = GetGezgin(MasterId, "sinif")
 	render(response, request, "sinif", context)
 }
 func SinifSilHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
+	MasterId := int64(0)
 	id := FormValueInt64(request, "id")
 	item := SinifSelect(db, id)
+	MasterId = item.ProjeId
 	context := Context{}
 	if id > 0 {
 		SinifDelete(db, id)
@@ -158,6 +167,7 @@ func SinifSilHandler(response http.ResponseWriter, request *http.Request) {
 		context.Message = "Kayıt Bulunamadı"
 	}
 	context.Data = item
+	context.Gezgin = GetGezgin(MasterId, "sinif")
 	render(response, request, "sinif", context)
 }
 func AlanlerHandler(response http.ResponseWriter, request *http.Request) {
@@ -184,6 +194,7 @@ func AlanHandler(response http.ResponseWriter, request *http.Request) {
 }
 func AlanKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
+	MasterId := int64(0)
 	id := FormValueInt64(request, "id")
 	item := AlanSelect(db, id)
 	item.IsId = FormValueBoolCheckbox(request, "isid")
@@ -194,6 +205,7 @@ func AlanKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	item.DbAlanVeriTuru = request.FormValue("dbalanverituru")
 	item.HtmlInputType = request.FormValue("htmlinputtype")
 	item.IsForeignKey = FormValueBoolCheckbox(request, "isforeignkey")
+	MasterId = item.SinifId
 	context := Context{}
 	//if len(item.ProjeAdi) > 0 {
 	if id > 0 {
@@ -206,12 +218,15 @@ func AlanKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	//	context.Message = "Lütfen Zorunlu alanları giriniz"
 	//}
 	context.Data = item
+	context.Gezgin = GetGezgin(MasterId, "alan")
 	render(response, request, "alan", context)
 }
 func AlanSilHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
+	MasterId := int64(0)
 	id := FormValueInt64(request, "id")
 	item := AlanSelect(db, id)
+	MasterId = item.SinifId
 	context := Context{}
 	if id > 0 {
 		AlanDelete(db, id)
@@ -220,6 +235,7 @@ func AlanSilHandler(response http.ResponseWriter, request *http.Request) {
 		context.Message = "Kayıt Bulunamadı"
 	}
 	context.Data = item
+	context.Gezgin = GetGezgin(MasterId, "alan")
 	render(response, request, "alan", context)
 }
 func TabloEkOzelliklerHandler(response http.ResponseWriter, request *http.Request) {
@@ -246,10 +262,12 @@ func TabloEkOzellikHandler(response http.ResponseWriter, request *http.Request) 
 }
 func TabloEkOzellikKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
+	MasterId := int64(0)
 	id := FormValueInt64(request, "id")
 	item := TabloEkOzellikSelect(db, id)
 	item.SinifId = FormValueInt64(request, "sinifid")
 	item.Ozellik = request.FormValue("ozellik")
+	MasterId = item.SinifId
 	context := Context{}
 	//if len(item.ProjeAdi) > 0 {
 	if id > 0 {
@@ -262,12 +280,15 @@ func TabloEkOzellikKaydetHandler(response http.ResponseWriter, request *http.Req
 	//	context.Message = "Lütfen Zorunlu alanları giriniz"
 	//}
 	context.Data = item
+	context.Gezgin = GetGezgin(MasterId, "tabloekozellik")
 	render(response, request, "tabloekozellik", context)
 }
 func TabloEkOzellikSilHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
+	MasterId := int64(0)
 	id := FormValueInt64(request, "id")
 	item := TabloEkOzellikSelect(db, id)
+	MasterId = item.SinifId
 	context := Context{}
 	if id > 0 {
 		TabloEkOzellikDelete(db, id)
@@ -276,5 +297,6 @@ func TabloEkOzellikSilHandler(response http.ResponseWriter, request *http.Reques
 		context.Message = "Kayıt Bulunamadı"
 	}
 	context.Data = item
+	context.Gezgin = GetGezgin(MasterId, "tabloekozellik")
 	render(response, request, "tabloekozellik", context)
 }

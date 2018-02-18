@@ -97,6 +97,8 @@ func {{$KaynakBilgi.SinifAdi}}Handler(response http.ResponseWriter, request *htt
 
 func {{$KaynakBilgi.SinifAdi}}KaydetHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
+	MasterId :=int64(0)
+
 	id := FormValueInt64(request,"id")
 	item := {{$KaynakBilgi.SinifAdi}}Select(db, id)
 
@@ -122,6 +124,12 @@ func {{$KaynakBilgi.SinifAdi}}KaydetHandler(response http.ResponseWriter, reques
 	    {{ end }}
 	{{ end }}
 
+    {{ range $i, $e := $KaynakBilgi.Alanlar }}
+        {{ if eq $e.IsForeignKey true }}
+    	    MasterId =item.{{ $e.AlanAdi}}
+        {{ end }}
+    {{ end }}
+
 	context := Context{}
 
 	//if len(item.ProjeAdi) > 0 {
@@ -136,14 +144,22 @@ func {{$KaynakBilgi.SinifAdi}}KaydetHandler(response http.ResponseWriter, reques
 	//}
 
 	context.Data = item
+	context.Gezgin=GetGezgin(MasterId,"{{$KaynakBilgi.SinifAdi | ToLover}}")
 	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}", context)
 
 }
 
 func {{$KaynakBilgi.SinifAdi}}SilHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
+	MasterId :=int64(0)
 	id := FormValueInt64(request,"id")
 	item := {{$KaynakBilgi.SinifAdi}}Select(db, id)
+	{{ range $i, $e := $KaynakBilgi.Alanlar }}
+        {{ if eq $e.IsForeignKey true }}
+    	    MasterId =item.{{ $e.AlanAdi}}
+        {{ end }}
+    {{ end }}
+
 
 	context := Context{}
 
@@ -155,6 +171,7 @@ func {{$KaynakBilgi.SinifAdi}}SilHandler(response http.ResponseWriter, request *
 		}
 
 	context.Data = item
+	context.Gezgin=GetGezgin(MasterId,"{{$KaynakBilgi.SinifAdi | ToLover}}")
 	render(response, request, "{{$KaynakBilgi.SinifAdi | ToLover}}", context)
 }
 
