@@ -14,7 +14,7 @@
                     <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}">
                 {{ else }}
                     {{$e.AlanAdi}} :<br>
-                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"><br>
+                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" list="{{$e.AlanAdi | ToLover}}List" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"><br>
                 {{ end }}
             {{ end }}
         {{ end }}

@@ -1,11 +1,41 @@
 {{define "page-title"}} Alan Tanıtımı{{end}}
 {{define "page-body"}}
     <form action="alankaydet" method="post">
+
     {{template "form-field" .}}
+
+
+
     <input type="submit" value="Kaydet">
     <a href="alansil?id={{.Data.Id}}">
         <input type="button" value="Sil" />
     </a>
     {{.Message }}
-</form>
+
+
+        <datalist id="alanverituruList">
+            <option value="int64">int64</option>
+            <option value="string">string</option>
+            <option value="bool">bool</option>
+            <option value="time.Time">time.Time</option>
+            <option value="float64">float64</option>
+            <option value="int">int</option>
+        </datalist>
+
+        <datalist id="dbalanverituruList">
+            <option value="INTEGER"></option>
+            <option value="VARCHAR(50)"></option>
+            <option value="BIT"></option>
+            <option value="DATETIME"></option>
+            <option value="TEXT"></option>
+            <option value="BLOB"></option>
+        </datalist>
+
+        <datalist id="htmlinputtypeList">
+            <option value="hidden"></option>
+            <option value="text"></option>
+            <option value="checkbox"></option>
+        </datalist>
+
+    </form>
 {{end}}
