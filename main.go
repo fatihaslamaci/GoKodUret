@@ -94,6 +94,7 @@ func main() {
 	AlterDb(db)
 
 	ProjeDoldur(db)
+	Makeproje(db,1)
 
 	http.HandleFunc("/", indexHandler)
 

@@ -1,77 +1,26 @@
 {{define "form-field"}}
-
-
-
-
-
-<input type="hidden" name="id" value="{{.Data.Id }}"><br>
-
-
-
-
-{{if eq .Data.IsId true }}
-<input type="checkbox" name="isid" value="{{.Data.IsId }}"checked><br>
-{{else}}
-<input type="checkbox" name="isid" value="{{.Data.IsId }}"><br>
-{{end}}
-IsId<br>
-
-
-
-
-
-<input type="hidden" name="sinifid" value="{{.Data.SinifId }}"><br>
-
-
-
-
-
-AlanAdi :<br>
-
-<input type="text" name="alanadi" value="{{.Data.AlanAdi }}"><br>
-
-
-
-
-
-AlanVeriTuru :<br>
-
-<input type="text" name="alanverituru" value="{{.Data.AlanVeriTuru }}"><br>
-
-
-
-
-
-DbAlanAdi :<br>
-
-<input type="text" name="dbalanadi" value="{{.Data.DbAlanAdi }}"><br>
-
-
-
-
-
-DbAlanVeriTuru :<br>
-
-<input type="text" name="dbalanverituru" value="{{.Data.DbAlanVeriTuru }}"><br>
-
-
-
-
-
-HtmlInputType :<br>
-
-<input type="text" name="htmlinputtype" value="{{.Data.HtmlInputType }}"><br>
-
-
-
-
-{{if eq .Data.IsForeignKey true }}
-<input type="checkbox" name="isforeignkey" value="{{.Data.IsForeignKey }}"checked>
-{{else}}
-<input type="checkbox" name="isforeignkey" value="{{.Data.IsForeignKey }}">
-{{end}}
-IsForeignKey<br>
-
-
-
+                    <input type="hidden" name="id" value="{{.Data.Id }}">
+                {{if eq .Data.IsId true }}
+                    <input type="checkbox" name="isid" value="{{.Data.IsId }}"checked>
+                {{else}}
+                    <input type="checkbox" name="isid" value="{{.Data.IsId }}">
+                {{end}}
+                    IsId<br>
+                    <input type="hidden" name="sinifid" value="{{.Data.SinifId }}">
+                    AlanAdi :<br>
+                    <input type="text" name="alanadi" value="{{.Data.AlanAdi }}"><br>
+                    AlanVeriTuru :<br>
+                    <input type="text" name="alanverituru" value="{{.Data.AlanVeriTuru }}"><br>
+                    DbAlanAdi :<br>
+                    <input type="text" name="dbalanadi" value="{{.Data.DbAlanAdi }}"><br>
+                    DbAlanVeriTuru :<br>
+                    <input type="text" name="dbalanverituru" value="{{.Data.DbAlanVeriTuru }}"><br>
+                    HtmlInputType :<br>
+                    <input type="text" name="htmlinputtype" value="{{.Data.HtmlInputType }}"><br>
+                {{if eq .Data.IsForeignKey true }}
+                    <input type="checkbox" name="isforeignkey" value="{{.Data.IsForeignKey }}"checked>
+                {{else}}
+                    <input type="checkbox" name="isforeignkey" value="{{.Data.IsForeignKey }}">
+                {{end}}
+                    IsForeignKey<br>
 {{end}}

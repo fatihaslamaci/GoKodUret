@@ -1,20 +1,23 @@
 {{"{{"}}define "form-field"}}
 
-    {{ range $i, $e := .Alanlar }} {{if $e.AlanAdi}}
-
-        {{ if eq $e.HtmlInputType "checkbox" }}
-            {{"{{"}}if eq .Data.{{$e.AlanAdi}} true {{"}}"}}
-                <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"checked>
-            {{"{{"}}else}}
-                <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}">
-            {{"{{"}}end}}
-            {{$e.AlanAdi}}<br>
-        {{ else }}
-            {{ if eq $e.HtmlInputType "hidden" }}{{ else }}
-                {{$e.AlanAdi}} :<br>
+    {{ range $i, $e := .Alanlar }}
+        {{if $e.AlanAdi}}
+            {{ if eq $e.HtmlInputType "checkbox" }}
+                {{"{{"}}if eq .Data.{{$e.AlanAdi}} true {{"}}"}}
+                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"checked>
+                {{"{{"}}else}}
+                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}">
+                {{"{{"}}end}}
+                    {{$e.AlanAdi}}<br>
+            {{ else }}
+                {{ if eq $e.HtmlInputType "hidden" }}
+                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}">
+                {{ else }}
+                    {{$e.AlanAdi}} :<br>
+                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"><br>
+                {{ end }}
             {{ end }}
-            <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"><br>
         {{ end }}
-    {{ end }}{{ end }}
+    {{ end }}
 
 {{"{{"}}end}}

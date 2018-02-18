@@ -11,6 +11,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"database/sql"
+	"regexp"
 )
 
 
@@ -71,7 +72,12 @@ func check(e error) {
 }
 
 func WriteString(fhedef *os.File, s string) {
-	_, err := fhedef.WriteString(s)
+
+	//Boş satırları silmek için regex
+	regex, err := regexp.Compile(`(?m)^\s*$[\r\n]*|[\r\n]+\s+\z`)
+	check(err)
+	s2 := regex.ReplaceAllString(s, "")
+	_, err = fhedef.WriteString(s2)
 	check(err)
 }
 
@@ -80,6 +86,7 @@ func HedefeKaydet(data interface{}, hedefFile string, TemplateFile string,Templa
 	check(err)
 	defer fhedef.Close()
 	s := TemplateExecuteArray(data, TemplateFile,TemplateName)
+
 	WriteString(fhedef, s)
 	fhedef.Sync()
 }
