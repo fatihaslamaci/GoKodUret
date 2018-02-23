@@ -2,27 +2,18 @@
 
 {{define "page-body"}}
 
-
     <form action="projekaydet" method="post">
 
     {{template "form-field" .}}
 
     <input type="submit" value="Kaydet">
 
-        <a href="projecreate?id={{.Data.Id}}">
-            <input type="button" value="Proje Oluştur" />
-        </a>
+        <a href="projecreate?id={{.Data.Id}}"><input type="button" value="Proje Oluştur" /></a>
 
-        <a href="projesil?id={{.Data.Id}}">
-            <input type="button" value="Sil" />
-        </a>
-    {{.Message }}
+        <a href="projesil?id={{.Data.Id}}"><input type="button" value="Sil" /></a>
 
+        {{.Message }}
 
 </form>
-
-
-
-
 
 {{end}}

@@ -9,10 +9,21 @@ import (
 const sql_table = `
 {{ range $ii, $KaynakBilgi := . }}
 CREATE TABLE IF NOT EXISTS {{$KaynakBilgi.TabloAdi}}(
-{{ range $i, $e := $KaynakBilgi.Alanlar }} {{ if eq $i 0 }}  {{$e.DbAlanAdi}} {{$e.DbAlanVeriTuru}}{{ else }}
-  ,{{$e.DbAlanAdi}} {{$e.DbAlanVeriTuru}} {{ end }} {{ end }}
+
+{{ range $i, $e := $KaynakBilgi.Alanlar }}
+{{ if $e.DbAlanAdi }}
+    {{ if eq $i 0 }}
+        {{$e.DbAlanAdi}} {{$e.DbAlanVeriTuru}}
+    {{ else }}
+        ,{{$e.DbAlanAdi}} {{$e.DbAlanVeriTuru}}
+    {{ end }}
+{{ end }}
+{{ end }}
+
 {{ range $i, $e := $KaynakBilgi.TabloEkOzellikler }}
-  ,{{$e.Ozellik}} {{ end }}
+        ,{{$e.Ozellik}}
+{{ end }}
+
 );
 {{ end }}
 `
