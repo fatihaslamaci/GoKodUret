@@ -2,44 +2,9 @@ package main
 
 import (
 	"net/http"
-	"strconv"
-	"time"
 )
 
-func FormValueInt64(request *http.Request, s string) int64 {
-	r, _ := strconv.ParseInt(request.FormValue(s), 10, 64)
-	return r
-}
 
-func FormValueInt(request *http.Request, s string) int {
-	r, _ := strconv.Atoi(request.FormValue(s))
-	return r
-}
-
-func FormValueDouble(request *http.Request, s string) float64 {
-	r, _ := strconv.ParseFloat(request.FormValue(s), 32)
-	return r
-}
-
-func FormValueBool(request *http.Request, s string) bool {
-	r, _ := strconv.ParseBool(request.FormValue(s))
-    return r
-}
-
-func FormValueBoolCheckbox(request *http.Request, s string) bool {
-	r:=false
-	if (len(request.Form[s])>0){
-			r=true
-	}
-	return r
-}
-
-
-
-func FormValueDate(request *http.Request, s string) time.Time {
-	r, _ := time.Parse("2006-01-02", request.FormValue(s))
-	return r
-}
 
 func HandleFuncAdd() {
 {{ range $ii, $KaynakBilgi := . }}{{if $KaynakBilgi.SinifAdi}}
@@ -102,27 +67,8 @@ func {{$KaynakBilgi.SinifAdi}}KaydetHandler(response http.ResponseWriter, reques
 	id := FormValueInt64(request,"id")
 	item := {{$KaynakBilgi.SinifAdi}}Select(db, id)
 
-	{{ range $i, $e := $KaynakBilgi.Alanlar }}
-	    {{if $e.DbAlanAdi}}
-	        {{ if eq $i 0 }}
+    {{$KaynakBilgi.SinifAdi}}FormValue(&item, request)
 
-	        {{ else }}
-	            {{ if eq $e.AlanVeriTuru "string" }}
-	                item.{{$e.AlanAdi}} =  request.FormValue("{{$e.AlanAdi | ToLover}}")
-	            {{else if eq $e.AlanVeriTuru "int64" }}
-	                item.{{$e.AlanAdi}} =  FormValueInt64(request,"{{$e.AlanAdi | ToLover}}")
-	            {{else if eq $e.AlanVeriTuru "bool" }}
-	                {{if eq $e.HtmlInputType "checkbox" }}
-                	    item.{{$e.AlanAdi}} =  FormValueBoolCheckbox(request,"{{$e.AlanAdi | ToLover}}")
-                	{{ else }}
-                	    item.{{$e.AlanAdi}} =  FormValueBool(request,"{{$e.AlanAdi | ToLover}}")
-	                {{ end }}
-	            {{ else }}
-	                //item.{{$e.AlanAdi}} =  request.FormValue("{{$e.AlanAdi | ToLover}}")
-	            {{ end }}
-	        {{ end }}
-	    {{ end }}
-	{{ end }}
 
     {{ range $i, $e := $KaynakBilgi.Alanlar }}
         {{ if eq $e.IsForeignKey true }}
