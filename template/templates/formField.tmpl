@@ -14,6 +14,22 @@
                     {{$e.AlanAdi}} :<br>
                     <textarea name="{{$e.AlanAdi | ToLover}}" rows="4" cols="30">{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}</textarea><br>
 
+            {{else if (eq $e.HtmlInputType "radio") (eq $e.AlanVeriTuru "bool") }}
+                {{"{{"}}if eq .Data.{{$e.AlanAdi}} true {{"}}"}}
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="0"> Borç <br>
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="1" checked> Alacak <br>
+                {{"{{"}}else}}
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="0" checked> Borç <br>
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="1"> Alacak <br>
+
+                {{"{{"}}end}}
+
+            {{else if eq $e.HtmlInputType "date" }}
+                    {{$e.AlanAdi}} :<br>
+                    <input type="date" placeholder="YYYY-MM-DD" name="{{$e.AlanAdi | ToLover}}" max="2150-12-31" min="2000-01-01" value="{{"{{"}}.Data.{{$e.AlanAdi}}.Format "2006-01-02" {{"}}"}}">
+                    <br>
+
+
             {{ else }}
                 {{ if eq $e.HtmlInputType "hidden" }}
                     <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}">

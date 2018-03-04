@@ -149,10 +149,14 @@ func Makeproje(db *sql.DB, id int64){
 
 	for _, data := range dataArray {
 		HedefFile := strings.ToLower(data.SinifAdi) + "ler.html"
-		HedefeKaydet(data, (hedefklasor + "/templates/" + HedefFile), ("./template/templates/tablo.tmpl"), "tablo.tmpl")
+		if HedefdeDosyaYokIse((hedefklasor + "/templates/" + HedefFile)) {
+			HedefeKaydet(data, (hedefklasor + "/templates/" + HedefFile), ("./template/templates/tablo.tmpl"), "tablo.tmpl")
+		}
 
 		HedefFile = strings.ToLower(data.SinifAdi) + ".html"
-		HedefeKaydet(data, (hedefklasor + "/templates/" + HedefFile), ("./template/templates/form.tmpl"), "form.tmpl")
+		if HedefdeDosyaYokIse((hedefklasor + "/templates/" + HedefFile)) {
+			HedefeKaydet(data, (hedefklasor + "/templates/" + HedefFile), ("./template/templates/form.tmpl"), "form.tmpl")
+		}
 
 		HedefFile = strings.ToLower(data.SinifAdi) + "Field_oto.html"
 		HedefeKaydet(data, (hedefklasor + "/templates/" + HedefFile), ("./template/templates/formField.tmpl"), "formField.tmpl")
