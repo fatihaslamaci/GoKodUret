@@ -9,9 +9,15 @@
                     <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}">
                 {{"{{"}}end}}
                     {{$e.AlanAdi}}<br>
+
+            {{else if eq $e.HtmlInputType "textarea" }}
+                    {{$e.AlanAdi}} :<br>
+                    <textarea name="{{$e.AlanAdi | ToLover}}" rows="4" cols="30">{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}</textarea><br>
+
             {{ else }}
                 {{ if eq $e.HtmlInputType "hidden" }}
                     <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}">
+
                 {{ else }}
                     {{$e.AlanAdi}} :<br>
                     <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" list="{{$e.AlanAdi | ToLover}}List" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"><br>
@@ -21,3 +27,7 @@
     {{ end }}
 
 {{"{{"}}end}}
+
+
+
+

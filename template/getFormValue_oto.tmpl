@@ -57,6 +57,10 @@ func {{$KaynakBilgi.SinifAdi}}FormValue(item *{{$KaynakBilgi.SinifAdi}}, request
 	                item.{{$e.AlanAdi}} =  request.FormValue("{{$e.AlanAdi | ToLover}}")
 	            {{else if eq $e.AlanVeriTuru "int64" }}
 	                item.{{$e.AlanAdi}} =  FormValueInt64(request,"{{$e.AlanAdi | ToLover}}")
+	            {{else if eq $e.AlanVeriTuru "time.Time" }}
+                	item.{{$e.AlanAdi}} =  FormValueDate(request,"{{$e.AlanAdi | ToLover}}")
+
+
 	            {{else if eq $e.AlanVeriTuru "bool" }}
 	                {{if eq $e.HtmlInputType "checkbox" }}
                 	    item.{{$e.AlanAdi}} =  FormValueBoolCheckbox(request,"{{$e.AlanAdi | ToLover}}")
