@@ -12,7 +12,7 @@ func IdAlaniEkle(item Sinif) {
 	alan.HtmlInputType = "hidden"
 	alan.IsForeignKey = false
 	alan.IsId = true
-	alan.IsMasterId = false
+	//alan.IsMasterId = false
 	AlanInsert(db, alan)
 }
 

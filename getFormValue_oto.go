@@ -57,3 +57,8 @@ func TabloEkOzellikFormValue(item *TabloEkOzellik, request *http.Request) {
 	item.SinifId = FormValueInt64(request, "sinifid")
 	item.Ozellik = request.FormValue("ozellik")
 }
+func AnahtarDegerFormValue(item *AnahtarDeger, request *http.Request) {
+	item.AlanId = FormValueInt64(request, "alanid")
+	item.Anahtar = request.FormValue("anahtar")
+	item.Deger = request.FormValue("deger")
+}

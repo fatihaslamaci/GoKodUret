@@ -1,16 +1,24 @@
 {{"{{"}}define "tablo-header"}}
 
-    {{ range $i, $e := .Alanlar }} {{if $e.AlanAdi}}
-        <th>{{$e.AlanAdi}}</th>
-    {{ end }} {{ end }}
+    {{ range $i, $e := .Alanlar }}
+        {{ if $e.AlanAdi }}
+            {{ if $e.DbAlanAdi }}
+                <th>{{$e.AlanAdi}}</th>
+            {{ end }}
+        {{ end }}
+    {{ end }}
 
 {{"{{"}}end}}
 
 
 {{"{{"}}define "tablo-column"}}
 
-    {{ range $i, $e := .Alanlar }} {{if $e.AlanAdi}}
-        <td>{{"{{"}} .{{$e.AlanAdi}} {{"}}"}}</td>
-    {{ end }} {{ end }}
+    {{ range $i, $e := .Alanlar }}
+         {{ if $e.AlanAdi }}
+                {{ if $e.DbAlanAdi }}
+                    <td>{{"{{"}} .{{$e.AlanAdi}} {{"}}"}}</td>
+            {{ end }}
+        {{ end }}
+    {{ end }}
 
 {{"{{"}}end}}

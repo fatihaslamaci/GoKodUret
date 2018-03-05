@@ -1,0 +1,8 @@
+{{define "form-field"}}
+                    <input type="hidden" name="id" value="{{.Data.Id }}">
+                    <input type="hidden" name="alanid" value="{{.Data.AlanId }}">
+                    Anahtar :<br>
+                    <input type="text" name="anahtar" list="anahtarList" value="{{.Data.Anahtar }}"><br>
+                    Deger :<br>
+                    <input type="text" name="deger" list="degerList" value="{{.Data.Deger }}"><br>
+{{end}}

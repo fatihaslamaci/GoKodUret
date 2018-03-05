@@ -1,0 +1,11 @@
+{{define "page-title"}} AnahtarDeger Tanıtımı{{end}}
+{{define "page-body"}}
+    <form action="anahtardegerkaydet" method="post">
+    {{template "form-field" .}}
+    <input type="submit" value="Kaydet">
+    <a href="anahtardegersil?id={{.Data.Id}}">
+        <input type="button" value="Sil" />
+    </a>
+    {{.Message }}
+</form>
+{{end}}

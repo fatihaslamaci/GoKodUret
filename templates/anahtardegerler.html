@@ -1,0 +1,26 @@
+{{define "page-title"}} AnahtarDeger Kart Tanıtımı{{end}}
+{{define "page-body"}}
+    <a href="anahtardegerler.html?Ara={{.Ara}}&id={{.KayitId2}}"><button> < </button></a>
+    <a href="anahtardegerler.html?Ara={{.Ara}}&id={{.KayitId}}"><button> > </button></a>
+    <a href="anahtardeger.html?id=0&MasterId={{.MasterId}}"><button> + </button></a>
+    <form action="anahtardegerler.html?id=0" method="get">
+        <input type="search" name="Ara" autofocus value="{{.Ara}}">
+        <input type="submit" value="Ara">
+    </form>
+<table>
+    <caption>
+        <a>anahtardeger Listesi</a>
+    </caption>
+    <tr>
+    {{template "tablo-header" .}}
+     <th>İşlev</th>
+    </tr>
+    {{range .Data}}
+    <tr>
+        {{template "tablo-column" .}}
+        <td><a href="\anahtardeger.html?id={{.Id}}"> Detay </a>
+        </td>
+    </tr>
+    {{end}}
+</table>
+{{end}}

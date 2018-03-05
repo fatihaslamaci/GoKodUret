@@ -11,7 +11,7 @@ func HandleFuncAdd() {
 	http.HandleFunc("/projesil", ProjeSilHandler)
 	http.HandleFunc("/sinifler.html", SiniflerHandler)
 	http.HandleFunc("/sinif.html", SinifHandler)
-	http.HandleFunc("/sinifkaydet", SinifKaydetHandler2)
+	http.HandleFunc("/sinifkaydet", SinifKaydetHandler)
 	http.HandleFunc("/sinifsil", SinifSilHandler)
 	http.HandleFunc("/alanler.html", AlanlerHandler)
 	http.HandleFunc("/alan.html", AlanHandler)
@@ -21,6 +21,10 @@ func HandleFuncAdd() {
 	http.HandleFunc("/tabloekozellik.html", TabloEkOzellikHandler)
 	http.HandleFunc("/tabloekozellikkaydet", TabloEkOzellikKaydetHandler)
 	http.HandleFunc("/tabloekozelliksil", TabloEkOzellikSilHandler)
+	http.HandleFunc("/anahtardegerler.html", AnahtarDegerlerHandler)
+	http.HandleFunc("/anahtardeger.html", AnahtarDegerHandler)
+	http.HandleFunc("/anahtardegerkaydet", AnahtarDegerKaydetHandler)
+	http.HandleFunc("/anahtardegersil", AnahtarDegerSilHandler)
 }
 
 //-----------------------------------------------------------------------
@@ -258,4 +262,65 @@ func TabloEkOzellikSilHandler(response http.ResponseWriter, request *http.Reques
 	context.Data = item
 	context.Gezgin = GetGezgin(MasterId, "tabloekozellik")
 	render(response, request, "tabloekozellik", context)
+}
+func AnahtarDegerlerHandler(response http.ResponseWriter, request *http.Request) {
+	request.ParseForm()
+	MasterId := FormValueInt64(request, "id")
+	fData := AnahtarDegerSelectMasterId(db, MasterId)
+	context := Context{Data: fData, MasterId: MasterId}
+	context.Gezgin = GetGezgin(MasterId, "anahtardeger")
+	render(response, request, "anahtardegerler", context)
+}
+func AnahtarDegerHandler(response http.ResponseWriter, request *http.Request) {
+	request.ParseForm()
+	MasterId := int64(0)
+	id := FormValueInt64(request, "id")
+	item := AnahtarDegerSelect(db, id)
+	MasterId = item.AlanId
+	if item.AlanId == 0 {
+		item.AlanId = FormValueInt64(request, "MasterId")
+		MasterId = item.AlanId
+	}
+	context := Context{Data: item}
+	context.Gezgin = GetGezgin(MasterId, "anahtardeger")
+	render(response, request, "anahtardeger", context)
+}
+func AnahtarDegerKaydetHandler(response http.ResponseWriter, request *http.Request) {
+	request.ParseForm()
+	MasterId := int64(0)
+	id := FormValueInt64(request, "id")
+	item := AnahtarDegerSelect(db, id)
+	AnahtarDegerFormValue(&item, request)
+	MasterId = item.AlanId
+	context := Context{}
+	//if len(item.ProjeAdi) > 0 {
+	if id > 0 {
+		AnahtarDegerUpdate(db, item)
+	} else {
+		item.Id = AnahtarDegerInsert(db, item)
+	}
+	context.Message = "Kayıt yapıldı"
+	//} else {
+	//	context.Message = "Lütfen Zorunlu alanları giriniz"
+	//}
+	context.Data = item
+	context.Gezgin = GetGezgin(MasterId, "anahtardeger")
+	render(response, request, "anahtardeger", context)
+}
+func AnahtarDegerSilHandler(response http.ResponseWriter, request *http.Request) {
+	request.ParseForm()
+	MasterId := int64(0)
+	id := FormValueInt64(request, "id")
+	item := AnahtarDegerSelect(db, id)
+	MasterId = item.AlanId
+	context := Context{}
+	if id > 0 {
+		AnahtarDegerDelete(db, id)
+		context.Message = "Kayıt Silindi"
+	} else {
+		context.Message = "Kayıt Bulunamadı"
+	}
+	context.Data = item
+	context.Gezgin = GetGezgin(MasterId, "anahtardeger")
+	render(response, request, "anahtardeger", context)
 }
