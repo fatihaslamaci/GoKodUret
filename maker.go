@@ -59,6 +59,9 @@ func DataOku2(db *sql.DB, id int64) Proje {
 	for i, _ := range proje.Siniflar {
 		proje.Siniflar[i].Alanlar=AlanSelectMasterId(db,proje.Siniflar[i].Id)
 		proje.Siniflar[i].TabloEkOzellikler = TabloEkOzellikSelectMasterId(db,proje.Siniflar[i].Id)
+		for j,_:=range proje.Siniflar[i].Alanlar{
+			proje.Siniflar[i].Alanlar[j].AnahtarDegerler=AnahtarDegerSelectMasterId(db,proje.Siniflar[i].Alanlar[j].Id)
+		}
 	}
 	return proje
 }

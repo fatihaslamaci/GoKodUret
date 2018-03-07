@@ -18,11 +18,11 @@
 
             {{else if (eq $e.HtmlInputType "radio") (eq $e.AlanVeriTuru "bool") }}
                 {{"{{"}}if eq .Data.{{$e.AlanAdi}} true {{"}}"}}
-                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="0"> Borç <br>
-                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="1" checked> Alacak <br>
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="0"> {{ (index $e.AnahtarDegerler 0).Deger }} <br>
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="1" checked> {{ (index $e.AnahtarDegerler 1).Deger }} <br>
                 {{"{{"}}else}}
-                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="0" checked> Borç <br>
-                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="1"> Alacak <br>
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="0" checked> {{ (index $e.AnahtarDegerler 0).Deger }} <br>
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="1"> {{ (index $e.AnahtarDegerler 1).Deger }} <br>
 
                 {{"{{"}}end}}
 
