@@ -18,7 +18,7 @@ func FormValueInt(request *http.Request, s string) int {
 }
 
 func FormValueDouble(request *http.Request, s string) float64 {
-	r, _ := strconv.ParseFloat(request.FormValue(s), 32)
+	r, _ := strconv.ParseFloat(request.FormValue(s), 2)
 	return r
 }
 
