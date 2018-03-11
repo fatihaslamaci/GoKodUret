@@ -15,7 +15,7 @@ func FormValueInt(request *http.Request, s string) int {
 	return r
 }
 func FormValueDouble(request *http.Request, s string) float64 {
-	r, _ := strconv.ParseFloat(request.FormValue(s), 32)
+	r, _ := strconv.ParseFloat(request.FormValue(s), 2)
 	return r
 }
 func FormValueBool(request *http.Request, s string) bool {
@@ -52,6 +52,12 @@ func AlanFormValue(item *Alan, request *http.Request) {
 	item.DbAlanVeriTuru = request.FormValue("dbalanverituru")
 	item.HtmlInputType = request.FormValue("htmlinputtype")
 	item.IsForeignKey = FormValueBoolCheckbox(request, "isforeignkey")
+	item.Requered = FormValueBoolCheckbox(request, "requered")
+	item.MinLength = request.FormValue("minlength")
+	item.MaxLength = request.FormValue("maxlength")
+	item.MinValue = request.FormValue("minvalue")
+	item.MaxValue = request.FormValue("maxvalue")
+	item.RegexPatern = request.FormValue("regexpatern")
 }
 func TabloEkOzellikFormValue(item *TabloEkOzellik, request *http.Request) {
 	item.SinifId = FormValueInt64(request, "sinifid")

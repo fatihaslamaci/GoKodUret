@@ -53,6 +53,22 @@ func JsonDataOku() []Proje {
 	return projeler
 }
 
+
+func ProjelerJsonYedekKaydet(db *sql.DB) {
+	projeler := ProjeSelectAll(db)
+	for i, _ := range projeler {
+		projeler[i]=DataOku2(db,projeler[i].Id)
+	}
+
+	b, _ := json.Marshal(projeler)
+	var out bytes.Buffer
+	json.Indent(&out, b, "", "\t")
+	ioutil.WriteFile("./kaynak/yedek.json",out.Bytes(),0644)
+}
+
+
+
+
 func DataOku2(db *sql.DB, id int64) Proje {
 	proje := ProjeSelect(db, id)
 	proje.Siniflar = SinifSelectMasterId(db,id)
@@ -63,6 +79,7 @@ func DataOku2(db *sql.DB, id int64) Proje {
 			proje.Siniflar[i].Alanlar[j].AnahtarDegerler=AnahtarDegerSelectMasterId(db,proje.Siniflar[i].Alanlar[j].Id)
 		}
 	}
+
 	return proje
 }
 

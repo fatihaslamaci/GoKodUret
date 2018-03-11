@@ -30,6 +30,12 @@ CREATE TABLE IF NOT EXISTS alanlar(
         ,db_alan_veri_turu varchar(100)
         ,html_input_type varchar(50)
         ,is_foreign_key BIT
+        ,requered BIT
+        ,minlength VARCHAR(50)
+        ,maxlength VARCHAR(50)
+        ,minvalue VARCHAR(50)
+        ,maxvalue VARCHAR(50)
+        ,regexpatern VARCHAR(100)
         ,FOREIGN KEY(sinif_id) REFERENCES siniflar(id)
 );
 CREATE TABLE IF NOT EXISTS tablo_ek_ozellikler(

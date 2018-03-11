@@ -23,4 +23,20 @@
                     <input type="checkbox" name="isforeignkey" value="{{.Data.IsForeignKey }}">
                 {{end}}
                     IsForeignKey<br>
+                {{if eq .Data.Requered true }}
+                    <input type="checkbox" name="requered" value="{{.Data.Requered }}"checked>
+                {{else}}
+                    <input type="checkbox" name="requered" value="{{.Data.Requered }}">
+                {{end}}
+                    Requered<br>
+                    MinLength :<br>
+                    <input type="text" name="minlength" list="minlengthList" value="{{.Data.MinLength }}"><br>
+                    MaxLength :<br>
+                    <input type="text" name="maxlength" list="maxlengthList" value="{{.Data.MaxLength }}"><br>
+                    MinValue :<br>
+                    <input type="text" name="minvalue" list="minvalueList" value="{{.Data.MinValue }}"><br>
+                    MaxValue :<br>
+                    <input type="text" name="maxvalue" list="maxvalueList" value="{{.Data.MaxValue }}"><br>
+                    RegexPatern :<br>
+                    <input type="text" name="regexpatern" list="regexpaternList" value="{{.Data.RegexPatern }}"><br>
 {{end}}

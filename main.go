@@ -94,6 +94,8 @@ func main() {
 	AlterDb(db)
 
 	ProjeDoldur(db)
+	//ProjelerJsonYedekKaydet(db)
+
 	Makeproje(db,1)
 
 	http.HandleFunc("/", indexHandler)

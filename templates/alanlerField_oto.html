@@ -8,6 +8,12 @@
                 <th>DbAlanVeriTuru</th>
                 <th>HtmlInputType</th>
                 <th>IsForeignKey</th>
+                <th>Requered</th>
+                <th>MinLength</th>
+                <th>MaxLength</th>
+                <th>MinValue</th>
+                <th>MaxValue</th>
+                <th>RegexPatern</th>
 {{end}}
 {{define "tablo-column"}}
                     <td>{{ .Id }}</td>
@@ -19,4 +25,10 @@
                     <td>{{ .DbAlanVeriTuru }}</td>
                     <td>{{ .HtmlInputType }}</td>
                     <td>{{ .IsForeignKey }}</td>
+                    <td>{{ .Requered }}</td>
+                    <td>{{ .MinLength }}</td>
+                    <td>{{ .MaxLength }}</td>
+                    <td>{{ .MinValue }}</td>
+                    <td>{{ .MaxValue }}</td>
+                    <td>{{ .RegexPatern }}</td>
 {{end}}
