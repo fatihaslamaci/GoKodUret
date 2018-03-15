@@ -6,42 +6,42 @@
 
             {{ if eq $e.HtmlInputType "checkbox" }}
                 {{"{{"}}if eq .Data.{{$e.AlanAdi}} true {{"}}"}}
-                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"checked>
+                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"checked>
                 {{"{{"}}else}}
-                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}">
+                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}">
                 {{"{{"}}end}}
                     {{$e.AlanAdi}}<br>
 
             {{else if eq $e.HtmlInputType "textarea" }}
                     {{$e.AlanAdi}} :<br>
-                    <textarea name="{{$e.AlanAdi | ToLover}}" rows="4" cols="30">{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}</textarea><br>
+                    <textarea name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} rows="4" cols="30">{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}</textarea><br>
 
             {{else if (eq $e.HtmlInputType "radio") (eq $e.AlanVeriTuru "bool") }}
                 {{"{{"}}if eq .Data.{{$e.AlanAdi}} true {{"}}"}}
-                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="0"> {{ (index $e.AnahtarDegerler 0).Deger }} <br>
-                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="1" checked> {{ (index $e.AnahtarDegerler 1).Deger }} <br>
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} value="0"> {{ (index $e.AnahtarDegerler 0).Deger }} <br>
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} value="1" checked> {{ (index $e.AnahtarDegerler 1).Deger }} <br>
                 {{"{{"}}else}}
-                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="0" checked> {{ (index $e.AnahtarDegerler 0).Deger }} <br>
-                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" value="1"> {{ (index $e.AnahtarDegerler 1).Deger }} <br>
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} value="0" checked> {{ (index $e.AnahtarDegerler 0).Deger }} <br>
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} value="1"> {{ (index $e.AnahtarDegerler 1).Deger }} <br>
 
                 {{"{{"}}end}}
 
             {{else if eq $e.HtmlInputType "date" }}
                     {{$e.AlanAdi}} :<br>
-                    <input type="date" placeholder="YYYY-MM-DD" name="{{$e.AlanAdi | ToLover}}" min="2000-01-01" max="2150-12-31" value="{{"{{"}}.Data.{{$e.AlanAdi}}.Format "2006-01-02" {{"}}"}}">
+                    <input type="date" placeholder="YYYY-MM-DD" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} min="2000-01-01" max="2150-12-31" value="{{"{{"}}.Data.{{$e.AlanAdi}}.Format "2006-01-02" {{"}}"}}">
                     <br>
             {{else if eq $e.HtmlInputType "number" }}
                     {{$e.AlanAdi}} :<br>
-                    <input type="number" name="{{$e.AlanAdi | ToLover}}" min="0.00" max="50000.0000" step="any"  value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"><br>
+                    <input type="number" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} min="0.00" max="50000.0000" step="any"  value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"><br>
 
 
             {{ else }}
                 {{ if eq $e.HtmlInputType "hidden" }}
-                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}">
+                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}"  value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}">
 
                 {{ else }}
                     {{$e.AlanAdi}} :<br>
-                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" list="{{$e.AlanAdi | ToLover}}List" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"><br>
+                    <input type="{{$e.HtmlInputType}}" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} list="{{$e.AlanAdi | ToLover}}List" value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}"><br>
                 {{ end }}
             {{ end }}
         {{ end }}

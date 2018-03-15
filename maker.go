@@ -24,9 +24,38 @@ func Exists(name string) bool {
 	return true
 }
 
+
+func atributeMake(anahtar string, deger string ) string{
+	return  anahtar+`="`+deger+`" `
+}
+
+
+func MyAtribute(alan Alan) string{
+
+	r:=""
+
+	if ((alan.AlanAdi != "")||(alan.DbAlanAdi !="")){
+		if (alan.HtmlInputType == "text"){
+			if (alan.Requered) {
+				r += " required "
+			}
+			if(alan.MinLength!=""){
+				r += atributeMake("minlength",alan.MinLength)
+			}
+			if(alan.MaxLength!=""){
+				r += atributeMake("maxlength",alan.MaxLength)
+			}
+		}
+	}
+
+	return r
+}
+
+
 func TemplateExecuteArray(data interface{}, tmpl string,TemplateName string) string {
 	funcMap := template.FuncMap{
 		"ToLover": strings.ToLower,
+		"MyAtribute":MyAtribute,
 	}
 
 	t := template.Must(template.New(TemplateName).Funcs(funcMap).ParseFiles(tmpl))
