@@ -31,11 +31,10 @@ func atributeMake(anahtar string, deger string ) string{
 
 
 func MyAtribute(alan Alan) string{
-
 	r:=""
-
 	if ((alan.AlanAdi != "")||(alan.DbAlanAdi !="")){
-		if (alan.HtmlInputType == "text"){
+
+		if (alan.HtmlInputType != ""){
 			if (alan.Requered) {
 				r += " required "
 			}
@@ -45,9 +44,15 @@ func MyAtribute(alan Alan) string{
 			if(alan.MaxLength!=""){
 				r += atributeMake("maxlength",alan.MaxLength)
 			}
+			if(alan.MinValue !=""){
+				r += atributeMake("min",alan.MinValue)
+			}
+			if(alan.MaxValue !=""){
+				r += atributeMake("max",alan.MaxValue)
+			}
+
 		}
 	}
-
 	return r
 }
 
