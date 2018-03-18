@@ -78,7 +78,7 @@ func {{$KaynakBilgi.SinifAdi}}KaydetHandler(response http.ResponseWriter, reques
 
 	context := Context{}
 
-	if Message := {{$KaynakBilgi.SinifAdi}}KaydetValidate(&item); len(Message) > 0 {
+	if Message := {{$KaynakBilgi.SinifAdi}}KaydetValidate(&item); len(Message) == 0 {
 		if id > 0 {
 			{{$KaynakBilgi.SinifAdi}}Update(db, item)
 		    context.Message = "Kayıt güncellendi"

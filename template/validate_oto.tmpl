@@ -1,8 +1,7 @@
 package main
 
 import (
-	"strconv"
-	"time"
+
 )
 
 
@@ -18,23 +17,37 @@ func {{$KaynakBilgi.SinifAdi}}KaydetValidate(item *{{$KaynakBilgi.SinifAdi}}) []
 	        {{ if eq $i 0 }}
 
 	        {{ else }}
-	            {{ if $e.Requered }}
-	                {{ if eq $e.AlanVeriTuru "string" }}
+
+	            {{ if eq $e.AlanVeriTuru "string" }}
+	                {{ if $e.Requered }}
 	                    if item.{{$e.AlanAdi}} ==""{
 	                        hata= append(hata,"{{$e.AlanAdi}} alanı boş geçilemez.")
 	                    }
-	                {{else if eq $e.AlanVeriTuru "int64" }}
-	                    //hata= append(hata,"{{$e.AlanAdi}} alanı boş geçilemez.")
-	                {{else if eq $e.AlanVeriTuru "time.Time" }}
-                	    //hata= append(hata,"{{$e.AlanAdi}} alanı boş geçilemez.")
-	                {{else if eq $e.AlanVeriTuru "float64" }}
-                	    //hata= append(hata,"{{$e.AlanAdi}} alanı boş geçilemez.")
-	                {{else if eq $e.AlanVeriTuru "bool" }}
-                        //hata= append(hata,"{{$e.AlanAdi}} alanı boş geçilemez.")
-	                {{ else }}
-	                    //hata= append(hata,"{{$e.AlanAdi}} alanı boş geçilemez.")
+	                {{ end }}
+	                {{ if $e.MinLength }}
+	                    if len(item.{{$e.AlanAdi}}) < {{ $e.MinLength }}{
+	                        hata= append(hata,"{{$e.AlanAdi}} alanı {{ $e.MinLength }} karakterden az olamaz." )
+	                    }
+	                {{ end }}
+	                {{ if $e.MaxLength }}
+	                    if len(item.{{$e.AlanAdi}}) > {{ $e.MaxLength }}{
+	                        hata= append(hata,"{{$e.AlanAdi}} alanı {{ $e.MaxLength }} karakterden çok olamaz." )
+	                    }
 	                {{ end }}
 	            {{ end }}
+	            {{ if eq $e.AlanVeriTuru "float64" }}
+	                {{ if $e.MinValue }}
+	                    if item.{{$e.AlanAdi}} < {{ $e.MinValue }}{
+	                        hata= append(hata,"{{$e.AlanAdi}} alanı {{ $e.MinValue }} den küçük olamaz." )
+	                    }
+	                {{ end }}
+	                {{ if $e.MaxValue }}
+	                    if item.{{$e.AlanAdi}} > {{ $e.MaxValue }}{
+	                        hata= append(hata,"{{$e.AlanAdi}} alanı {{ $e.MaxValue }} den büyük olamaz." )
+	                    }
+	                {{ end }}
+	            {{ end }}
+
 
 	        {{ end }}
 	    {{ end }}
