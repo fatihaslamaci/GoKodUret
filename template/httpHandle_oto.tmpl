@@ -78,16 +78,17 @@ func {{$KaynakBilgi.SinifAdi}}KaydetHandler(response http.ResponseWriter, reques
 
 	context := Context{}
 
-	//if len(item.ProjeAdi) > 0 {
+	if Message := {{$KaynakBilgi.SinifAdi}}KaydetValidate(&item); len(Message) > 0 {
 		if id > 0 {
 			{{$KaynakBilgi.SinifAdi}}Update(db, item)
+		    context.Message = "Kayıt güncellendi"
 		} else {
 			item.Id = {{$KaynakBilgi.SinifAdi}}Insert(db, item)
+		    context.Message = "Yeni kayıt yapıldı"
 		}
-		context.Message = "Kayıt yapıldı"
-	//} else {
-	//	context.Message = "Lütfen Zorunlu alanları giriniz"
-	//}
+	}else{
+    		context.Message=Message[0]
+    }
 
 	context.Data = item
 	context.Gezgin=GetGezgin(MasterId,"{{$KaynakBilgi.SinifAdi | ToLover}}")

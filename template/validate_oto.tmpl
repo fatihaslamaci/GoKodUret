@@ -1,0 +1,47 @@
+package main
+
+import (
+	"strconv"
+	"time"
+)
+
+
+{{ range $ii, $KaynakBilgi := . }}
+    {{if $KaynakBilgi.SinifAdi}}
+
+func {{$KaynakBilgi.SinifAdi}}KaydetValidate(item *{{$KaynakBilgi.SinifAdi}}) []string {
+
+    var hata []string
+
+	{{ range $i, $e := $KaynakBilgi.Alanlar }}
+	    {{if $e.DbAlanAdi}}
+	        {{ if eq $i 0 }}
+
+	        {{ else }}
+	            {{ if $e.Requered }}
+	                {{ if eq $e.AlanVeriTuru "string" }}
+	                    if item.{{$e.AlanAdi}} ==""{
+	                        hata= append(hata,"{{$e.AlanAdi}} alanı boş geçilemez.")
+	                    }
+	                {{else if eq $e.AlanVeriTuru "int64" }}
+	                    //hata= append(hata,"{{$e.AlanAdi}} alanı boş geçilemez.")
+	                {{else if eq $e.AlanVeriTuru "time.Time" }}
+                	    //hata= append(hata,"{{$e.AlanAdi}} alanı boş geçilemez.")
+	                {{else if eq $e.AlanVeriTuru "float64" }}
+                	    //hata= append(hata,"{{$e.AlanAdi}} alanı boş geçilemez.")
+	                {{else if eq $e.AlanVeriTuru "bool" }}
+                        //hata= append(hata,"{{$e.AlanAdi}} alanı boş geçilemez.")
+	                {{ else }}
+	                    //hata= append(hata,"{{$e.AlanAdi}} alanı boş geçilemez.")
+	                {{ end }}
+	            {{ end }}
+
+	        {{ end }}
+	    {{ end }}
+	{{ end }}
+
+    return hata
+}
+
+    {{ end }}
+{{ end }}
