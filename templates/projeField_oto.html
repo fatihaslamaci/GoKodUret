@@ -1,7 +1,7 @@
 {{define "form-field"}}
-                    <input type="hidden" name="id" value="{{.Data.Id }}">
+                    <input type="hidden" name="id"  value="{{.Data.Id }}">
                     ProjeAdi :<br>
-                    <input type="text" name="projeadi" list="projeadiList" value="{{.Data.ProjeAdi }}"><br>
+                    <input type="text" name="projeadi"  required minlength="1" maxlength="50"  list="projeadiList" value="{{.Data.ProjeAdi }}"><br>
                     ProjeYolu :<br>
-                    <input type="text" name="projeyolu" list="projeyoluList" value="{{.Data.ProjeYolu }}"><br>
+                    <input type="text" name="projeyolu"  required minlength="1" maxlength="500"  list="projeyoluList" value="{{.Data.ProjeYolu }}"><br>
 {{end}}

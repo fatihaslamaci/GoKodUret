@@ -2,7 +2,6 @@ package main
 
 import (
 	_"time"
-
 )
 
 type Proje struct {
@@ -37,6 +36,7 @@ type Alan struct {
 	MinValue        string
 	MaxValue        string
 	RegexPatern     string
+	MasterTableName string
 }
 type TabloEkOzellik struct {
 	Id      int64

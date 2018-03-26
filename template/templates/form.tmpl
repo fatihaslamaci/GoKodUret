@@ -10,7 +10,7 @@
     <input type="submit" value="Kaydet">
 
     <a href="{{ .SinifAdi | ToLover }}sil?id={{"{{"}}.Data.Id}}">
-        <input type="button" value="Sil" />
+        <input type="button" onclick="return KayitSilinsinmi()" value="Sil" />
     </a>
 
     {{"{{"}}.Message {{"}}"}}
@@ -18,4 +18,9 @@
 </form>
 
 
+{{"{{"}}end}}
+
+
+{{"{{"}}define "js"}}
+    <script src="../js/faDialog.js"></script>
 {{"{{"}}end}}

@@ -50,16 +50,17 @@ func ProjeKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	item := ProjeSelect(db, id)
 	ProjeFormValue(&item, request)
 	context := Context{}
-	//if len(item.ProjeAdi) > 0 {
-	if id > 0 {
-		ProjeUpdate(db, item)
+	if Message := ProjeKaydetValidate(&item); len(Message) == 0 {
+		if id > 0 {
+			ProjeUpdate(db, item)
+			context.Message = "Kayıt güncellendi"
+		} else {
+			item.Id = ProjeInsert(db, item)
+			context.Message = "Yeni kayıt yapıldı"
+		}
 	} else {
-		item.Id = ProjeInsert(db, item)
+		context.Message = Message[0]
 	}
-	context.Message = "Kayıt yapıldı"
-	//} else {
-	//	context.Message = "Lütfen Zorunlu alanları giriniz"
-	//}
 	context.Data = item
 	context.Gezgin = GetGezgin(MasterId, "proje")
 	render(response, request, "proje", context)
@@ -110,16 +111,17 @@ func SinifKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	SinifFormValue(&item, request)
 	MasterId = item.ProjeId
 	context := Context{}
-	//if len(item.ProjeAdi) > 0 {
-	if id > 0 {
-		SinifUpdate(db, item)
+	if Message := SinifKaydetValidate(&item); len(Message) == 0 {
+		if id > 0 {
+			SinifUpdate(db, item)
+			context.Message = "Kayıt güncellendi"
+		} else {
+			item.Id = SinifInsert(db, item)
+			context.Message = "Yeni kayıt yapıldı"
+		}
 	} else {
-		item.Id = SinifInsert(db, item)
+		context.Message = Message[0]
 	}
-	context.Message = "Kayıt yapıldı"
-	//} else {
-	//	context.Message = "Lütfen Zorunlu alanları giriniz"
-	//}
 	context.Data = item
 	context.Gezgin = GetGezgin(MasterId, "sinif")
 	render(response, request, "sinif", context)
@@ -171,16 +173,17 @@ func AlanKaydetHandler(response http.ResponseWriter, request *http.Request) {
 	AlanFormValue(&item, request)
 	MasterId = item.SinifId
 	context := Context{}
-	//if len(item.ProjeAdi) > 0 {
-	if id > 0 {
-		AlanUpdate(db, item)
+	if Message := AlanKaydetValidate(&item); len(Message) == 0 {
+		if id > 0 {
+			AlanUpdate(db, item)
+			context.Message = "Kayıt güncellendi"
+		} else {
+			item.Id = AlanInsert(db, item)
+			context.Message = "Yeni kayıt yapıldı"
+		}
 	} else {
-		item.Id = AlanInsert(db, item)
+		context.Message = Message[0]
 	}
-	context.Message = "Kayıt yapıldı"
-	//} else {
-	//	context.Message = "Lütfen Zorunlu alanları giriniz"
-	//}
 	context.Data = item
 	context.Gezgin = GetGezgin(MasterId, "alan")
 	render(response, request, "alan", context)
@@ -232,16 +235,17 @@ func TabloEkOzellikKaydetHandler(response http.ResponseWriter, request *http.Req
 	TabloEkOzellikFormValue(&item, request)
 	MasterId = item.SinifId
 	context := Context{}
-	//if len(item.ProjeAdi) > 0 {
-	if id > 0 {
-		TabloEkOzellikUpdate(db, item)
+	if Message := TabloEkOzellikKaydetValidate(&item); len(Message) == 0 {
+		if id > 0 {
+			TabloEkOzellikUpdate(db, item)
+			context.Message = "Kayıt güncellendi"
+		} else {
+			item.Id = TabloEkOzellikInsert(db, item)
+			context.Message = "Yeni kayıt yapıldı"
+		}
 	} else {
-		item.Id = TabloEkOzellikInsert(db, item)
+		context.Message = Message[0]
 	}
-	context.Message = "Kayıt yapıldı"
-	//} else {
-	//	context.Message = "Lütfen Zorunlu alanları giriniz"
-	//}
 	context.Data = item
 	context.Gezgin = GetGezgin(MasterId, "tabloekozellik")
 	render(response, request, "tabloekozellik", context)
@@ -293,16 +297,17 @@ func AnahtarDegerKaydetHandler(response http.ResponseWriter, request *http.Reque
 	AnahtarDegerFormValue(&item, request)
 	MasterId = item.AlanId
 	context := Context{}
-	//if len(item.ProjeAdi) > 0 {
-	if id > 0 {
-		AnahtarDegerUpdate(db, item)
+	if Message := AnahtarDegerKaydetValidate(&item); len(Message) == 0 {
+		if id > 0 {
+			AnahtarDegerUpdate(db, item)
+			context.Message = "Kayıt güncellendi"
+		} else {
+			item.Id = AnahtarDegerInsert(db, item)
+			context.Message = "Yeni kayıt yapıldı"
+		}
 	} else {
-		item.Id = AnahtarDegerInsert(db, item)
+		context.Message = Message[0]
 	}
-	context.Message = "Kayıt yapıldı"
-	//} else {
-	//	context.Message = "Lütfen Zorunlu alanları giriniz"
-	//}
 	context.Data = item
 	context.Gezgin = GetGezgin(MasterId, "anahtardeger")
 	render(response, request, "anahtardeger", context)

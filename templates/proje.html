@@ -10,10 +10,15 @@
 
         <a href="projecreate?id={{.Data.Id}}"><input type="button" value="Proje Oluştur" /></a>
 
-        <a href="projesil?id={{.Data.Id}}"><input type="button" value="Sil" /></a>
+        <a href="projesil?id={{.Data.Id}}"><input type="button" value="Sil" onclick="return KayitSilinsinmi()" /></a>
 
         {{.Message }}
 
 </form>
 
+
+{{end}}
+
+{{define "js"}}
+    <script src="../js/faDialog.js"></script>
 {{end}}

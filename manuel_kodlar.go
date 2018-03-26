@@ -17,16 +17,6 @@ func IdAlaniEkle(item Sinif) {
 }
 
 
-func SinifKaydetValidate(item *Sinif) ([]string) {
-
-	var hata []string
-
-	if (item.SinifAdi==""){
-		hata=append(hata,"Sınıf Adı boş geçilemez")
-	}
-
-	return hata
-}
 
 
 func SinifKaydetHandler2(response http.ResponseWriter, request *http.Request) {

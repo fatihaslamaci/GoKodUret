@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8" lang="tr">
     <link rel="stylesheet" href="../css/base.css">
+{{block "css" .}}
+
+    {{end}}
 
     <title>{{template "page-title" .}} - Go Proje Oluşturucu</title>
 </head>
@@ -13,7 +16,7 @@
 
 
     <header>
-            <h1>eCariHesap</h1>
+        <h1>eCariHesap</h1>
     </header>
 
 
@@ -31,21 +34,26 @@
 
     <article>
 
-{{range .Gezgin}}
+    {{range .Gezgin}}
         <a href="{{.Link}}">/{{.Baslik}}</a>
-{{end}}
+    {{end}}
 
 
-            <br>
+        <br>
 
-        {{template "page-body" .}}
+    {{template "page-body" .}}
     </article>
     <footer>Copyright &copy; 2017 bessoft.com</footer>
 </div>
 
-</body>
-</html>
+
+{{block "js" .}}
 
 {{end}}
 
 
+</body>
+
+</html>
+
+{{end}}

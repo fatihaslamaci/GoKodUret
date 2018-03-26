@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8" lang="tr">
     <link rel="stylesheet" href="../css/base.css">
+    {{block "css" .}}
+
+    {{end}}
 
     <title>{{template "page-title" .}} - Go Proje Oluşturucu</title>
 </head>
@@ -43,7 +46,14 @@
     <footer>Copyright &copy; 2017 bessoft.com</footer>
 </div>
 
+
+{{block "js" .}}
+
+{{end}}
+
+
 </body>
+
 </html>
 
 {{end}}

@@ -58,6 +58,7 @@ func AlanFormValue(item *Alan, request *http.Request) {
 	item.MinValue = request.FormValue("minvalue")
 	item.MaxValue = request.FormValue("maxvalue")
 	item.RegexPatern = request.FormValue("regexpatern")
+	item.MasterTableName = request.FormValue("mastertablename")
 }
 func TabloEkOzellikFormValue(item *TabloEkOzellik, request *http.Request) {
 	item.SinifId = FormValueInt64(request, "sinifid")

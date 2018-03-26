@@ -74,6 +74,7 @@ func addStaticDir(s string) {
 
 func addStaticDirAll() {
 	addStaticDir("css")
+	addStaticDir("js")
 }
 
 var db *sql.DB
@@ -94,7 +95,7 @@ func main() {
 	AlterDb(db)
 
 	ProjeDoldur(db)
-	//ProjelerJsonYedekKaydet(db)
+	ProjelerJsonYedekKaydet(db)
 
 	Makeproje(db,1)
 
