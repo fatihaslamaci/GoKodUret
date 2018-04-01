@@ -21,7 +21,7 @@
                     {{$e.AlanAdi}} :<br>
                     <textarea name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} rows="4" cols="30">{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}</textarea><br>
 
-            {{else if (eq $e.HtmlInputType "radio") (eq $e.AlanVeriTuru "bool") }}
+            {{else if and (eq $e.HtmlInputType "radio") (eq $e.AlanVeriTuru "bool") }}
                 {{"{{"}}if eq .Data.{{$e.AlanAdi}} true {{"}}"}}
                     <input type="radio" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} value="0"> {{ (index $e.AnahtarDegerler 0).Deger }} <br>
                     <input type="radio" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} value="1" checked> {{ (index $e.AnahtarDegerler 1).Deger }} <br>
@@ -30,6 +30,20 @@
                     <input type="radio" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} value="1"> {{ (index $e.AnahtarDegerler 1).Deger }} <br>
 
                 {{"{{"}}end}}
+
+            {{else if and (eq $e.HtmlInputType "radio") (eq $e.AlanVeriTuru "int") }}
+
+                {{ range $ii, $ee := $e.AnahtarDegerler }}
+
+                {{"{{"}}if eq .Data.{{$e.AlanAdi}} {{$ee.Anahtar}} {{"}}"}}
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} value="{{$ee.Anahtar}}"> {{ $ee.Deger }} <br>
+                {{"{{"}}else}}
+                    <input type="radio" name="{{$e.AlanAdi | ToLover}}" {{$e | MyAtribute}} value="{{$ee.Anahtar}}" checked> {{ $ee.Deger }} <br>
+
+                {{"{{"}}end}}
+
+                {{ end }}
+
 
             {{else if eq $e.HtmlInputType "date" }}
                     {{$e.AlanAdi}} :<br>

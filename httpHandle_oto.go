@@ -11,7 +11,7 @@ func HandleFuncAdd() {
 	http.HandleFunc("/projesil", ProjeSilHandler)
 	http.HandleFunc("/sinifler.html", SiniflerHandler)
 	http.HandleFunc("/sinif.html", SinifHandler)
-	http.HandleFunc("/sinifkaydet", SinifKaydetHandler)
+	http.HandleFunc("/sinifkaydet", SinifKaydetHandler2)
 	http.HandleFunc("/sinifsil", SinifSilHandler)
 	http.HandleFunc("/alanler.html", AlanlerHandler)
 	http.HandleFunc("/alan.html", AlanHandler)
@@ -143,6 +143,7 @@ func SinifSilHandler(response http.ResponseWriter, request *http.Request) {
 	context.Gezgin = GetGezgin(MasterId, "sinif")
 	render(response, request, "sinif", context)
 }
+
 func AlanlerHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
 	MasterId := FormValueInt64(request, "id")

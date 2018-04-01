@@ -17,8 +17,6 @@ func IdAlaniEkle(item Sinif) {
 }
 
 
-
-
 func SinifKaydetHandler2(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
 	MasterId := int64(0)
@@ -27,21 +25,18 @@ func SinifKaydetHandler2(response http.ResponseWriter, request *http.Request) {
 	SinifFormValue(&item, request)
 	MasterId = item.ProjeId
 	context := Context{}
-
-	if Message := SinifKaydetValidate(&item); len(Message) > 0 {
+	if Message := SinifKaydetValidate(&item); len(Message) == 0 {
 		if id > 0 {
 			SinifUpdate(db, item)
+			context.Message = "Kayıt güncellendi"
 		} else {
 			item.Id = SinifInsert(db, item)
 			IdAlaniEkle(item)
+			context.Message = "Yeni kayıt yapıldı"
 		}
-		context.Message = "Kayıt yapıldı"
-	}else{
-		context.Message=Message[0]
+	} else {
+		context.Message = Message[0]
 	}
-
-
-
 	context.Data = item
 	context.Gezgin = GetGezgin(MasterId, "sinif")
 	render(response, request, "sinif", context)

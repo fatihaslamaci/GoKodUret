@@ -37,6 +37,7 @@ type Alan struct {
 	MaxValue        string
 	RegexPatern     string
 	MasterTableName string
+
 }
 type TabloEkOzellik struct {
 	Id      int64
