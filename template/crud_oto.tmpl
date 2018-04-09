@@ -127,4 +127,40 @@ func {{$KaynakBilgi.SinifAdi}}SelectMasterId(db *sql.DB, Masterid int64) []{{$Ka
 	return result
 }{{ end }}{{ end }}
 
+
+
+{{ range $i, $ee := $KaynakBilgi.Alanlar }}{{ if eq $ee.LikeField true }}
+func {{$KaynakBilgi.SinifAdi}}SelectLike{{$ee.AlanAdi}} (db *sql.DB, {{$ee.AlanAdi}} string) []{{$KaynakBilgi.SinifAdi}} {
+	rows, err := db.Query(`SELECT
+	{{ range $i, $e := $KaynakBilgi.Alanlar }}
+	    {{if $e.DbAlanAdi}}
+	        {{ if eq $i 0 }}
+	            {{$e.DbAlanAdi}}
+	        {{ else }}
+	            ,{{$e.DbAlanAdi}}
+	        {{ end }}
+	    {{ end }}
+	{{ end }}
+	FROM {{$KaynakBilgi.TabloAdi}} WHERE {{ $ee.DbAlanAdi}} LIKE ?`, {{$ee.AlanAdi}}+"%")
+	CheckErr(err)
+	var result  []{{$KaynakBilgi.SinifAdi}}
+	for rows.Next() {
+		item :={{$KaynakBilgi.SinifAdi}}{}
+		err2 := rows.Scan(
+		{{ range $i, $e := $KaynakBilgi.Alanlar }}
+		    {{if $e.DbAlanAdi}}
+		            &item.{{$e.AlanAdi}},
+		    {{ end }}
+		{{ end }})
+		CheckErr(err2)
+		result = append(result, item)
+	}
+	return result
+}{{ end }}{{ end }}
+
+
+
+
+
+
 {{end}}

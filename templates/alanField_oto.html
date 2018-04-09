@@ -41,4 +41,10 @@
                     <input type="text" name="regexpatern"  list="regexpaternList" value="{{.Data.RegexPatern }}"><br>
                     MasterTableName :<br>
                     <input type="text" name="mastertablename"  list="mastertablenameList" value="{{.Data.MasterTableName }}"><br>
+                {{if eq .Data.LikeField true }}
+                    <input type="checkbox" name="likefield"  value="{{.Data.LikeField }}"checked>
+                {{else}}
+                    <input type="checkbox" name="likefield"  value="{{.Data.LikeField }}">
+                {{end}}
+                    LikeField<br>
 {{end}}

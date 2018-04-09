@@ -59,6 +59,7 @@ func AlanFormValue(item *Alan, request *http.Request) {
 	item.MaxValue = request.FormValue("maxvalue")
 	item.RegexPatern = request.FormValue("regexpatern")
 	item.MasterTableName = request.FormValue("mastertablename")
+	item.LikeField = FormValueBoolCheckbox(request, "likefield")
 }
 func TabloEkOzellikFormValue(item *TabloEkOzellik, request *http.Request) {
 	item.SinifId = FormValueInt64(request, "sinifid")

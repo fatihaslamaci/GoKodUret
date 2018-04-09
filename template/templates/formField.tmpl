@@ -7,7 +7,7 @@
             {{$e.AlanAdi}} :<br>
             <input type="{{$e.HtmlInputType}}" id="{{$e.AlanAdi | ToLover}}" name="{{$e.AlanAdi | ToLover}}"  value="{{"{{"}}.Data.{{$e.AlanAdi}} {{"}}"}}">
             <input type="text" id="{{$e.AlanAdi | ToLover}}aciklama" readonly value="">
-            <input type="button" onclick ="{{$e.MasterTableName}}Click('{{$e.AlanAdi | ToLover}}aciklama','{{$e.AlanAdi | ToLover}}')" value="..."> <br>
+            <input type="button" onclick ="btnAramaShowClick('{{$e.AlanAdi | ToLover}}aciklama','{{$e.AlanAdi | ToLover}}','{{$e.MasterTableName}}Ara')" value="..."> <br>
 
             {{else if eq $e.HtmlInputType "checkbox" }}
                 {{"{{"}}if eq .Data.{{$e.AlanAdi}} true {{"}}"}}

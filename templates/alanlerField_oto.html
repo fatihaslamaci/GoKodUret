@@ -15,6 +15,7 @@
                 <th>MaxValue</th>
                 <th>RegexPatern</th>
                 <th>MasterTableName</th>
+                <th>LikeField</th>
 {{end}}
 {{define "tablo-column"}}
                     <td>{{ .Id }}</td>
@@ -33,4 +34,5 @@
                     <td>{{ .MaxValue }}</td>
                     <td>{{ .RegexPatern }}</td>
                     <td>{{ .MasterTableName }}</td>
+                    <td>{{ .LikeField }}</td>
 {{end}}

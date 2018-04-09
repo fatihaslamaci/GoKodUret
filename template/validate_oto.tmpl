@@ -14,9 +14,6 @@ func {{$KaynakBilgi.SinifAdi}}KaydetValidate(item *{{$KaynakBilgi.SinifAdi}}) []
 
 	{{ range $i, $e := $KaynakBilgi.Alanlar }}
 	    {{if $e.DbAlanAdi}}
-	        {{ if eq $i 0 }}
-
-	        {{ else }}
 
 	            {{ if eq $e.AlanVeriTuru "string" }}
 	                {{ if $e.Requered }}
@@ -35,7 +32,7 @@ func {{$KaynakBilgi.SinifAdi}}KaydetValidate(item *{{$KaynakBilgi.SinifAdi}}) []
 	                    }
 	                {{ end }}
 	            {{ end }}
-	            {{ if eq $e.AlanVeriTuru "float64" }}
+	            {{ if or (eq $e.AlanVeriTuru "float64") (eq $e.AlanVeriTuru "int64") }}
 	                {{ if $e.MinValue }}
 	                    if item.{{$e.AlanAdi}} < {{ $e.MinValue }}{
 	                        hata= append(hata,"{{$e.AlanAdi}} alanı {{ $e.MinValue }} den küçük olamaz." )
@@ -49,7 +46,6 @@ func {{$KaynakBilgi.SinifAdi}}KaydetValidate(item *{{$KaynakBilgi.SinifAdi}}) []
 	            {{ end }}
 
 
-	        {{ end }}
 	    {{ end }}
 	{{ end }}
 
