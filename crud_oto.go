@@ -195,6 +195,7 @@ func AlanSelectAll(db *sql.DB) []Alan {
 	            ,regexpatern
 	            ,master_table_name
 	            ,like_field
+	            ,sira_no
 	 FROM alanlar`)
 	CheckErr(err)
 	var result []Alan
@@ -218,6 +219,7 @@ func AlanSelectAll(db *sql.DB) []Alan {
 			&item.RegexPatern,
 			&item.MasterTableName,
 			&item.LikeField,
+			&item.SiraNo,
 		)
 		CheckErr(err2)
 		result = append(result, item)
@@ -245,6 +247,7 @@ func AlanSelect(db *sql.DB, id int64) Alan {
 		            ,regexpatern
 		            ,master_table_name
 		            ,like_field
+		            ,sira_no
 		FROM alanlar WHERE id=?`, id)
 		err := row.Scan(
 			&item.Id,
@@ -264,6 +267,7 @@ func AlanSelect(db *sql.DB, id int64) Alan {
 			&item.RegexPatern,
 			&item.MasterTableName,
 			&item.LikeField,
+			&item.SiraNo,
 		)
 		CheckErr(err)
 	}
@@ -271,20 +275,20 @@ func AlanSelect(db *sql.DB, id int64) Alan {
 }
 func AlanInsert(db *sql.DB, item Alan) int64 {
 	var r int64
-	stmt, err := db.Prepare("INSERT INTO alanlar(is_id, sinif_id, alan_adi, alan_veri_turu, db_alan_adi, db_alan_veri_turu, html_input_type, is_foreign_key, requered, minlength, maxlength, minvalue, maxvalue, regexpatern, master_table_name, like_field) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO alanlar(is_id, sinif_id, alan_adi, alan_veri_turu, db_alan_adi, db_alan_veri_turu, html_input_type, is_foreign_key, requered, minlength, maxlength, minvalue, maxvalue, regexpatern, master_table_name, like_field, sira_no) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")
 	CheckErr(err)
 	defer stmt.Close()
-	ret, err := stmt.Exec(item.IsId, item.SinifId, item.AlanAdi, item.AlanVeriTuru, item.DbAlanAdi, item.DbAlanVeriTuru, item.HtmlInputType, item.IsForeignKey, item.Requered, item.MinLength, item.MaxLength, item.MinValue, item.MaxValue, item.RegexPatern, item.MasterTableName, item.LikeField)
+	ret, err := stmt.Exec(item.IsId, item.SinifId, item.AlanAdi, item.AlanVeriTuru, item.DbAlanAdi, item.DbAlanVeriTuru, item.HtmlInputType, item.IsForeignKey, item.Requered, item.MinLength, item.MaxLength, item.MinValue, item.MaxValue, item.RegexPatern, item.MasterTableName, item.LikeField, item.SiraNo)
 	CheckErr(err)
 	r, err = ret.LastInsertId()
 	CheckErr(err)
 	return r
 }
 func AlanUpdate(db *sql.DB, item Alan) {
-	stmt, err := db.Prepare("UPDATE alanlar SET is_id=?, sinif_id=?, alan_adi=?, alan_veri_turu=?, db_alan_adi=?, db_alan_veri_turu=?, html_input_type=?, is_foreign_key=?, requered=?, minlength=?, maxlength=?, minvalue=?, maxvalue=?, regexpatern=?, master_table_name=?, like_field=? WHERE id=?")
+	stmt, err := db.Prepare("UPDATE alanlar SET is_id=?, sinif_id=?, alan_adi=?, alan_veri_turu=?, db_alan_adi=?, db_alan_veri_turu=?, html_input_type=?, is_foreign_key=?, requered=?, minlength=?, maxlength=?, minvalue=?, maxvalue=?, regexpatern=?, master_table_name=?, like_field=?, sira_no=? WHERE id=?")
 	CheckErr(err)
 	defer stmt.Close()
-	_, err2 := stmt.Exec(item.IsId, item.SinifId, item.AlanAdi, item.AlanVeriTuru, item.DbAlanAdi, item.DbAlanVeriTuru, item.HtmlInputType, item.IsForeignKey, item.Requered, item.MinLength, item.MaxLength, item.MinValue, item.MaxValue, item.RegexPatern, item.MasterTableName, item.LikeField, item.Id)
+	_, err2 := stmt.Exec(item.IsId, item.SinifId, item.AlanAdi, item.AlanVeriTuru, item.DbAlanAdi, item.DbAlanVeriTuru, item.HtmlInputType, item.IsForeignKey, item.Requered, item.MinLength, item.MaxLength, item.MinValue, item.MaxValue, item.RegexPatern, item.MasterTableName, item.LikeField, item.SiraNo, item.Id)
 	CheckErr(err2)
 }
 func AlanDelete(db *sql.DB, id int64) int64 {
@@ -318,6 +322,7 @@ func AlanSelectMasterId(db *sql.DB, Masterid int64) []Alan {
 	            ,regexpatern
 	            ,master_table_name
 	            ,like_field
+	            ,sira_no
 	FROM alanlar WHERE sinif_id=?`, Masterid)
 	CheckErr(err)
 	var result []Alan
@@ -341,6 +346,7 @@ func AlanSelectMasterId(db *sql.DB, Masterid int64) []Alan {
 			&item.RegexPatern,
 			&item.MasterTableName,
 			&item.LikeField,
+			&item.SiraNo,
 		)
 		CheckErr(err2)
 		result = append(result, item)

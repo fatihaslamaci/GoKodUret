@@ -11,27 +11,28 @@
         <input type="submit" value="Ara">
     </form>
 
-<table>
-    <caption>
-        <a>{{.SinifAdi | ToLover }} Listesi</a>
-    </caption>
+<div id="table-scroll">
+    <table>
+        <caption>
+            <a>{{.SinifAdi | ToLover }} Listesi</a>
+        </caption>
 
-    <tr>
-    {{"{{"}}template "tablo-header" .}}
+        <tr>
+        {{"{{"}}template "tablo-header" .}}
 
-     <th>İşlev</th>
-    </tr>
+        <th>İşlev</th>
+        </tr>
 
     {{"{{"}}range .Data}}
-    <tr>
-        {{"{{"}}template "tablo-column" .}}
+        <tr>
+            {{"{{"}}template "tablo-column" .}}
 
-        <td><a href="\{{.SinifAdi | ToLover }}.html?id={{"{{"}}.Id}}"> Detay </a>
-        <a href="\sinifler.html?id={{"{{"}}.Id}}"> Sinif </a></td>
+            <td><a href="\{{.SinifAdi | ToLover }}.html?id={{"{{"}}.Id}}"> Detay </a>
+            <a href="\sinifler.html?id={{"{{"}}.Id}}"> Sinif </a></td>
 
-    </tr>
+        </tr>
     {{"{{"}}end}}
-
 </table>
+</div>
 
 {{"{{"}}end}}

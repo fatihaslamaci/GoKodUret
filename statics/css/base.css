@@ -2,6 +2,7 @@
 div.container {
     width: 100%;
     border: 1px solid gray;
+
 }
 
 header,footer {
@@ -41,11 +42,13 @@ article {
 
 table {
     width:100%;
+
 }
 
 table, th, td,caption {
     border-collapse: collapse;
     border: 1px solid black;
+
 }
 
 
@@ -62,4 +65,10 @@ th {
     color: white;
 }
 
+
+
+#table-scroll {
+    overflow:auto;
+    /*margin-top:20px;*/
+}
 

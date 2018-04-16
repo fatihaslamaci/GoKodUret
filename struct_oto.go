@@ -38,6 +38,7 @@ type Alan struct {
 	RegexPatern     string
 	MasterTableName string
 	LikeField       bool
+	SiraNo          int
 }
 type TabloEkOzellik struct {
 	Id      int64

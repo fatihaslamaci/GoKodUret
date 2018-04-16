@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS alanlar(
         ,regexpatern VARCHAR(100)
         ,master_table_name VARCHAR(50)
         ,like_field BIT
+        ,sira_no INTEGER
         ,FOREIGN KEY(sinif_id) REFERENCES siniflar(id)
 );
 CREATE TABLE IF NOT EXISTS tablo_ek_ozellikler(

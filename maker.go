@@ -89,6 +89,9 @@ func JsonDataOku() []Proje {
 
 
 func ProjelerJsonYedekKaydet(db *sql.DB) {
+
+
+
 	projeler := ProjeSelectAll(db)
 	for i, _ := range projeler {
 		projeler[i]=DataOku2(db,projeler[i].Id)
@@ -97,7 +100,9 @@ func ProjelerJsonYedekKaydet(db *sql.DB) {
 	b, _ := json.Marshal(projeler)
 	var out bytes.Buffer
 	json.Indent(&out, b, "", "\t")
-	ioutil.WriteFile("./kaynak/yedek.json",out.Bytes(),0644)
+	ioutil.WriteFile("./kaynak/yedek2018_04_16.json",out.Bytes(),0644)
+
+
 }
 
 

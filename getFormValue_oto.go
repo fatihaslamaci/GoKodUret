@@ -60,6 +60,7 @@ func AlanFormValue(item *Alan, request *http.Request) {
 	item.RegexPatern = request.FormValue("regexpatern")
 	item.MasterTableName = request.FormValue("mastertablename")
 	item.LikeField = FormValueBoolCheckbox(request, "likefield")
+	item.SiraNo = FormValueInt(request, "sirano")
 }
 func TabloEkOzellikFormValue(item *TabloEkOzellik, request *http.Request) {
 	item.SinifId = FormValueInt64(request, "sinifid")
