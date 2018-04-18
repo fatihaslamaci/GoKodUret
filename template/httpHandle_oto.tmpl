@@ -23,7 +23,7 @@ func HandleFuncAdd() {
 func {{$KaynakBilgi.SinifAdi}}lerHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
 	MasterId:=FormValueInt64(request,"id")
-	fData  := {{$KaynakBilgi.SinifAdi}}SelectMasterId(db,MasterId)
+	fData  := {{$KaynakBilgi.SinifAdi}}SelectMasterId(db,"",MasterId)
     context := Context{Data: fData, MasterId:MasterId}
 	context.Gezgin=GetGezgin(MasterId,"{{$KaynakBilgi.SinifAdi | ToLover}}")
 

@@ -104,6 +104,8 @@ func main() {
 	HandleFuncAdd()
 
 	http.HandleFunc("/projecreate",ProjeCreateHandler)
+	http.HandleFunc("/alantasi",AlanTasiHandler)
+
 
 	addStaticDirAll()
 	http.ListenAndServe(":8000", nil)
@@ -124,6 +126,32 @@ func ProjeCreateHandler(response http.ResponseWriter, request *http.Request) {
 
 	context.Data = item
 	render(response, request, "proje", context)
+
+}
+
+func AlanTasiHandler(response http.ResponseWriter, request *http.Request) {
+	request.ParseForm()
+	id := FormValueInt64(request,"id")
+	yon := request.FormValue("yon")
+	item := AlanSelect(db, id)
+
+	if yon=="asagi"{
+		item.SiraNo--
+	}
+	if yon=="yukari"{
+		item.SiraNo++
+	}
+
+	AlanUpdate(db,item)
+
+	request.FormValue()
+
+	MasterId := item.SinifId
+	fData := AlanSelectMasterId(db, "order by sira_no",MasterId)
+	context := Context{Data: fData, MasterId: MasterId}
+	context.Gezgin = GetGezgin(MasterId, "alan")
+	render(response, request, "alanler", context)
+
 
 }
 

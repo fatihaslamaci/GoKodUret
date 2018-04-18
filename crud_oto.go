@@ -303,7 +303,8 @@ func AlanDelete(db *sql.DB, id int64) int64 {
 }
 
 //----deneme
-func AlanSelectMasterId(db *sql.DB, Masterid int64) []Alan {
+func AlanSelectMasterId(db *sql.DB, AddSql string, args ...interface{}) []Alan {
+
 	rows, err := db.Query(`SELECT
 	            id
 	            ,is_id
@@ -323,7 +324,7 @@ func AlanSelectMasterId(db *sql.DB, Masterid int64) []Alan {
 	            ,master_table_name
 	            ,like_field
 	            ,sira_no
-	FROM alanlar WHERE sinif_id=?`, Masterid)
+	FROM alanlar WHERE sinif_id=? `+AddSql , args...)
 	CheckErr(err)
 	var result []Alan
 	for rows.Next() {

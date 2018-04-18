@@ -20,19 +20,22 @@
     </caption>
 
     <tr>
-    {{template "tablo-header" .}}
-
      <th>İşlev</th>
+
+     {{template "tablo-header" .}}
+
     </tr>
 
     {{range .Data}}
     <tr>
-        {{template "tablo-column" .}}
-
         <td>
             <a href="\alan.html?id={{.Id}}"> Detay </a>
             <a href="\anahtardegerler.html?id={{.Id}}">Enum</a>
+            <a href="\alantasi?yon=yukari&id={{.Id}}">Yukari</a>
+            <a href="\alantasi?yon=asagi&id={{.Id}}">Asagi</a>
         </td>
+
+        {{template "tablo-column" .}}
 
     </tr>
     {{end}}

@@ -1,12 +1,8 @@
 {{define "form-field"}}
                     <input type="hidden" name="id"  value="{{.Data.Id }}">
-                {{if eq .Data.IsId true }}
-                    <input type="checkbox" name="isid"  value="{{.Data.IsId }}"checked>
-                {{else}}
-                    <input type="checkbox" name="isid"  value="{{.Data.IsId }}">
-                {{end}}
-                    IsId<br>
                     <input type="hidden" name="sinifid"  value="{{.Data.SinifId }}">
+                    SiraNo :<br>
+                    <input type="number" name="sirano"  step="any"  value="{{.Data.SiraNo }}"><br>
                     AlanAdi :<br>
                     <input type="text" name="alanadi"  list="alanadiList" value="{{.Data.AlanAdi }}"><br>
                     AlanVeriTuru :<br>
@@ -17,36 +13,40 @@
                     <input type="text" name="dbalanverituru"  list="dbalanverituruList" value="{{.Data.DbAlanVeriTuru }}"><br>
                     HtmlInputType :<br>
                     <input type="text" name="htmlinputtype"  list="htmlinputtypeList" value="{{.Data.HtmlInputType }}"><br>
+                    MasterTableName :<br>
+                    <input type="text" name="mastertablename"  list="mastertablenameList" value="{{.Data.MasterTableName }}"><br>
+                {{if eq .Data.IsId true }}
+                    <input type="checkbox" name="isid"  value="{{.Data.IsId }}"checked>
+                {{else}}
+                    <input type="checkbox" name="isid"  value="{{.Data.IsId }}">
+                {{end}}
+                    IsId<br>
                 {{if eq .Data.IsForeignKey true }}
                     <input type="checkbox" name="isforeignkey"  value="{{.Data.IsForeignKey }}"checked>
                 {{else}}
                     <input type="checkbox" name="isforeignkey"  value="{{.Data.IsForeignKey }}">
                 {{end}}
                     IsForeignKey<br>
-                {{if eq .Data.Requered true }}
-                    <input type="checkbox" name="requered"  value="{{.Data.Requered }}"checked>
-                {{else}}
-                    <input type="checkbox" name="requered"  value="{{.Data.Requered }}">
-                {{end}}
-                    Requered<br>
-                    MinLength :<br>
-                    <input type="text" name="minlength"  list="minlengthList" value="{{.Data.MinLength }}"><br>
-                    MaxLength :<br>
-                    <input type="text" name="maxlength"  list="maxlengthList" value="{{.Data.MaxLength }}"><br>
-                    MinValue :<br>
-                    <input type="text" name="minvalue"  list="minvalueList" value="{{.Data.MinValue }}"><br>
-                    MaxValue :<br>
-                    <input type="text" name="maxvalue"  list="maxvalueList" value="{{.Data.MaxValue }}"><br>
-                    RegexPatern :<br>
-                    <input type="text" name="regexpatern"  list="regexpaternList" value="{{.Data.RegexPatern }}"><br>
-                    MasterTableName :<br>
-                    <input type="text" name="mastertablename"  list="mastertablenameList" value="{{.Data.MasterTableName }}"><br>
                 {{if eq .Data.LikeField true }}
                     <input type="checkbox" name="likefield"  value="{{.Data.LikeField }}"checked>
                 {{else}}
                     <input type="checkbox" name="likefield"  value="{{.Data.LikeField }}">
                 {{end}}
                     LikeField<br>
-                    SiraNo :<br>
-                    <input type="number" name="sirano"  step="any"  value="{{.Data.SiraNo }}"><br>
+                {{if eq .Data.Requered true }}
+                    <input type="checkbox" name="requered"  value="{{.Data.Requered }}"checked>
+                {{else}}
+                    <input type="checkbox" name="requered"  value="{{.Data.Requered }}">
+                {{end}}
+                    Requered<br>
+                    MinValue :<br>
+                    <input type="text" name="minvalue"  list="minvalueList" value="{{.Data.MinValue }}"><br>
+                    MaxValue :<br>
+                    <input type="text" name="maxvalue"  list="maxvalueList" value="{{.Data.MaxValue }}"><br>
+                    MinLength :<br>
+                    <input type="text" name="minlength"  list="minlengthList" value="{{.Data.MinLength }}"><br>
+                    MaxLength :<br>
+                    <input type="text" name="maxlength"  list="maxlengthList" value="{{.Data.MaxLength }}"><br>
+                    RegexPatern :<br>
+                    <input type="text" name="regexpatern"  list="regexpaternList" value="{{.Data.RegexPatern }}"><br>
 {{end}}

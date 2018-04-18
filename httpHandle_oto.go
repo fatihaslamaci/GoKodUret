@@ -146,7 +146,7 @@ func SinifSilHandler(response http.ResponseWriter, request *http.Request) {
 func AlanlerHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
 	MasterId := FormValueInt64(request, "id")
-	fData := AlanSelectMasterId(db, MasterId)
+	fData := AlanSelectMasterId(db, "order by sira_no",MasterId)
 	context := Context{Data: fData, MasterId: MasterId}
 	context.Gezgin = GetGezgin(MasterId, "alan")
 	render(response, request, "alanler", context)
