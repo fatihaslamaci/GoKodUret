@@ -1,19 +1,18 @@
 package main
 
 import (
-	"strings"
 	"bytes"
-	"os"
-	"io/ioutil"
-	"log"
-	"os/exec"
-	"text/template"
+	"database/sql"
 	"encoding/json"
 	"fmt"
-	"database/sql"
+	"io/ioutil"
+	"log"
+	"os"
+	"os/exec"
 	"regexp"
+	"strings"
+	"text/template"
 )
-
 
 func Exists(name string) bool {
 	if _, err := os.Stat(name); err != nil {
@@ -24,31 +23,29 @@ func Exists(name string) bool {
 	return true
 }
 
-
-func atributeMake(anahtar string, deger string ) string{
-	return  anahtar+`="`+deger+`" `
+func atributeMake(anahtar string, deger string) string {
+	return anahtar + `="` + deger + `" `
 }
 
+func MyAtribute(alan Alan) string {
+	r := ""
+	if (alan.AlanAdi != "") || (alan.DbAlanAdi != "") {
 
-func MyAtribute(alan Alan) string{
-	r:=""
-	if ((alan.AlanAdi != "")||(alan.DbAlanAdi !="")){
-
-		if (alan.HtmlInputType != ""){
-			if (alan.Requered) {
+		if alan.HtmlInputType != "" {
+			if alan.Requered {
 				r += " required "
 			}
-			if(alan.MinLength!=""){
-				r += atributeMake("minlength",alan.MinLength)
+			if alan.MinLength != "" {
+				r += atributeMake("minlength", alan.MinLength)
 			}
-			if(alan.MaxLength!=""){
-				r += atributeMake("maxlength",alan.MaxLength)
+			if alan.MaxLength != "" {
+				r += atributeMake("maxlength", alan.MaxLength)
 			}
-			if(alan.MinValue !=""){
-				r += atributeMake("min",alan.MinValue)
+			if alan.MinValue != "" {
+				r += atributeMake("min", alan.MinValue)
 			}
-			if(alan.MaxValue !=""){
-				r += atributeMake("max",alan.MaxValue)
+			if alan.MaxValue != "" {
+				r += atributeMake("max", alan.MaxValue)
 			}
 
 		}
@@ -56,11 +53,10 @@ func MyAtribute(alan Alan) string{
 	return r
 }
 
-
-func TemplateExecuteArray(data interface{}, tmpl string,TemplateName string) string {
+func TemplateExecuteArray(data interface{}, tmpl string, TemplateName string) string {
 	funcMap := template.FuncMap{
-		"ToLover": strings.ToLower,
-		"MyAtribute":MyAtribute,
+		"ToLover":    strings.ToLower,
+		"MyAtribute": MyAtribute,
 	}
 
 	t := template.Must(template.New(TemplateName).Funcs(funcMap).ParseFiles(tmpl))
@@ -74,55 +70,46 @@ func TemplateExecuteArray(data interface{}, tmpl string,TemplateName string) str
 
 func JsonDataOku() []Proje {
 	dat, _ := ioutil.ReadFile("./kaynak/jsondata.json")
-	var projeler  []Proje
+	var projeler []Proje
 	_ = json.Unmarshal(dat, &projeler)
 
-	projeler[0].ProjeYolu="C:\\Users\\Fatih\\go\\src\\otoprj"
+	projeler[0].ProjeYolu = "C:\\Users\\Fatih\\go\\src\\otoprj"
 
 	b, _ := json.Marshal(projeler)
 	var out bytes.Buffer
 	json.Indent(&out, b, "", "\t")
-	ioutil.WriteFile("./kaynak/jsondata2.json",out.Bytes(),0644)
+	ioutil.WriteFile("./kaynak/jsondata2.json", out.Bytes(), 0644)
 
 	return projeler
 }
 
-
 func ProjelerJsonYedekKaydet(db *sql.DB) {
-
-
 
 	projeler := ProjeSelectAll(db)
 	for i, _ := range projeler {
-		projeler[i]=DataOku2(db,projeler[i].Id)
+		projeler[i] = DataOku2(db, projeler[i].Id)
 	}
 
 	b, _ := json.Marshal(projeler)
 	var out bytes.Buffer
 	json.Indent(&out, b, "", "\t")
-	ioutil.WriteFile("./kaynak/yedek2018_04_16.json",out.Bytes(),0644)
-
+	ioutil.WriteFile("./kaynak/yedek2018_04_16.json", out.Bytes(), 0644)
 
 }
 
-
-
-
 func DataOku2(db *sql.DB, id int64) Proje {
 	proje := ProjeSelect(db, id)
-	proje.Siniflar = SinifSelectMasterId(db,id)
+	proje.Siniflar = SinifSelectMasterId(db, id)
 	for i, _ := range proje.Siniflar {
-		proje.Siniflar[i].Alanlar=AlanSelectMasterId(db,"order by sira_no",proje.Siniflar[i].Id)
-		proje.Siniflar[i].TabloEkOzellikler = TabloEkOzellikSelectMasterId(db,proje.Siniflar[i].Id)
-		for j,_:=range proje.Siniflar[i].Alanlar{
-			proje.Siniflar[i].Alanlar[j].AnahtarDegerler=AnahtarDegerSelectMasterId(db,proje.Siniflar[i].Alanlar[j].Id)
+		proje.Siniflar[i].Alanlar = AlanSelectMasterId(db, "order by sira_no", proje.Siniflar[i].Id)
+		proje.Siniflar[i].TabloEkOzellikler = TabloEkOzellikSelectMasterId(db, proje.Siniflar[i].Id)
+		for j, _ := range proje.Siniflar[i].Alanlar {
+			proje.Siniflar[i].Alanlar[j].AnahtarDegerler = AnahtarDegerSelectMasterId(db, proje.Siniflar[i].Alanlar[j].Id)
 		}
 	}
 
 	return proje
 }
-
-
 
 func check(e error) {
 	if e != nil {
@@ -140,16 +127,15 @@ func WriteString(fhedef *os.File, s string) {
 	check(err)
 }
 
-func HedefeKaydet(data interface{}, hedefFile string, TemplateFile string,TemplateName string) {
+func HedefeKaydet(data interface{}, hedefFile string, TemplateFile string, TemplateName string) {
 	fhedef, err := os.Create(hedefFile)
 	check(err)
 	defer fhedef.Close()
-	s := TemplateExecuteArray(data, TemplateFile,TemplateName)
+	s := TemplateExecuteArray(data, TemplateFile, TemplateName)
 
 	WriteString(fhedef, s)
 	fhedef.Sync()
 }
-
 
 func DosyaKopyala(kaynak string, hedef string) {
 	// Read all content of src to data
@@ -160,30 +146,26 @@ func DosyaKopyala(kaynak string, hedef string) {
 	check(err)
 }
 
+func Makeproje(db *sql.DB, id int64) {
 
-func Makeproje(db *sql.DB, id int64){
-
-	proje :=DataOku2(db,id)
+	proje := DataOku2(db, id)
 	//proje :=JsonDataOku()[0]
 
 	dataArray := proje.Siniflar
 
-	hedefklasor := proje.ProjeYolu;
-
+	hedefklasor := proje.ProjeYolu
 
 	os.MkdirAll(hedefklasor, os.ModePerm)
 	os.MkdirAll(hedefklasor+"/templates", os.ModePerm)
 
 	//dataArray := DataOku()[0].Siniflar
 
-
-
 	templatefiles, err := ioutil.ReadDir("./template")
 	if err != nil {
 		log.Fatal(err)
 	}
 	for _, f := range templatefiles {
-		if f.IsDir()==false {
+		if f.IsDir() == false {
 			HedefFile := strings.Replace(f.Name(), ".tmpl", ".go", 1)
 			if HedefdeDosyaYokVeyaDosyaAdiOtoIse((hedefklasor + "/" + HedefFile)) {
 				HedefeKaydet(dataArray, (hedefklasor + "/" + HedefFile), ("./template/" + f.Name()), f.Name())
@@ -191,20 +173,18 @@ func Makeproje(db *sql.DB, id int64){
 		}
 	}
 
-
 	templatefiles, err = ioutil.ReadDir("./template/direk_kopyalanacaklar")
 	if err != nil {
 		log.Fatal(err)
 	}
 	for _, f := range templatefiles {
-		if f.IsDir()==false {
+		if f.IsDir() == false {
 			HedefFile := f.Name()
 			if HedefdeDosyaYokIse((hedefklasor + "/templates/" + HedefFile)) {
-				DosyaKopyala(("./template/direk_kopyalanacaklar/"+HedefFile),(hedefklasor + "/templates/" + HedefFile))
+				DosyaKopyala(("./template/direk_kopyalanacaklar/" + HedefFile), (hedefklasor + "/templates/" + HedefFile))
 			}
 		}
 	}
-
 
 	for _, data := range dataArray {
 		HedefFile := strings.ToLower(data.SinifAdi) + "ler.html"
@@ -224,8 +204,8 @@ func Makeproje(db *sql.DB, id int64){
 		HedefeKaydet(data, (hedefklasor + "/templates/" + HedefFile), ("./template/templates/tabloField.tmpl"), "tabloField.tmpl")
 	}
 
-	//exec.Command("bash", "-c", "go fmt "+hedefklasor+"/*.go").Run()
-	c :=exec.Command("cmd", "/C", "gofmt -w", hedefklasor)
+	c := exec.Command("bash", "-c", "go fmt "+hedefklasor+"/*.go")
+	//c :=exec.Command("cmd", "/C", "gofmt -w", hedefklasor)
 
 	if err := c.Run(); err != nil {
 		fmt.Println("Error: ", err)

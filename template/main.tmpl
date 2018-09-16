@@ -97,7 +97,7 @@ func main() {
 
 	//Makeproje()
 
-
+    os.MkdirAll("./db", os.ModePerm)
 	const dbpath = "./db/gomaker.sqlite"
 	db = InitDB(dbpath)
 	defer db.Close()

@@ -1,17 +1,16 @@
 package main
 
 import (
-
 	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
 	"log"
 	"net/http"
-	"text/template"
-	_ "github.com/mattn/go-sqlite3"
 	"os"
+	"text/template"
 )
 
-type Gezgin struct{
-	Link string
+type Gezgin struct {
+	Link   string
 	Baslik string
 }
 
@@ -26,12 +25,11 @@ type Context struct {
 	Gezgin []Gezgin
 
 	//AktifKayitId string
-	Ara          string
+	Ara string
 
 	ValueList []interface{}
 	Data      interface{}
 }
-
 
 func FileExists(name string) bool {
 	if _, err := os.Stat(name); err != nil {
@@ -41,7 +39,6 @@ func FileExists(name string) bool {
 	}
 	return true
 }
-
 
 func render(w http.ResponseWriter, r *http.Request, tmpl string, context Context) {
 	files := []string{
@@ -79,14 +76,13 @@ func addStaticDirAll() {
 
 var db *sql.DB
 
-
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	render(w, r, "index", Context{})
 }
 
 func main() {
 
-
+	os.MkdirAll("./db", os.ModePerm)
 	const dbpath = "./db/gomaker.sqlite"
 	db = InitDB(dbpath)
 	defer db.Close()
@@ -97,15 +93,14 @@ func main() {
 	ProjeDoldur(db)
 	ProjelerJsonYedekKaydet(db)
 
-	Makeproje(db,1)
+	Makeproje(db, 1)
 
 	http.HandleFunc("/", indexHandler)
 
 	HandleFuncAdd()
 
-	http.HandleFunc("/projecreate",ProjeCreateHandler)
-	http.HandleFunc("/alantasi",AlanTasiHandler)
-
+	http.HandleFunc("/projecreate", ProjeCreateHandler)
+	http.HandleFunc("/alantasi", AlanTasiHandler)
 
 	addStaticDirAll()
 	http.ListenAndServe(":8000", nil)
@@ -113,14 +108,14 @@ func main() {
 }
 func ProjeCreateHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
-	id := FormValueInt64(request,"id")
+	id := FormValueInt64(request, "id")
 	item := ProjeSelect(db, id)
-	Makeproje(db,id)
+	Makeproje(db, id)
 
 	context := Context{}
 	if id > 0 {
-	context.Message = item.ProjeYolu + " Proje Oluşturuldu"
-	} else{
+		context.Message = item.ProjeYolu + " Proje Oluşturuldu"
+	} else {
 		context.Message = "Kayıt Bulunamadı"
 	}
 
@@ -131,29 +126,23 @@ func ProjeCreateHandler(response http.ResponseWriter, request *http.Request) {
 
 func AlanTasiHandler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
-	id := FormValueInt64(request,"id")
+	id := FormValueInt64(request, "id")
 	yon := request.FormValue("yon")
 	item := AlanSelect(db, id)
 
-	if yon=="asagi"{
+	if yon == "asagi" {
 		item.SiraNo--
 	}
-	if yon=="yukari"{
+	if yon == "yukari" {
 		item.SiraNo++
 	}
 
-	AlanUpdate(db,item)
-
-	request.FormValue()
+	AlanUpdate(db, item)
 
 	MasterId := item.SinifId
-	fData := AlanSelectMasterId(db, "order by sira_no",MasterId)
+	fData := AlanSelectMasterId(db, "order by sira_no", MasterId)
 	context := Context{Data: fData, MasterId: MasterId}
 	context.Gezgin = GetGezgin(MasterId, "alan")
 	render(response, request, "alanler", context)
 
-
 }
-
-
-
