@@ -146,6 +146,29 @@ func DosyaKopyala(kaynak string, hedef string) {
 	check(err)
 }
 
+func HedefdeDosyaYokIseKlasorKopyala(kaynakKlasor string, hedefKlasor string, recursively bool) {
+
+	os.MkdirAll(hedefKlasor, os.ModePerm)
+	fmt.Println(kaynakKlasor)
+	fmt.Println(hedefKlasor)
+
+	files, err := ioutil.ReadDir(kaynakKlasor)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, f := range files {
+		if f.IsDir() == false {
+			HedefFile := f.Name()
+			if HedefdeDosyaYokIse((hedefKlasor + "/" + HedefFile)) {
+				DosyaKopyala((kaynakKlasor + "/" + HedefFile), (hedefKlasor + "/" + HedefFile))
+			}
+		} else if recursively == true {
+			HedefFile := f.Name()
+			HedefdeDosyaYokIseKlasorKopyala((kaynakKlasor + "/" + HedefFile), (hedefKlasor + "/" + HedefFile), all)
+		}
+	}
+}
+
 func Makeproje(db *sql.DB, id int64) {
 
 	proje := DataOku2(db, id)
@@ -157,6 +180,8 @@ func Makeproje(db *sql.DB, id int64) {
 
 	os.MkdirAll(hedefklasor, os.ModePerm)
 	os.MkdirAll(hedefklasor+"/templates", os.ModePerm)
+
+	HedefdeDosyaYokIseKlasorKopyala("./statics", (hedefklasor + "/statics"), true)
 
 	//dataArray := DataOku()[0].Siniflar
 
@@ -173,18 +198,7 @@ func Makeproje(db *sql.DB, id int64) {
 		}
 	}
 
-	templatefiles, err = ioutil.ReadDir("./template/direk_kopyalanacaklar")
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, f := range templatefiles {
-		if f.IsDir() == false {
-			HedefFile := f.Name()
-			if HedefdeDosyaYokIse((hedefklasor + "/templates/" + HedefFile)) {
-				DosyaKopyala(("./template/direk_kopyalanacaklar/" + HedefFile), (hedefklasor + "/templates/" + HedefFile))
-			}
-		}
-	}
+	HedefdeDosyaYokIseKlasorKopyala(("./template/direk_kopyalanacaklar"), (hedefklasor + "/templates"), false)
 
 	for _, data := range dataArray {
 		HedefFile := strings.ToLower(data.SinifAdi) + "ler.html"
