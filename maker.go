@@ -146,7 +146,7 @@ func DosyaKopyala(kaynak string, hedef string) {
 	check(err)
 }
 
-func HedefdeDosyaYokIseKlasorKopyala(kaynakKlasor string, hedefKlasor string, recursively bool) {
+func HedefdeDosyaYokIseKlasorKopyala(kaynakKlasor string, hedefKlasor string, recursive bool) {
 
 	os.MkdirAll(hedefKlasor, os.ModePerm)
 	fmt.Println(kaynakKlasor)
@@ -162,9 +162,9 @@ func HedefdeDosyaYokIseKlasorKopyala(kaynakKlasor string, hedefKlasor string, re
 			if HedefdeDosyaYokIse((hedefKlasor + "/" + HedefFile)) {
 				DosyaKopyala((kaynakKlasor + "/" + HedefFile), (hedefKlasor + "/" + HedefFile))
 			}
-		} else if recursively == true {
+		} else if recursive == true {
 			HedefFile := f.Name()
-			HedefdeDosyaYokIseKlasorKopyala((kaynakKlasor + "/" + HedefFile), (hedefKlasor + "/" + HedefFile), all)
+			HedefdeDosyaYokIseKlasorKopyala((kaynakKlasor + "/" + HedefFile), (hedefKlasor + "/" + HedefFile), recursive)
 		}
 	}
 }
